@@ -1,0 +1,7 @@
+*.sdf
+*.user
+*.pdb
+*.ilk
+*.exe
+Intermediary/Release
+Intermediary/Debug
