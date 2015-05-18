@@ -19,7 +19,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1F1971E4-3C3C-4098-A4A3-E06B8EB846AA}</ProjectGuid>
     <RootNamespace>Bezier</RootNamespace>
-    <ProjectName>Projeto Base PG - OpenGL</ProjectName>
+    <ProjectName>Projeto 1 - PG - OpenGL</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
