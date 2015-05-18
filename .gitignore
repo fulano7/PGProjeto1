@@ -4,5 +4,6 @@
 *.pdb
 *.ilk
 *.exe
+*.opensdf
 Intermediary/Release
 Intermediary/Debug
