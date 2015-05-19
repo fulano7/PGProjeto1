@@ -2,10 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="Code\carrega_obj.cpp" />
-    <ClCompile Include="Code\openGL_tutorial.cpp" />
+    <ClCompile Include="Code\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\carrega_obj.h" />
-    <ClInclude Include="Code\openGL_tutorial.h" />
+    <ClInclude Include="Code\common.h" />
   </ItemGroup>
 </Project>

@@ -9,7 +9,10 @@ http://www.cin.ufpe.br/~voxarlabs
 -----------------------------------------------------------------------------
 */
 
-#include "openGL_tutorial.h"
+#include "common.h"
+#include <cstdio>
+#include <cstdlib>
+#include <ctime>
 
 
 /*
@@ -34,29 +37,11 @@ glMatrixMode(GL_MODELVIEW);
      glColor3f(1.0f, 0.0f, 0.0f);
 	 //cor que vai usar para pintar
 
-     // Desenha um quadrado preenchido com a cor corrente
-     glBegin(GL_QUADS);
-	 //inicializar um denzenho, nesse caso um quadrado preenchido, existem muitas outras
-	 //primitivas co opengl (GL_TRIANGLES,GL_LINE,GL_LINE_STIPPLE,GL_POLYGON,etc)
-               glVertex2i(100,150);
-               glVertex2i(100,100);
-               // Especifica que a cor corrente é azul
-               glColor3f(0.0f, 0.0f, 1.0f);
-               //cor que vai usar para pintar (mudar a cor no meio do desenho
-			   //vai ficar legal
-			   glVertex2i(150,100);
-               glVertex2i(150,150);               
-     glEnd();
+	 // AQUI VAO OS DESENHOS
 
-     glColor3f(1, 1, 1);
-	 glPointSize(15);
-	 glBegin(GL_POINTS);
-               glVertex2i(10,10);
-               glVertex2i(200,200);
-			   glColor3f(1, 0, 1);
-               glVertex2i(200,200);
-	 glEnd();
-	 //termina um desenho
+
+
+	 // TERMINA DESENHOS
      
 	 // Executa os comandos OpenGL
      glFlush();

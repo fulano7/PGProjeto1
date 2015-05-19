@@ -8,12 +8,9 @@ http://www.cin.ufpe.br/~voxarlabs
 -----------------------------------------------------------------------------
 */
 
-#ifndef _OPENGL_TUTORIAL_H_
-#define _OPENGL_TUTORIAL_H_
+#ifndef _COMMON_H_
+#define _COMMON_H_
 
-#include <cstdio>
-#include <cstdlib>
-#include <ctime>
 #include <gl/glut.h>
 
-#endif //_OPENGL_TUTORIAL_H_
+#endif //_COMMON_H_

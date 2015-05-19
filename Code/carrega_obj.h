@@ -1,6 +1,8 @@
 #ifndef _CARREGA_OBJ_H_
 #define _CARREGA_OBJ_H_
 
+#include "common.h"
+
 #include <vector>
 #include <iostream>
 #include <fstream>
