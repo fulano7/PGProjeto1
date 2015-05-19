@@ -11,13 +11,11 @@ http://www.cin.ufpe.br/~voxarlabs
 
 #include "openGL_tutorial.h"
 
-/////////////////////////////////////////////////////////////////////////////
+
 /*
 http://www.inf.pucrs.br/~manssour/OpenGL/Tutorial.html
 esse link!!!!
-nãoo vou parar aquui pra mostrar mais coisas de C/C++ hj..
 */
-/////////////////////////////////////////////////////////////////////////////
 
 
 
