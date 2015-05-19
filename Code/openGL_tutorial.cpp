@@ -106,9 +106,8 @@ int main(void)
 	glutInitWindowSize(640,480);
 	//tamanho da janela
 	glutInitWindowPosition(10,10);
-	//onde a janela vai aparecer na tela do PC (acho isso inutil)
+	//onde a janela vai aparecer na tela do PC
 	glutCreateWindow("janelinha");
-	//não lembro como criar 2 janelas, vejam ai isso se quiserem
 	//criar um janela
 	glutDisplayFunc(Desenha);
 	//callback da função que dezenha na tela
