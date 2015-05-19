@@ -13,7 +13,7 @@ http://www.cin.ufpe.br/~voxarlabs
 #include <cstdlib>
 #include <ctime>
 #include "common.h"
-
+#include "carrega_obj.h"
 
 /*
 http://www.inf.pucrs.br/~manssour/OpenGL/Tutorial.html

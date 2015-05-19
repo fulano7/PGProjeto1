@@ -10,24 +10,25 @@ void carregar_obj(char *caminho_arquivo)
 {
 	std::ifstream arquivo (caminho_arquivo, std::ifstream::in);
 	char linha[MAX_CHARS_LINHA];
-	arquivo.getline(linha, MAX_CHARS_LINHA);
-	if (linha[0] == 'v' && linha[1] == 'n')
+	while (arquivo.getline(linha, MAX_CHARS_LINHA))
 	{
-		// normal
-	}
-	else if (linha[0] == 'v')
-	{
-		// vertice
-	}
-	else if (linha[0] == 'f')
-	{
-		// face (tratar com e sem normal!)
-	}
-	else if (linha[0] == '#'){} // comentario
-	else
-	{
-		// nao suportado (?)
+		std::cout << linha << std::endl;
+		if (linha[0] == 'v' && linha[1] == 'n')
+		{
+			// normal
+		}
+		else if (linha[0] == 'v')
+		{
+			// vertice
+		}
+		else if (linha[0] == 'f')
+		{
+			// face (tratar com e sem normal!)
+		}
+		else if (linha[0] == '#'){} // comentario
+		else
+		{
+			// nao suportado (?)
+		}
 	}
 }
-
-
