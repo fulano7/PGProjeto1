@@ -8,4 +8,4 @@
 
 ### Para importar no seu PC:
  * Clonar ou baixar o ZIP deste código.
- * "File -> Open -> Project/Solution... " -> abra o arquivo ```Projeto 1 - PG - OpenGL.vcxproj```
+ * "File -> Open -> Project/Solution... " -> abra o arquivo ```Projeto 1 - PG - OpenGL.sln```
