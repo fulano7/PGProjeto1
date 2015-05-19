@@ -9,10 +9,10 @@ http://www.cin.ufpe.br/~voxarlabs
 -----------------------------------------------------------------------------
 */
 
-#include "common.h"
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
+#include "common.h"
 
 
 /*
