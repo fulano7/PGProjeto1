@@ -12,7 +12,9 @@ void carregar_obj(char *caminho_arquivo)
 	char linha[MAX_CHARS_LINHA];
 	while (arquivo.getline(linha, MAX_CHARS_LINHA))
 	{
+		#ifdef DEBUG
 		std::cout << linha << std::endl;
+		#endif
 		if (linha[0] == 'v' && linha[1] == 'n')
 		{
 			// normal
