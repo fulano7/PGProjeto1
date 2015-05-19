@@ -27,7 +27,7 @@ void carregar_obj(char *caminho_arquivo)
 		{
 			// face (tratar com e sem normal!)
 		}
-		else if (linha[0] == '#'){} // comentario
+		else if (linha[0] == '#'); // comentario
 		else
 		{
 			// nao suportado (?)
