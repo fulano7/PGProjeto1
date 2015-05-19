@@ -1,7 +1,6 @@
 #ifndef _CARREGA_OBJ_H_
 #define _CARREGA_OBJ_H_
 
-#include <regex>
 #include <vector>
 
 /*
