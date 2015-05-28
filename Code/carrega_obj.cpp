@@ -6,7 +6,7 @@ conforme especificado, se destinara a ler estes arquivos .obj:
 http://cin.ufpe.br/~marcelow/Marcelow/arquivos_obj.html
 outros .obj podem nao ser suportados.
 */
-void carregar_obj(char *caminho_arquivo)
+Objeto* carregar_obj(const char *caminho_arquivo)
 {
 	std::ifstream arquivo (caminho_arquivo, std::ifstream::in);
 	char linha[MAX_CHARS_LINHA];
