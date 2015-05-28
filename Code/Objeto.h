@@ -18,6 +18,7 @@ public:
 	string nome;
 
 	Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<int*>* fs);
+	Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<int*>* fs, const string* nm);
 	~Objeto();
 };
 

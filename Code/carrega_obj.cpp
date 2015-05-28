@@ -32,5 +32,6 @@ Objeto* carregar_obj(const char *caminho_arquivo)
 		{
 			// nao suportado (?)
 		}
+		return 0; // para poder compilar por enquanto
 	}
 }
