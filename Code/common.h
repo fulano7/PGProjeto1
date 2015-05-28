@@ -21,6 +21,6 @@ para dar um 'syso' que só sai se a linha acima estiver descomentada, faça
 */
 // flag precária
 
-#include <gl/glut.h>
+#include <GL/glut.h>
 
 #endif //_COMMON_H_

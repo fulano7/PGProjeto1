@@ -17,6 +17,7 @@
   <ItemGroup>
     <ClInclude Include="Code\carrega_obj.h" />
     <ClInclude Include="Code\common.h" />
+    <ClInclude Include="Objeto.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1F1971E4-3C3C-4098-A4A3-E06B8EB846AA}</ProjectGuid>
