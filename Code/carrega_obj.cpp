@@ -4,12 +4,17 @@
 TODO: normais
 conforme especificado, se destinara a ler estes arquivos .obj:
 http://cin.ufpe.br/~marcelow/Marcelow/arquivos_obj.html
-outros .obj podem nao ser suportados.
+outros .obj podem nao ser suportados, e este algoritmo nao detecta erros no arquivo.
 */
-Objeto* carregar_obj(const char *caminho_arquivo)
+int carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 {
+	array_de_objetos = new Objeto[MAX_OBJS_ARQUIVO]();
 	std::ifstream arquivo (caminho_arquivo, std::ifstream::in);
 	char linha[MAX_CHARS_LINHA];
+	bool precisa_normais = true;// variavel que diz se precisa calcular as normais
+	int indice = 0; // armazena a proxima posicao livre do array recebido como parametro.
+	// um mesmo arquivo pode ter varios objetos.
+	// se o arquivo tiver mais de um objeto, vamos adicionando os seguintes ao array.
 	while (arquivo.getline(linha, MAX_CHARS_LINHA))
 	{
 		#ifdef DEBUG
@@ -21,6 +26,16 @@ Objeto* carregar_obj(const char *caminho_arquivo)
 		}
 		else if (linha[0] == 'v')
 		{
+			precisa_normais = true;
+			do
+			{
+				array_de_objetos[indice].vertices.push_back(new float[3]);
+				array_de_objetos[indice].vertices.back()[0] = 0.0f;
+				array_de_objetos[indice].vertices.back()[1] = 0.0f;
+				array_de_objetos[indice].vertices.back()[2] = 0.0f;
+				arquivo.getline(linha, MAX_CHARS_LINHA);
+			}while (linha[0] == 'v');
+			indice++;
 			// vertice
 		}
 		else if (linha[0] == 'f')
@@ -29,9 +44,7 @@ Objeto* carregar_obj(const char *caminho_arquivo)
 		}
 		else if (linha[0] == '#'); // comentario
 		else
-		{
-			// nao suportado (?)
-		}
+		{} // nao suportado; nao tratado
 		return 0; // para poder compilar por enquanto
 	}
 }

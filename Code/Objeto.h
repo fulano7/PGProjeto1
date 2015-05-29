@@ -9,6 +9,12 @@
 using std::vector;
 using std::string;
 
+/*
+modela um objeto.
+o atributo 'vertices' eh um vector de coordenadas (x,y,z) que representam
+o atributo 'normais' é um vector de coordenadas (x, y, z)
+o atributo 'faces'
+*/
 class Objeto
 {
 public:
@@ -17,9 +23,16 @@ public:
 	vector <int*> faces;
 	string nome;
 
+	Objeto(); // construtor padrao
 	Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<int*>* fs);
 	Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<int*>* fs, const string* nm);
 	~Objeto();
+
+	void renderizar();
+	// TODO: outro pra 'dar flush'
+
+private:
+	void calcular_normais();
 };
 
 #endif // _OBJETO_H_

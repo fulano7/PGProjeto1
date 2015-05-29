@@ -1,5 +1,7 @@
 #include "Objeto.h"
 
+Objeto::Objeto(){}; // construtor padrao
+
 Objeto::Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<int*>* fs) : vertices(*vs), normais(*ns), faces(*fs)
 {}
 
