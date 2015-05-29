@@ -67,7 +67,12 @@ int carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 			
 			if (strstr(linha, "/") != NULL) // com normal.
 			{
-				
+				if (strstr(linha, "//") != NULL) // com normal e sem textura
+				{
+				}
+				else // com normal e com indice da textura que deve ser ignorado.
+				{
+				}
 			}
 			else // sem normal.
 			{
