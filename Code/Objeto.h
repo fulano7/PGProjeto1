@@ -29,7 +29,6 @@ public:
 	~Objeto();
 
 	void renderizar();
-	// TODO: outro pra 'dar flush'
 
 private:
 	void calcular_normais();
