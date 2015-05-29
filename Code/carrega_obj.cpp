@@ -65,7 +65,7 @@ int carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 		else if (linha[0] == 'f') // face
 		{
 			
-			if (strstr(linha, "//") != NULL) // com normal.
+			if (strstr(linha, "/") != NULL) // com normal.
 			{
 				
 			}
