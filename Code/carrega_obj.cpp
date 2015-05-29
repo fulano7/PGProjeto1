@@ -27,14 +27,16 @@ int carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 		else if (linha[0] == 'v')
 		{
 			precisa_normais = true;
+			char* proximo = strtok(linha, " ");
 			do
 			{
 				array_de_objetos[indice].vertices.push_back(new float[3]);
-				array_de_objetos[indice].vertices.back()[0] = 0.0f;
-				array_de_objetos[indice].vertices.back()[1] = 0.0f;
-				array_de_objetos[indice].vertices.back()[2] = 0.0f;
+				array_de_objetos[indice].vertices.back()[0] = strtof((strtok(NULL, " ")), NULL);
+				array_de_objetos[indice].vertices.back()[1] = strtof((strtok(NULL, " ")), NULL);
+				array_de_objetos[indice].vertices.back()[2] = strtof((strtok(NULL, " ")), NULL);
 				arquivo.getline(linha, MAX_CHARS_LINHA);
 			}while (linha[0] == 'v');
+			delete[] proximo;
 			indice++;
 			// vertice
 		}
@@ -45,6 +47,6 @@ int carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 		else if (linha[0] == '#'); // comentario
 		else
 		{} // nao suportado; nao tratado
-		return 0; // para poder compilar por enquanto
 	}
+	return 0; // para poder compilar por enquanto
 }

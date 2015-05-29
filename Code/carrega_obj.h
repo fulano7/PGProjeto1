@@ -10,6 +10,7 @@ outros .obj podem nao ser suportados.
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <cstring>
 
 #include "common.h"
 #include "Objeto.h"
