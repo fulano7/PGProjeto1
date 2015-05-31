@@ -95,6 +95,7 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 			}
 			else // sem normal.
 			{
+				array_de_objetos[indice].normais_vinc_faces = false;
 				char* proximo; // gamb
 				do // este laco le todas as faces
 				{

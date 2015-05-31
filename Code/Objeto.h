@@ -63,7 +63,7 @@ private:
 	vector <int*> faces;
 
 	// este atributo eh true se cada elemento do vector de faces estiver no formato (quant_vertices, v1, n1, v2, n2, ..., vn, nn)
-	const bool normais_vinc_faces;
+	bool normais_vinc_faces;
 
 	void calcular_normais();
 
