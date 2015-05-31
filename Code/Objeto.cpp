@@ -90,7 +90,7 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 		{
 			
 			array_de_objetos[indice].calcular_normais(); // neste ponto ja terminamos de armazenar (ou nao) as normais.
-			// este metodo calcula as normais se e seomente se for necessario :D
+			// este metodo calcula as normais se e somente se for necessario :D
 
 			if (strstr(linha, "/") != NULL) // com normal.
 			{
@@ -143,5 +143,17 @@ void Objeto::calcular_normais()
 {
 	if (normais.size() == 0)
 	{
+	}
+}
+
+void Objeto::renderizar()
+{
+	if (normais_vinc_faces)
+	{
+
+	}
+	else
+	{
+
 	}
 }

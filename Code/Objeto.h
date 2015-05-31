@@ -43,6 +43,7 @@ public:
 	Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<int*>* fs, const string* nm);
 	~Objeto();
 
+	// desenha o objeto com a biblioteca opengl.
 	void renderizar();
 
 	/*
@@ -66,11 +67,10 @@ private:
 	// este atributo eh true se cada elemento do vector de faces estiver no formato (quant_vertices, v1, n1, v2, n2, ..., vn, nn)
 	bool normais_vinc_faces;
 
+	// calcula as normais se for necessario.
 	void calcular_normais();
 
-	/*
-	retorna quantas vezes o caractere 'caractere' aparece na palavra 'palavra'
-	*/
+	//retorna quantas vezes o caractere 'caractere' aparece na palavra 'palavra'
 	static int ocorrencias(const char* palavra, const char caractere);
 };
 
