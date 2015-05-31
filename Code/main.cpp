@@ -87,7 +87,7 @@ int main(void)
 {
 	// TESTES
 	Objeto* array_inicial;
-	int quant = Objeto::carregar_obj(array_inicial, "C:\\Users\\irvm\\CAT.obj");
+	int quant = Objeto::carregar_obj(array_inicial, "C:\\Users\\irvm\\camel.obj");
 	// FIM DOS TESTES
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);

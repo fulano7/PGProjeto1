@@ -106,8 +106,11 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 						proximo = strtok(linha, " ");
 						array_de_objetos[indice].faces.push_back(new int[(2*num_faces) + 1]);
 						array_de_objetos[indice].faces.back()[0] = num_faces;
-						for (int i = 1; i <= (2*num_faces)+1; i+=2)
-							sscanf(strtok(NULL, " "), "%d//%d", &(array_de_objetos[indice].faces.back()[i]), &(array_de_objetos[indice].faces.back()[i+1]));
+						for (int i = 1; i < (2 * num_faces) + 1; i += 2)
+						{
+							proximo = strtok(NULL, " ");
+							sscanf(proximo, "%d//%d", &(array_de_objetos[indice].faces.back()[i]), &(array_de_objetos[indice].faces.back()[i + 1]));
+						}
 						arquivo.getline(linha, MAX_CHARS_LINHA);
 					} while (linha[0] == 'f');
 				}
