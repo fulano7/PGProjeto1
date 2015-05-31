@@ -87,7 +87,7 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 				array_de_objetos[indice].vertices.back()[1] = strtof((strtok(NULL, " ")), &proximo);
 				array_de_objetos[indice].vertices.back()[2] = strtof((strtok(NULL, " ")), &proximo);
 				arquivo.getline(linha, MAX_CHARS_LINHA);
-			} while (linha[0] == 'v');
+			} while (linha[0] == 'v' && linha[1] != 'n');
 
 		}
 		else if (linha[0] == 'f') // face
