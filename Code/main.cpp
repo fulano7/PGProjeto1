@@ -13,7 +13,7 @@ http://www.cin.ufpe.br/~voxarlabs
 #include <cstdlib>
 #include <ctime>
 #include "common.h"
-#include "carrega_obj.h"
+#include "Objeto.h"
 
 /*
 http://www.inf.pucrs.br/~manssour/OpenGL/Tutorial.html
@@ -87,7 +87,7 @@ int main(void)
 {
 	// TESTES
 	Objeto* array_inicial;
-	int quant = carregar_obj(array_inicial, "C:\\Users\\irvm\\CAT.obj");
+	int quant = Objeto::carregar_obj(array_inicial, "C:\\Users\\irvm\\CAT.obj");
 	// FIM DOS TESTES
 
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
