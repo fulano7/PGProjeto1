@@ -57,12 +57,21 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 	// enquanto o arquivo nao terminar
 	while (!arquivo.eof())
 	{
-#ifdef DEBUG
-		std::cout << linha << std::endl;
-#endif
+
 		if (linha[0] == 'v' && linha[1] == 'n') // normal
 		{
 			precisa_normais = false;
+			char* proximo; // gamb
+			do // este laco le todas as normais
+			{
+				// colocando coordenadas x, y e z das normais
+				proximo = strtok(linha, " ");
+				array_de_objetos[indice].normais.push_back(new float[3]);
+				array_de_objetos[indice].normais.back()[0] = strtof((strtok(NULL, " ")), &proximo);
+				array_de_objetos[indice].normais.back()[1] = strtof((strtok(NULL, " ")), &proximo);
+				array_de_objetos[indice].normais.back()[2] = strtof((strtok(NULL, " ")), &proximo);
+				arquivo.getline(linha, MAX_CHARS_LINHA);
+			} while (linha[0] == 'v' && linha[1] == 'n');
 		}
 		else if (linha[0] == 'v') // vertice
 		{
