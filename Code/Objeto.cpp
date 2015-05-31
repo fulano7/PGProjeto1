@@ -2,6 +2,10 @@
 
 Objeto::Objeto(){}; // construtor padrao
 
+/*
+os 2 construtores abaixo devem ser reavaliados (devido a operacao custosa de inicializacao dos atributos, com copia)
+e podem ficar fora da versao final
+*/
 Objeto::Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<int*>* fs) : vertices(*vs), normais(*ns), faces(*fs)
 {}
 
@@ -10,6 +14,7 @@ Objeto::Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<
 
 Objeto::~Objeto()
 {
+	// podemos fazer cast de unsigned para int jah que o tamanho do vetor nao sera absurdamente grande
 	for (int i = 0; i < (int)vertices.size(); i++) delete[] vertices.at(i);
 	for (int i = 0; i < (int)normais.size(); i++) delete[] normais.at(i);
 	for (int i = 0; i < (int)faces.size(); i++) delete[] faces.at(i);
@@ -103,8 +108,10 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 				} while (linha[0] == 'f');
 			}
 		}
-		else if (linha[0] == '#')arquivo.getline(linha, MAX_CHARS_LINHA); // comentario
-		else arquivo.getline(linha, MAX_CHARS_LINHA); // nao suportado; nao tratado
+		else if (linha[0] == '#')
+			arquivo.getline(linha, MAX_CHARS_LINHA); // comentario
+		else
+			arquivo.getline(linha, MAX_CHARS_LINHA); // nao suportado; nao tratado
 	}
 	return (indice + 1);
 }

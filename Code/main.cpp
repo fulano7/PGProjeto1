@@ -25,61 +25,61 @@ esse link!!!!
 // Função callback chamada para fazer o desenho
 void Desenha(void)
 {
-glMatrixMode(GL_MODELVIEW);
-//definir que todas as tranformações vão ser em cena (no desenho)
-     glLoadIdentity();
-                   
-     // Limpa a janela de visualização com a cor de fundo especificada
-     glClear(GL_COLOR_BUFFER_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	//definir que todas as tranformações vão ser em cena (no desenho)
+	glLoadIdentity();
 
-     // Especifica que a cor corrente é vermelha
-     //         R     G     B
-     glColor3f(1.0f, 0.0f, 0.0f);
-	 //cor que vai usar para pintar
+	// Limpa a janela de visualização com a cor de fundo especificada
+	glClear(GL_COLOR_BUFFER_BIT);
 
-	 // AQUI VAO OS DESENHOS
+	// Especifica que a cor corrente é vermelha
+	//         R     G     B
+	glColor3f(1.0f, 0.0f, 0.0f);
+	//cor que vai usar para pintar
+
+	// AQUI VAO OS DESENHOS
 
 
 
-	 // TERMINA DESENHOS
-     
-	 // Executa os comandos OpenGL
-     glFlush();
+	// TERMINA DESENHOS
+
+	// Executa os comandos OpenGL
+	glFlush();
 	//não sei exatamente o que faz, umas das coisas que não funciona sem.
 }
 
 // Inicializa parâmetros de rendering
-void Inicializa (void)
-{   
-    // Define a cor de fundo da janela de visualização como preta
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+void Inicializa(void)
+{
+	// Define a cor de fundo da janela de visualização como preta
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	//para ver os parametros da função (e de qualquer outra) usar ctrl+shift+spacebar
 	//dentro dos parênteses 
 }
 
 void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 {
-                   // Evita a divisao por zero
-                   if(h == 0) h = 1;
-                           
-                   // Especifica as dimensões da Viewport
-                   glViewport(0, 0, w, h);
-				   //define a área dentro janela, em coordenadas de tela,
-				   //que OpenGL pode usar para fazer o desenho. O volume de
-				   //visualização é, então, mapeado para a nova viewport
-                   
-				   // Inicializa o sistema de coordenadas
-                   glMatrixMode(GL_PROJECTION);
-				   //definir que todas as tranformações vão ser em camera (usuario)
-                   glLoadIdentity();
+	// Evita a divisao por zero
+	if (h == 0) h = 1;
 
-                   // Estabelece a janela de seleção (left, right, bottom, top)
-                   if (w <= h) 
-                           gluOrtho2D (0.0f, 250.0f, 0.0f, 250.0f*h/w);
-                   else 
-                           gluOrtho2D (0.0f, 250.0f*w/h, 0.0f, 250.0f);
-				   //é usada para determinar que a projeção ortográfica (2D) 
-				   //será utilizada para exibir na tela a imagem
+	// Especifica as dimensões da Viewport
+	glViewport(0, 0, w, h);
+	//define a área dentro janela, em coordenadas de tela,
+	//que OpenGL pode usar para fazer o desenho. O volume de
+	//visualização é, então, mapeado para a nova viewport
+
+	// Inicializa o sistema de coordenadas
+	glMatrixMode(GL_PROJECTION);
+	//definir que todas as tranformações vão ser em camera (usuario)
+	glLoadIdentity();
+
+	// Estabelece a janela de seleção (left, right, bottom, top)
+	if (w <= h)
+		gluOrtho2D(0.0f, 250.0f, 0.0f, 250.0f*h / w);
+	else
+		gluOrtho2D(0.0f, 250.0f*w / h, 0.0f, 250.0f);
+	//é usada para determinar que a projeção ortográfica (2D) 
+	//será utilizada para exibir na tela a imagem
 }
 
 // Programa Principal 
@@ -93,9 +93,9 @@ int main(void)
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	//setar modo de exibição, nesse caso um unico buffer e modelo de cor RGB
 	////recomendo usar buffer duplo (GLUT_DOUBLE).
-	glutInitWindowSize(640,480);
+	glutInitWindowSize(640, 480);
 	//tamanho da janela
-	glutInitWindowPosition(10,10);
+	glutInitWindowPosition(10, 10);
 	//onde a janela vai aparecer na tela do PC
 	glutCreateWindow("janelinha");
 	//criar um janela
