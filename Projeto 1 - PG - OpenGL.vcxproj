@@ -11,12 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Code\carrega_obj.cpp" />
     <ClCompile Include="Code\main.cpp" />
     <ClCompile Include="Code\Objeto.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Code\carrega_obj.h" />
     <ClInclude Include="Code\common.h" />
     <ClInclude Include="Code\Objeto.h" />
   </ItemGroup>
