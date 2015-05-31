@@ -24,8 +24,9 @@ retorna quantas vezes o caractere 'caractere' aparece na palavra 'palavra'
 int ocorrencias(const char* palavra, const char caractere);
 
 /*
-carrega um arquivo .obj cujo caminho eh caminho_arquivo e retorna
-um array com os objetos que estavam no arquivo.
+carrega um arquivo .obj cujo caminho eh caminho_arquivo,
+armazena os objetos que estavam no arquivo no array 'array_de_objetos' 
+e retorna a quantidade de objetos que estavam no arquivo.
 o numero maximo de objetos suportado num arquivo .obj eh fixado
 em MAX_OBJS_ARQUIVO.
 */

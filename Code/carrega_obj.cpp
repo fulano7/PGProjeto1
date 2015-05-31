@@ -83,7 +83,8 @@ int carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 					int num_faces = ocorrencias(linha, ' ');
 					proximo = strtok(linha, " ");
 					array_de_objetos[indice].faces.push_back(new int[num_faces]);
-					for (int i = 0; i < num_faces; i++) array_de_objetos[indice].faces.back()[i] = atoi((strtok(NULL, " "))); // cuidado com atoi
+					for (int i = 0; i < num_faces; i++) 
+						array_de_objetos[indice].faces.back()[i] = atoi((strtok(NULL, " "))); // cuidado com atoi
 					arquivo.getline(linha, MAX_CHARS_LINHA);
 				} while (linha[0] == 'f');
 			}

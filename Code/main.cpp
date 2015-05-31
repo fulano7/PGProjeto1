@@ -85,11 +85,11 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 // Programa Principal 
 int main(void)
 {
+	// TESTES
 	Objeto* array_inicial;
 	int quant = carregar_obj(array_inicial, "C:\\Users\\irvm\\CAT.obj");
-	std::cout << "pare aqui" << std::endl;
+	// FIM DOS TESTES
 
-	std::cout << "aqui tambem" << std::endl;
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	//setar modo de exibição, nesse caso um unico buffer e modelo de cor RGB
 	////recomendo usar buffer duplo (GLUT_DOUBLE).

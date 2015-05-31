@@ -29,8 +29,6 @@ public:
 	~Objeto();
 
 	void renderizar();
-
-private:
 	void calcular_normais();
 };
 
