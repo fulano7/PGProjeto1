@@ -88,6 +88,9 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 		}
 		else if (linha[0] == 'f') // face
 		{
+			
+			array_de_objetos[indice].calcular_normais(); // neste ponto ja terminamos de armazenar (ou nao) as normais.
+			// este metodo calcula as normais se e seomente se for necessario :D
 
 			if (strstr(linha, "/") != NULL) // com normal.
 			{
@@ -103,10 +106,7 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 						array_de_objetos[indice].faces.push_back(new int[(2*num_faces) + 1]);
 						array_de_objetos[indice].faces.back()[0] = num_faces;
 						for (int i = 1; i < (2 * num_faces) + 1; i += 2)
-						{
-							proximo = strtok(NULL, " ");
-							sscanf(proximo, "%d//%d", &(array_de_objetos[indice].faces.back()[i]), &(array_de_objetos[indice].faces.back()[i + 1]));
-						}
+							sscanf(strtok(NULL, " "), "%d//%d", &(array_de_objetos[indice].faces.back()[i]), &(array_de_objetos[indice].faces.back()[i + 1]));
 						arquivo.getline(linha, MAX_CHARS_LINHA);
 					} while (linha[0] == 'f');
 				}
