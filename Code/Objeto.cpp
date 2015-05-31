@@ -97,8 +97,8 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 						proximo = strtok(linha, " ");
 						array_de_objetos[indice].faces.push_back(new int[(2*num_faces) + 1]);
 						array_de_objetos[indice].faces.back()[0] = num_faces;
-						for (int i = 1; i <= num_faces; i++)
-							// TODO esta leitura array_de_objetos[indice].faces.back()[i] = atoi((strtok(NULL, " "))); // cuidado com atoi
+						for (int i = 1; i <= (2*num_faces)+1; i+=2)
+							//TODO esta leitura array_de_objetos[indice].faces.back()[i] = atoi((strtok(NULL, " "))); // cuidado com atoi
 						arquivo.getline(linha, MAX_CHARS_LINHA);
 					} while (linha[0] == 'f');
 				}
