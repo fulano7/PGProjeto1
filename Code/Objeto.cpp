@@ -45,8 +45,6 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 	std::ifstream arquivo(caminho_arquivo, std::ifstream::in);
 	char linha[MAX_CHARS_LINHA];
 
-	bool precisa_normais = true;// variavel que diz se precisa calcular as normais
-
 	int indice = -1; // armazena a proxima posicao livre do array recebido como parametro.
 	// um mesmo arquivo pode ter varios objetos.
 	// se o arquivo tiver mais de um objeto, vamos adicionando os seguintes ao array.
@@ -60,7 +58,6 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 
 		if (linha[0] == 'v' && linha[1] == 'n') // normal
 		{
-			precisa_normais = false;
 			char* proximo; // gamb
 			do // este laco le todas as normais
 			{
@@ -75,7 +72,6 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 		}
 		else if (linha[0] == 'v') // vertice
 		{
-			precisa_normais = true; // resetando esta variavel
 			indice++; // avancando no array
 			char* proximo; // gamb
 			do // este laco le todos os vertices
@@ -141,4 +137,11 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 			arquivo.getline(linha, MAX_CHARS_LINHA); // nao suportado; nao tratado
 	}
 	return (indice + 1);
+}
+
+void Objeto::calcular_normais()
+{
+	if (normais.size() == 0)
+	{
+	}
 }
