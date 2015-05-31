@@ -86,8 +86,21 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 
 			if (strstr(linha, "/") != NULL) // com normal.
 			{
+				array_de_objetos[indice].normais_vinc_faces = true;
 				if (strstr(linha, "//") != NULL) // com normal e sem textura
 				{
+					char* proximo; // gamb
+					do // este laco le todas as faces
+					{
+						// colocando faces
+						int num_faces = ocorrencias(linha, ' ');
+						proximo = strtok(linha, " ");
+						array_de_objetos[indice].faces.push_back(new int[(2*num_faces) + 1]);
+						array_de_objetos[indice].faces.back()[0] = num_faces;
+						for (int i = 1; i <= num_faces; i++)
+							// TODO esta leitura array_de_objetos[indice].faces.back()[i] = atoi((strtok(NULL, " "))); // cuidado com atoi
+						arquivo.getline(linha, MAX_CHARS_LINHA);
+					} while (linha[0] == 'f');
 				}
 				else // com normal e com indice da textura que deve ser ignorado.
 				{
