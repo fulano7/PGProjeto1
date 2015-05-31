@@ -11,9 +11,11 @@ using std::string;
 
 /*
 modela um objeto.
-o atributo 'vertices' eh um vector de coordenadas (x,y,z) que representam
-o atributo 'normais' é um vector de coordenadas (x, y, z)
-o atributo 'faces'
+o atributo 'vertices' eh um vector de coordenadas (x,y,z) que representam cada ponto do objeto.
+o atributo 'normais' eh um vector de coordenadas (x, y, z) que representam os vetores normais descritos no arquivo
+  ou calculados internamente conforme necessario.
+o atributo 'faces' eh um vector de array de inteiros (i1, i2, ... in) em que cada elemento do vector
+  representa o conjunto de vetices que forma a face.
 */
 class Objeto
 {
