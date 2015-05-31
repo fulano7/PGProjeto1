@@ -48,8 +48,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IntDir>$(SolutionDir)Intermediary\$(Configuration)</IntDir>
-    <OutDir>$(SolutionDir)Output\$(Configuration)</OutDir>
+    <IntDir>$(SolutionDir)Intermediary\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Output\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>$(SolutionDir)Intermediary\$(Configuration)</IntDir>
