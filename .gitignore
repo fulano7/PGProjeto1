@@ -5,5 +5,6 @@
 *.ilk
 *.exe
 *.opensdf
+*.aps
 Intermediary/Release
 Intermediary/Debug
