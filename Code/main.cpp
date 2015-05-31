@@ -9,9 +9,7 @@ http://www.cin.ufpe.br/~voxarlabs
 -----------------------------------------------------------------------------
 */
 
-#include <cstdio>
 #include <cstdlib>
-#include <ctime>
 #include "common.h"
 #include "Objeto.h"
 
@@ -87,7 +85,7 @@ int main(void)
 {
 	// TESTES
 	Objeto* array_inicial;
-	int quant = Objeto::carregar_obj(array_inicial, "C:\\Users\\irvm\\camel.obj");
+	int quant = Objeto::carregar_obj(array_inicial, "Obj Files/camel.obj");
 	// FIM DOS TESTES
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
