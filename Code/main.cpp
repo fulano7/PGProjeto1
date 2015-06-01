@@ -23,26 +23,41 @@ esse link!!!!
 // Função callback chamada para fazer o desenho
 void Desenha(void)
 {
-	glMatrixMode(GL_MODELVIEW);
+	//glMatrixMode(GL_MODELVIEW);
 	//definir que todas as tranformações vão ser em cena (no desenho)
+	
+	glClearColor(0.0, 0.7, 1.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 	glLoadIdentity();
 
 	// Limpa a janela de visualização com a cor de fundo especificada
-	glClear(GL_COLOR_BUFFER_BIT);
-
+	//glClear(GL_COLOR_BUFFER_BIT);
+	gluLookAt(
+		1.0, 1.0, -1.3,
+		0.0, 0.0, 1.0,
+		0.0, 1.0, 0.0);
 	// Especifica que a cor corrente é vermelha
 	//         R     G     B
-	glColor3f(1.0f, 0.0f, 0.0f);
+	//glColor3f(1.0f, 0.0f, 0.0f);
 	//cor que vai usar para pintar
 
 	// AQUI VAO OS DESENHOS
 
-
+	// TESTES
+	Objeto* array_inicial;
+	int quant = Objeto::carregar_obj(array_inicial, "Obj Files/cube.obj");
+	glColor3f(1.0, 1.0, 1.0);
+	glPushMatrix();
+	glTranslatef(0.0, 0.0, 0.75);
+	for (int i = 0; i < quant; i++) array_inicial[i].renderizar();
+	glPopMatrix();
+	// FIM DOS TESTES
 
 	// TERMINA DESENHOS
-
+	glutSwapBuffers();
 	// Executa os comandos OpenGL
-	glFlush();
+	//glFlush();
 	//não sei exatamente o que faz, umas das coisas que não funciona sem.
 }
 
@@ -51,6 +66,7 @@ void Inicializa(void)
 {
 	// Define a cor de fundo da janela de visualização como preta
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glEnable(GL_DEPTH_TEST);
 	//para ver os parametros da função (e de qualquer outra) usar ctrl+shift+spacebar
 	//dentro dos parênteses 
 }
@@ -60,22 +76,25 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 	// Evita a divisao por zero
 	if (h == 0) h = 1;
 
-	// Especifica as dimensões da Viewport
-	glViewport(0, 0, w, h);
-	//define a área dentro janela, em coordenadas de tela,
-	//que OpenGL pode usar para fazer o desenho. O volume de
-	//visualização é, então, mapeado para a nova viewport
+	float ratio = ((float)w)/ ((float)h);
 
 	// Inicializa o sistema de coordenadas
 	glMatrixMode(GL_PROJECTION);
 	//definir que todas as tranformações vão ser em camera (usuario)
 	glLoadIdentity();
 
+	gluPerspective(45.0, ratio, 0.1, 100.0); // perspective transformation
+	glMatrixMode(GL_MODELVIEW);
+	// Especifica as dimensões da Viewport
+	glViewport(0, 0, w, h);
+	//define a área dentro janela, em coordenadas de tela,
+	//que OpenGL pode usar para fazer o desenho. O volume de
+	//visualização é, então, mapeado para a nova viewport
 	// Estabelece a janela de seleção (left, right, bottom, top)
-	if (w <= h)
-		gluOrtho2D(0.0f, 250.0f, 0.0f, 250.0f*h / w);
-	else
-		gluOrtho2D(0.0f, 250.0f*w / h, 0.0f, 250.0f);
+	//if (w <= h)
+		//gluOrtho2D(0.0f, 250.0f, 0.0f, 250.0f*h / w);
+	//else
+		//gluOrtho2D(0.0f, 250.0f*w / h, 0.0f, 250.0f);
 	//é usada para determinar que a projeção ortográfica (2D) 
 	//será utilizada para exibir na tela a imagem
 }
@@ -84,8 +103,8 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 int main(void)
 {
 	// TESTES
-	Objeto* array_inicial;
-	int quant = Objeto::carregar_obj(array_inicial, "Obj Files/camel.obj");
+	//Objeto* array_inicial;
+	//int quant = Objeto::carregar_obj(array_inicial, "Obj Files/CAT.OBJ");
 	// FIM DOS TESTES
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);

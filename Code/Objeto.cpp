@@ -34,7 +34,6 @@ int Objeto::ocorrencias(const char* palavra, const char caractere)
 }
 
 /* (versao inicial)
-TODO: normais
 conforme especificado, se destinara a ler estes arquivos .obj:
 http://cin.ufpe.br/~marcelow/Marcelow/arquivos_obj.html
 outros .obj podem nao ser suportados, e este algoritmo nao detecta erros no arquivo.
@@ -155,6 +154,7 @@ void Objeto::calcular_normais()
 {
 	if (normais.size() == 0)
 	{
+		// TODO
 	}
 }
 
@@ -162,10 +162,23 @@ void Objeto::renderizar()
 {
 	if (normais_vinc_faces)
 	{
-
+		// TODO
 	}
 	else
 	{
-
+		int* atual;
+		for (int i = 0; i < faces.size(); i++)
+		{
+			atual = faces.at(i);
+			if (atual[0] == 3)	glBegin(GL_TRIANGLES);
+			else if (atual[0] == 4) glBegin(GL_QUADS);
+			else glBegin(GL_POLYGON);
+			for (int j = 1; j <= atual[0]; j++)
+			{
+				glNormal3fv(normais.at(atual[j]-1));
+				glVertex3fv(vertices.at(atual[j]-1));
+			}
+			glEnd();
+		}
 	}
 }
