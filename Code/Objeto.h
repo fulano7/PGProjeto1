@@ -68,7 +68,7 @@ private:
 	bool normais_vinc_faces;
 
 	// calcula as normais se for necessario.
-	void calcular_normais();
+	float* calcular_normais(int *atual);
 
 	//retorna quantas vezes o caractere 'caractere' aparece na palavra 'palavra'
 	static int ocorrencias(const char* palavra, const char caractere);

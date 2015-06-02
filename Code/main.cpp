@@ -34,7 +34,7 @@ void Desenha(void)
 	// Limpa a janela de visualização com a cor de fundo especificada
 	//glClear(GL_COLOR_BUFFER_BIT);
 	gluLookAt(
-		1.0, 1.0, -1.3,
+		1.0, 1.0, -15,
 		0.0, 0.0, 1.0,
 		0.0, 1.0, 0.0);
 	// Especifica que a cor corrente é vermelha
@@ -46,7 +46,7 @@ void Desenha(void)
 
 	// TESTES
 	Objeto* array_inicial;
-	int quant = Objeto::carregar_obj(array_inicial, "Obj Files/cube.obj");
+	int quant = Objeto::carregar_obj(array_inicial, "Obj Files/cat.obj");
 	glColor3f(1.0, 1.0, 1.0);
 	glPushMatrix();
 	glTranslatef(0.0, 0.0, 0.75);

@@ -87,8 +87,8 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 		}
 		else if (linha[0] == 'f') // face
 		{
-			
-			array_de_objetos[indice].calcular_normais(); // neste ponto ja terminamos de armazenar (ou nao) as normais.
+
+			//array_de_objetos[indice].calcular_normais(); // neste ponto ja terminamos de armazenar (ou nao) as normais.
 			// este metodo calcula as normais se e somente se for necessario :D
 
 			if (strstr(linha, "/") != NULL) // com normal.
@@ -102,7 +102,7 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 						// colocando faces
 						int num_faces = ocorrencias(linha, ' ');
 						proximo = strtok(linha, " ");
-						array_de_objetos[indice].faces.push_back(new int[(2*num_faces) + 1]);
+						array_de_objetos[indice].faces.push_back(new int[(2 * num_faces) + 1]);
 						array_de_objetos[indice].faces.back()[0] = num_faces;
 						for (int i = 1; i < (2 * num_faces) + 1; i += 2)
 							sscanf(strtok(NULL, " "), "%d//%d", &(array_de_objetos[indice].faces.back()[i]), &(array_de_objetos[indice].faces.back()[i + 1]));
@@ -133,9 +133,11 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 				{
 					// colocando faces
 					int num_faces = ocorrencias(linha, ' ');
+					//std::cout << num_faces << std::endl;
 					proximo = strtok(linha, " ");
-					array_de_objetos[indice].faces.push_back(new int[num_faces+1]);
+					array_de_objetos[indice].faces.push_back(new int[num_faces + 1]);
 					array_de_objetos[indice].faces.back()[0] = num_faces;
+
 					for (int i = 1; i <= num_faces; i++)
 						array_de_objetos[indice].faces.back()[i] = atoi((strtok(NULL, " "))); // cuidado com atoi
 					arquivo.getline(linha, MAX_CHARS_LINHA);
@@ -150,12 +152,34 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 	return (indice + 1);
 }
 
-void Objeto::calcular_normais()
+float* Objeto::calcular_normais(int *atual)
 {
-	if (normais.size() == 0)
-	{
-		// TODO
-	}
+	float v1[3], v2[3];
+
+	v1[0] = vertices.at(atual[1] - 1)[0] - vertices.at(atual[2] - 1)[0]; //x
+	v1[1] = vertices.at(atual[1] - 1)[1] - vertices.at(atual[2] - 1)[1]; //y
+	v1[2] = vertices.at(atual[1] - 1)[3] - vertices.at(atual[2] - 1)[3]; //z
+
+	v2[0] = vertices.at(atual[3] - 1)[0] - vertices.at(atual[2] - 1)[0]; //x
+	v2[1] = vertices.at(atual[3] - 1)[1] - vertices.at(atual[2] - 1)[1]; //y
+	v2[2] = vertices.at(atual[3] - 1)[3] - vertices.at(atual[2] - 1)[3]; //z
+
+	float nx = (v1[1] * v2[2]) - (v1[2] * v2[1]);
+	float ny = (v1[2] * v2[0]) - (v1[0] * v2[2]);
+	float nz = (v1[0] * v2[1]) - (v1[1] * v2[0]);
+
+	float len = sqrt((nx*nx) + (ny*ny) + (nz*nz));
+
+	nx /= len;
+	ny /= len;
+	nz /= len;
+
+	float normal[3];
+	normal[0] = nx;
+	normal[1] = ny;
+	normal[2] = nz;
+
+	return normal;
 }
 
 void Objeto::renderizar()
@@ -166,17 +190,38 @@ void Objeto::renderizar()
 	}
 	else
 	{
+		bool precisaNormais = false;
 		int* atual;
+		if (normais.size() == 0){
+			precisaNormais = true;
+		}
 		for (int i = 0; i < faces.size(); i++)
 		{
+
 			atual = faces.at(i);
+
+			//std::cout << atual[1] << " " << atual[2] << " " << atual[3] << " " << std::endl;
 			if (atual[0] == 3)	glBegin(GL_TRIANGLES);
 			else if (atual[0] == 4) glBegin(GL_QUADS);
 			else glBegin(GL_POLYGON);
-			for (int j = 1; j <= atual[0]; j++)
-			{
-				glNormal3fv(normais.at(atual[j]-1));
-				glVertex3fv(vertices.at(atual[j]-1));
+
+			if (precisaNormais){
+				float *normal = calcular_normais(atual);
+				glNormal3fv(normal);
+				for (int j = 1; j <= atual[0]; j++)
+				{
+					glColor3f(1 / j, 1 / j, 1 / j);
+
+					glVertex3fv(vertices.at(atual[j] - 1));
+				}
+			}
+			else{//nao precisa de normais
+				for (int j = 1; j <= atual[0]; j++)
+				{
+					glColor3f(1 / j, 1 / j, 1 / j);
+					glNormal3fv(normais.at(atual[j] - 1));
+					glVertex3fv(vertices.at(atual[j] - 1));
+				}
 			}
 			glEnd();
 		}
