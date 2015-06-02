@@ -63,6 +63,7 @@ private:
 	vector <float*> vertices;
 	vector <float*> normais;
 	vector <int*> faces;
+	vector <int*> indNormais; //para o caso de "//"
 
 	// este atributo eh true se cada elemento do vector de faces estiver no formato (quant_vertices, v1, n1, v2, n2, ..., vn, nn)
 	bool normais_vinc_faces;

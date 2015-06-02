@@ -27,7 +27,7 @@ int Objeto::ocorrencias(const char* palavra, const char caractere)
 	char atual = palavra[i];
 	while (atual != '\0')
 	{
-		if (atual == caractere) resposta++;
+		if (atual == caractere && palavra[i+1] != '\0') resposta++;
 		atual = palavra[++i];
 	}
 	return resposta;
@@ -93,21 +93,24 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 
 			if (strstr(linha, "/") != NULL) // com normal.
 			{
-				array_de_objetos[indice].normais_vinc_faces = true;
+				//array_de_objetos[indice].normais_vinc_faces = true;
 				if (strstr(linha, "//") != NULL) // com normal e sem textura
 				{
+					std::cout << "NORMAL SEM TEXTURA" << std::endl;
 					char* proximo; // gamb
 					do // este laco le todas as faces
 					{
 						// colocando faces
 						int num_faces = ocorrencias(linha, ' ');
 						proximo = strtok(linha, " ");
-						array_de_objetos[indice].faces.push_back(new int[(2 * num_faces) + 1]);
+						array_de_objetos[indice].faces.push_back(new int[num_faces + 1]);
+						array_de_objetos[indice].indNormais.push_back(new int[num_faces + 1]);
 						array_de_objetos[indice].faces.back()[0] = num_faces;
-						for (int i = 1; i < (2 * num_faces) + 1; i += 2)
-							sscanf(strtok(NULL, " "), "%d//%d", &(array_de_objetos[indice].faces.back()[i]), &(array_de_objetos[indice].faces.back()[i + 1]));
+						for (int i = 1, j = 1; i < (2 * num_faces) + 1; i += 2, j++)
+							sscanf(strtok(NULL, " "), "%d//%d", &(array_de_objetos[indice].faces.back()[j]), &(array_de_objetos[indice].indNormais.back()[j]));
 						arquivo.getline(linha, MAX_CHARS_LINHA);
 					} while (linha[0] == 'f');
+					std::cout << "EH TETRAAA" << std::endl;
 				}
 				else // com normal e com indice da textura que deve ser ignorado.
 				{
@@ -117,10 +120,11 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 						// colocando faces
 						int num_faces = ocorrencias(linha, ' ');
 						proximo = strtok(linha, " ");
-						array_de_objetos[indice].faces.push_back(new int[(2 * num_faces) + 1]);
+						array_de_objetos[indice].faces.push_back(new int[num_faces + 1]);
+						array_de_objetos[indice].indNormais.push_back(new int[num_faces + 1]);
 						array_de_objetos[indice].faces.back()[0] = num_faces;
-						for (int i = 1; i < (2 * num_faces) + 1; i += 2)
-							sscanf(strtok(NULL, " "), "%d/%*d/%d", &(array_de_objetos[indice].faces.back()[i]), &(array_de_objetos[indice].faces.back()[i + 1]));
+						for (int i = 1,j = 1; i < (2 * num_faces) + 1; i += 2,j++)
+							sscanf(strtok(NULL, " "), "%d/%*d/%d", &(array_de_objetos[indice].faces.back()[j]), &(array_de_objetos[indice].indNormais.back()[j]));
 						arquivo.getline(linha, MAX_CHARS_LINHA);
 					} while (linha[0] == 'f');
 				}
@@ -184,46 +188,54 @@ float* Objeto::calcular_normais(int *atual)
 
 void Objeto::renderizar()
 {
-	if (normais_vinc_faces)
-	{
-		// TODO
+	
+	bool precisaNormais = false;
+	int* atual;
+	int* nAtual;
+	if (normais.size() == 0){
+		precisaNormais = true;
+			
 	}
-	else
+	for (int i = 0; i < faces.size(); i++)
 	{
-		bool precisaNormais = false;
-		int* atual;
-		if (normais.size() == 0){
-			precisaNormais = true;
-		}
-		for (int i = 0; i < faces.size(); i++)
-		{
 
-			atual = faces.at(i);
+		atual = faces.at(i);
+		
+		//std::cout << atual[1] << " " << atual[2] << " " << atual[3] << " " << std::endl;
+		if (atual[0] == 3)	glBegin(GL_TRIANGLES);
+		else if (atual[0] == 4) glBegin(GL_QUADS);
+		else glBegin(GL_POLYGON);
 
-			//std::cout << atual[1] << " " << atual[2] << " " << atual[3] << " " << std::endl;
-			if (atual[0] == 3)	glBegin(GL_TRIANGLES);
-			else if (atual[0] == 4) glBegin(GL_QUADS);
-			else glBegin(GL_POLYGON);
+		if (precisaNormais){
+			std::cout << "1º" << std::endl;
+			float *normal = calcular_normais(atual);
+			glNormal3fv(normal);
+			for (int j = 1; j <= atual[0]; j++)
+			{
+				glColor3f(1 / j, 1 / j, 1 / j);
 
-			if (precisaNormais){
-				float *normal = calcular_normais(atual);
-				glNormal3fv(normal);
-				for (int j = 1; j <= atual[0]; j++)
-				{
-					glColor3f(1 / j, 1 / j, 1 / j);
-
-					glVertex3fv(vertices.at(atual[j] - 1));
-				}
+				glVertex3fv(vertices.at(atual[j] - 1));
 			}
-			else{//nao precisa de normais
-				for (int j = 1; j <= atual[0]; j++)
-				{
-					glColor3f(1 / j, 1 / j, 1 / j);
-					glNormal3fv(normais.at(atual[j] - 1));
-					glVertex3fv(vertices.at(atual[j] - 1));
-				}
-			}
-			glEnd();
 		}
+		else if (indNormais.size() == 0){//nao precisa calcular normais, não vem com indice
+			std::cout << "2º" << std::endl;
+			for (int j = 1; j <= atual[0]; j++)
+			{
+				glColor3f(1 / j, 1 / j, 1 / j);
+				glNormal3fv(normais.at(atual[j] - 1));
+				glVertex3fv(vertices.at(atual[j] - 1));
+			}
+		}else{//nao precisa calcular normais, ja vem com indice
+			std::cout << "3º" << std::endl;
+			nAtual = indNormais.at(i);
+			for (int j = 1; j <= atual[0]; j++)
+			{
+				glColor3f(1 / j, 1 / j, 1 / j);
+				glNormal3fv(normais.at(nAtual[j] - 1));
+				glVertex3fv(vertices.at(atual[j] - 1));
+			}
+		}
+		glEnd();
 	}
+	
 }
