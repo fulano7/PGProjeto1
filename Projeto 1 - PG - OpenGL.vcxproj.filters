@@ -7,12 +7,18 @@
     <ClCompile Include="Code\Objeto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Code\equivalentes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Code\Objeto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\equivalentes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

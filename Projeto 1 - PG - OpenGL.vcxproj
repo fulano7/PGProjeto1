@@ -11,11 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Code\equivalentes.cpp" />
     <ClCompile Include="Code\main.cpp" />
     <ClCompile Include="Code\Objeto.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\common.h" />
+    <ClInclude Include="Code\equivalentes.h" />
     <ClInclude Include="Code\Objeto.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
