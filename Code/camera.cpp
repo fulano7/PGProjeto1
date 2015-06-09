@@ -2,6 +2,8 @@
 
 // atencao! todas as matrizes sao column-major!
 
+float* camera::extrinsic;
+
 void camera::nossoLookat(
 	float eyeX, float eyeY, float eyeZ,
 	float centerX, float centerY, float centerZ,
@@ -93,6 +95,16 @@ void camera::multiplicaExtrinsicPorMatriz(float *m)
 	// ver se nao vai dar bronca
 	delete[] extrinsic;
 	extrinsic = resultado;
+}
+
+// inicializando extrinsic com a identidade
+void camera::iniciar()
+{
+	extrinsic = new float[16];
+	for (int i = 1; i <= 4; i++)
+	{
+		for (int j = 1; j <= 4; j++) extrinsic[INDICE(i,j,4)] = i == j ? 1.f : 0.f;
+	}
 }
 
 // libera a memoria alocada para extrinsic.

@@ -12,13 +12,14 @@ http://www.cin.ufpe.br/~voxarlabs
 #include <cstdlib>
 #include "common.h"
 #include "Objeto.h"
+#include "camera.h"
 
 /*
 http://www.inf.pucrs.br/~manssour/OpenGL/Tutorial.html
 esse link!!!!
 */
 
-
+using namespace camera;
 
 // Função callback chamada para fazer o desenho
 void Desenha(void)
@@ -30,11 +31,17 @@ void Desenha(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glLoadIdentity();
+	iniciar();
 
 	// Limpa a janela de visualização com a cor de fundo especificada
 	//glClear(GL_COLOR_BUFFER_BIT);
+	nossoLookat(1.0, 1.0, -10,
+		0.0, 0.0, 1.0,
+		0.0, 1.0, 0.0);
+	//glLoadMatrixf(extrinsic);
+	
 	gluLookAt(
-		1.0, 1.0, -100,
+		1.0, 1.0, -10,
 		0.0, 0.0, 1.0,
 		0.0, 1.0, 0.0);
 	// Especifica que a cor corrente é vermelha
@@ -46,12 +53,13 @@ void Desenha(void)
 
 	// TESTES
 	Objeto* array_inicial;
-	int quant = Objeto::carregar_obj(array_inicial, "Obj Files/eagle.obj");
+	int quant = Objeto::carregar_obj(array_inicial, "Obj Files/dog.obj");
 	glColor3f(1.0, 1.0, 1.0);
-	glPushMatrix();
+	//glPushMatrix();
 	glTranslatef(0.0, 0.0, 0.75);
 	for (int i = 0; i < quant; i++) array_inicial[i].renderizar();
 	glPopMatrix();
+	for (int i = 0; i < 16; i++) std::cout << extrinsic[i] << " " << std::endl;
 	// FIM DOS TESTES
 
 	// TERMINA DESENHOS
