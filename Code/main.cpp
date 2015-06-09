@@ -68,7 +68,7 @@ void Inicializa(void)
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	//para ver os parametros da função (e de qualquer outra) usar ctrl+shift+spacebar
-	//dentro dos parênteses 
+	//dentro dos parênteses
 }
 
 void AlteraTamanhoJanela(GLsizei w, GLsizei h)
@@ -98,6 +98,16 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 	//é usada para determinar que a projeção ortográfica (2D) 
 	//será utilizada para exibir na tela a imagem
 }
+
+/*acendendo a luz
+https://www.cse.msu.edu/~cse872/tutorial3.html
+GL_AMBIENT
+GLfloat white[] = {0.8f, 0.8f, 0.8f, 1.0f};
+GLfloat cyan[] = {0.f, .8f, .8f, 1.f};
+glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);
+glMaterialfv(GL_FRONT, GL_SPECULAR, white);
+glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
+*/
 
 // Programa Principal 
 int main(void)
