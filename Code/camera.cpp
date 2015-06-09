@@ -19,13 +19,13 @@ void camera::nossoLookat(
 	normalizar(s);
 	float u[3];
 	produto_vetorial(u, s, f);
-	float M[16];
-	for (int i = 1; i <= 3; i++) M[INDICE(1, i, 4)] = s[i - 1];
-	for (int i = 1; i <= 3; i++) M[INDICE(2, i, 4)] = u[i - 1];
-	for (int i = 1; i <= 3; i++) M[INDICE(3, i, 4)] = -(f[i - 1]);
-	for (int i = 1; i <= 3; i++) M[INDICE(4, i, 4)] = 0.f;
-	for (int i = 1; i <= 3; i++) M[INDICE(i, 4, 4)] = 0.f;
-	M[INDICE(4, 4, 4)] = 1.f;
+	float M[16] = 
+	{ 
+		s[0], u[0], -f[0], 0.f,
+		s[1], u[1], -f[1], 0.f,
+		s[2], u[2], -f[2], 0.f,
+		0.f, 0.f, 0.f, 1.f
+	};
 	multiplicaExtrinsicPorMatriz(M);
 	// TODO restante
 }
@@ -37,7 +37,14 @@ void camera::nossoRotate(float angle, float x, float y, float z)
 
 void camera::nossoTranslate(float x, float y, float z)
 {
-
+	float M[16] =
+	{
+		1.f, 0.f, 0.f, 0.f,
+		0.f, 1.f, 0.f, 0.f,
+		0.f, 0.f, 1.f, 0.f,
+		x, y, z, 1.f
+	};
+	multiplicaExtrinsicPorMatriz(M);
 }
 
 void camera::produto_vetorial(float* prod, float* v1, float* v2)
