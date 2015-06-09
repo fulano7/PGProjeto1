@@ -35,7 +35,7 @@ void Desenha(void)
 
 	// Limpa a janela de visualização com a cor de fundo especificada
 	//glClear(GL_COLOR_BUFFER_BIT);
-	nossoLookat(1.0, 1.0, -10,
+	nossoLookat(1.0, 1.0, -100,
 		0.0, 0.0, 1.0,
 		0.0, 1.0, 0.0);
 	glLoadMatrixf(extrinsic);
@@ -145,4 +145,5 @@ int main(void)
 	glutMainLoop();
 	//começa a execução da maquina de estados do glut/opengl que controla as funções
 	//de callback (controlador de mouse, teclado, callback de controle de tela, etc).
+	liberar();
 }
