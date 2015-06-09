@@ -26,6 +26,7 @@ void camera::nossoLookat(
 	for (int i = 1; i <= 3; i++) M[INDICE(4, i, 4)] = 0.f;
 	for (int i = 1; i <= 3; i++) M[INDICE(i, 4, 4)] = 0.f;
 	M[INDICE(4, 4, 4)] = 1.f;
+	multiplicaExtrinsicPorMatriz(M);
 	// TODO restante
 }
 
@@ -54,7 +55,27 @@ void camera::normalizar(float* v)
 	v[2] /= norma;
 }
 
-void multiplicaExtrinsicPorMatriz(float *m)
+// m eh uma matriz 4x4 column-major
+void camera::multiplicaExtrinsicPorMatriz(float *m)
 {
+	float soma;
+	float* resultado = new float[16];
+	for (int linha = 1; linha <= 4; linha++)
+	{
+		for (int coluna = 1; coluna <= 4; coluna++)
+		{
+			soma = 0.f;
+			for (int i = 0; i<4; i++) soma += extrinsic[INDICE(linha, i, 4)] * m[INDICE(i, coluna,4)];
+			resultado[INDICE(linha, coluna, 4)] = soma;
+		}
+	}
+	// ver se nao vai dar bronca
+	delete[] extrinsic;
+	extrinsic = resultado;
+}
 
+// libera a memoria alocada para extrinsic.
+void camera::liberar()
+{
+	delete[] extrinsic;
 }

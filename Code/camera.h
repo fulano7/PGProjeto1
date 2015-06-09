@@ -24,6 +24,7 @@ namespace camera {
 	void produto_vetorial(float* prod, float* v1, float* v2);
 	void normalizar(float* v);
 	void multiplicaExtrinsicPorMatriz(float *m);
+	void liberar();
 };
 
 #endif// _CAMERA_H_
