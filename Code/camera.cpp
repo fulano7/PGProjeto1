@@ -7,7 +7,26 @@ void camera::nossoLookat(
 	float centerX, float centerY, float centerZ,
 	float upX, float upY, float upZ)
 {
-
+	float f[3];
+	f[0] = centerX - eyeX;
+	f[1] = centerY - eyeY;
+	f[2] = centerZ - eyeZ;
+	float up[3] = {upX, upY, upZ};
+	normalizar(f);
+	normalizar(up);
+	float s[3];
+	produto_vetorial(s, f, up);
+	normalizar(s);
+	float u[3];
+	produto_vetorial(u, s, f);
+	float M[16];
+	for (int i = 1; i <= 3; i++) M[INDICE(1, i, 4)] = s[i - 1];
+	for (int i = 1; i <= 3; i++) M[INDICE(2, i, 4)] = u[i - 1];
+	for (int i = 1; i <= 3; i++) M[INDICE(3, i, 4)] = -(f[i - 1]);
+	for (int i = 1; i <= 3; i++) M[INDICE(4, i, 4)] = 0.f;
+	for (int i = 1; i <= 3; i++) M[INDICE(i, 4, 4)] = 0.f;
+	M[INDICE(4, 4, 4)] = 1.f;
+	// TODO restante
 }
 
 void camera::nossoRotate(float angle, float x, float y, float z)

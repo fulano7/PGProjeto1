@@ -5,6 +5,9 @@
 
 #include "common.h"
 
+// indice de um elemento (i, j) (1<=i<=linhas e 1<=j<=colunas) de uma matriz column-major com 'l' linhas
+#define INDICE(i, j, l) (((j-1)*l)+(i-1))
+
 namespace camera {
 // atencao! todas as matrizes sao column-major!
 	void nossoLookat(
@@ -13,7 +16,7 @@ namespace camera {
 		float upX, float upY, float upZ);
 	void nossoRotate(float angle, float x, float y, float z);
 	void nossoTranslate(float x, float y, float z);
-	float extrinsic[] = {1.f, 0.f, 0.f, 0.f,
+	float extrinsic[16] = {1.f, 0.f, 0.f, 0.f,
 						0.f, 1.f, 0.f, 0.f,
 						0.f, 0.f, 1.f, 0.f,
 						0.f, 0.f, 0.f, 1.f };
