@@ -53,3 +53,8 @@ void camera::normalizar(float* v)
 	v[1] /= norma;
 	v[2] /= norma;
 }
+
+void multiplicaExtrinsicPorMatriz(float *m)
+{
+
+}

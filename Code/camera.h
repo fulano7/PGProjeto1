@@ -16,12 +16,14 @@ namespace camera {
 		float upX, float upY, float upZ);
 	void nossoRotate(float angle, float x, float y, float z);
 	void nossoTranslate(float x, float y, float z);
-	float extrinsic[16] = {1.f, 0.f, 0.f, 0.f,
+	float* extrinsic = new float[16];
+	/*{ 1.f, 0.f, 0.f, 0.f,
 						0.f, 1.f, 0.f, 0.f,
 						0.f, 0.f, 1.f, 0.f,
-						0.f, 0.f, 0.f, 1.f };
+						0.f, 0.f, 0.f, 1.f };*/
 	void produto_vetorial(float* prod, float* v1, float* v2);
 	void normalizar(float* v);
+	void multiplicaExtrinsicPorMatriz(float *m);
 };
 
 #endif// _CAMERA_H_
