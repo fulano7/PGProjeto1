@@ -3,8 +3,6 @@
 
 #include <cmath>
 
-#include "common.h"
-
 // indice de um elemento (i, j) (1<=i<=linhas e 1<=j<=colunas) de uma matriz column-major com 'l' linhas
 #define INDICE(i, j, l) (((j-1)*l)+(i-1))
 
