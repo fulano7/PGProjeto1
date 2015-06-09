@@ -1,6 +1,8 @@
 #ifndef _CAMERA_H_
 #define _CAMERA_H_
 
+#include <cmath>
+
 #include "common.h"
 
 namespace camera {
