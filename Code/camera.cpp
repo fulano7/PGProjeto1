@@ -92,7 +92,6 @@ void camera::multiplicaExtrinsicPorMatriz(float *m)
 			resultado[INDICE(linha, coluna, 4)] = soma;
 		}
 	}
-	// ver se nao vai dar bronca
 	delete[] extrinsic;
 	extrinsic = resultado;
 }
