@@ -88,7 +88,7 @@ void camera::multiplicaExtrinsicPorMatriz(float *m)
 		for (int coluna = 1; coluna <= 4; coluna++)
 		{
 			soma = 0.f;
-			for (int i = 0; i<4; i++) soma += extrinsic[INDICE(linha, i, 4)] * m[INDICE(i, coluna,4)];
+			for (int i = 1; i<=4; i++) soma += extrinsic[INDICE(linha, i, 4)] * m[INDICE(i, coluna,4)];
 			resultado[INDICE(linha, coluna, 4)] = soma;
 		}
 	}

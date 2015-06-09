@@ -38,12 +38,12 @@ void Desenha(void)
 	nossoLookat(1.0, 1.0, -10,
 		0.0, 0.0, 1.0,
 		0.0, 1.0, 0.0);
-	//glLoadMatrixf(extrinsic);
+	glLoadMatrixf(extrinsic);
 	
-	gluLookAt(
+	/*gluLookAt(
 		1.0, 1.0, -10,
 		0.0, 0.0, 1.0,
-		0.0, 1.0, 0.0);
+		0.0, 1.0, 0.0);*/
 	// Especifica que a cor corrente é vermelha
 	//         R     G     B
 	//glColor3f(1.0f, 0.0f, 0.0f);
@@ -55,7 +55,7 @@ void Desenha(void)
 	Objeto* array_inicial;
 	int quant = Objeto::carregar_obj(array_inicial, "Obj Files/dog.obj");
 	glColor3f(1.0, 1.0, 1.0);
-	//glPushMatrix();
+	glPushMatrix();
 	glTranslatef(0.0, 0.0, 0.75);
 	for (int i = 0; i < quant; i++) array_inicial[i].renderizar();
 	glPopMatrix();
