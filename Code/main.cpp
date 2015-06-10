@@ -21,6 +21,7 @@ esse link!!!!
 
 Camera *c = new Camera();
 bool tecla_pressionada = false;
+float eyex = 1.0f, eyey = 1.0f, eyez = -10.0f;
 
 // Função callback chamada para fazer o desenho
 void Desenha()
@@ -32,22 +33,8 @@ void Desenha()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glLoadIdentity();
-
-	// Limpa a janela de visualização com a cor de fundo especificada
-	//glClear(GL_COLOR_BUFFER_BIT);
-	c->nossoLookat(1.0, 1.0, -10,
-		0.0, 0.0, 1.0,
-		0.0, 1.0, 0.0);
-	glLoadMatrixf(c->extrinsic);
 	
-	/*gluLookAt(
-		1.0, 1.0, -10,
-		0.0, 0.0, 1.0,
-		0.0, 1.0, 0.0);*/
-	// Especifica que a cor corrente é vermelha
-	//         R     G     B
-	//glColor3f(1.0f, 0.0f, 0.0f);
-	//cor que vai usar para pintar
+	glLoadMatrixf(c->extrinsic);
 
 	// AQUI VAO OS DESENHOS
 
@@ -72,21 +59,16 @@ void Desenha()
 // Inicializa parâmetros de rendering
 void Inicializa()
 {
-	// Define a cor de fundo da janela de visualização como preta
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
+	c->nossoLookat(eyex,eyey,eyez,
+		0.0, 0.0, 1.0,
+		0.0, 1.0, 0.0);
 	//para ver os parametros da função (e de qualquer outra) usar ctrl+shift+spacebar
 	//dentro dos parênteses
 }
 
-void TeclaSolta(unsigned char tecla, int x, int y)
-{
-	tecla_pressionada = false;
-}
-
 void TeclaPressionada(unsigned char tecla, int x, int y)
 {
-	//tecla_pressionada = true;
 	switch (tecla)
 	{
 		// interacao com objetos
@@ -125,14 +107,14 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		// interacao com camera
 		case 'w':
 		case 'W': // move camera para frente (eixo z em coord de camera)
-			//while (tecla_pressionada)
-			//{
-			c->nossoTranslate(1.f,1.f,-10.f);
-				c->nossoTranslate(0.f,0.f,.1f);
-				c->nossoTranslate(-1.f,-1.f,10.f);
-				glLoadMatrixf(c->extrinsic);
-				glutPostRedisplay();
-			//}
+			// da no mesmo sem transladar para origem?
+			// ordem importa?
+			//c->nossoTranslate(eyex,eyey,eyez);
+			// indo pra frente
+			c->nossoTranslate(0.f,0.f,-.1f);
+			//c->nossoTranslate(-eyex,-eyey,-eyez);
+			glLoadMatrixf(c->extrinsic);
+			glutPostRedisplay();
 			break;
 		case 's':
 		case 'S': // move camera para tras (eixo z em coord de camera)
@@ -208,8 +190,6 @@ int main()
 	// sem essa função e vc vai entender)
 	// callback da funcao que interpreta uma tecla pressionada
 	glutKeyboardFunc(TeclaPressionada);
-	// callback da funcao que interpreta uma tecla que acaba de ser solta
-	//glutKeyboardUpFunc(TeclaSolta);
 	Inicializa();
 	//inicializar alguns parametros do glut (nessa caso a cor do fundo da tela).
 	//cor que vai limpar o buffer
