@@ -207,7 +207,7 @@ void Objeto::renderizar()
 		else glBegin(GL_POLYGON);
 
 		if (precisaNormais){
-			std::cout << "1º" << std::endl;
+			
 			float *normal = calcular_normais(atual);
 			glNormal3fv(normal);
 			for (int j = 1; j <= atual[0]; j++)
@@ -218,7 +218,7 @@ void Objeto::renderizar()
 			}
 		}
 		else if (indNormais.size() == 0){//nao precisa calcular normais, não vem com indice
-			std::cout << "2º" << std::endl;
+			
 			for (int j = 1; j <= atual[0]; j++)
 			{
 				glColor3f(1 / j, 1 / j, 1 / j);
@@ -226,7 +226,7 @@ void Objeto::renderizar()
 				glVertex3fv(vertices.at(atual[j] - 1));
 			}
 		}else{//nao precisa calcular normais, ja vem com indice
-			std::cout << "3º" << std::endl;
+			
 			nAtual = indNormais.at(i);
 			for (int j = 1; j <= atual[0]; j++)
 			{

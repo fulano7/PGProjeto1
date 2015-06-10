@@ -18,7 +18,8 @@ http://www.cin.ufpe.br/~voxarlabs
 http://www.inf.pucrs.br/~manssour/OpenGL/Tutorial.html
 esse link!!!!
 */
-
+Objeto* array_inicial;
+int quant;
 Camera *c = new Camera();
 bool tecla_pressionada = false;
 float eyex = 1.0f, eyey = 1.0f, eyez = -10.0f;
@@ -39,8 +40,7 @@ void Desenha()
 	// AQUI VAO OS DESENHOS
 
 	// TESTES
-	Objeto* array_inicial;
-	int quant = Objeto::carregar_obj(array_inicial, "Obj Files/spheretri.obj");
+	
 	glColor3f(1.0, 1.0, 1.0);
 	glPushMatrix();
 	glTranslatef(0.0, 0.0, 0.75);
@@ -173,6 +173,8 @@ int main()
 	//Objeto* array_inicial;
 	//int quant = Objeto::carregar_obj(array_inicial, "Obj Files/CAT.OBJ");
 	// FIM DOS TESTES
+
+	quant = Objeto::carregar_obj(array_inicial, "Obj Files/shark.obj");
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	//setar modo de exibição, nesse caso um unico buffer e modelo de cor RGB
