@@ -62,6 +62,27 @@ void Inicializa()
 		0.0, 1.0, 0.0);
 	//para ver os parametros da função (e de qualquer outra) usar ctrl+shift+spacebar
 	//dentro dos parênteses
+
+	//-----inicioIluminação
+	GLfloat luzAmbiente[4] = { 0.2, 0.2, 0.2, 1.0 };
+	GLfloat luzDifusa[4] = { 0.7, 0.7, 0.7, 1.0 };	   // "cor" 
+	GLfloat luzEspecular[4] = { 1.0, 1.0, 1.0, 1.0 };// "brilho" 
+	GLfloat posicaoLuz[4] = { 0.0, 50.0, 50.0, 1.0 };
+
+	// Capacidade de brilho do material
+	GLfloat especularidade[4] = { 1.0, 1.0, 1.0, 1.0 };
+	GLint especMaterial = 60;
+
+	// Habilita o modelo de colorização de Gouraud
+	glShadeModel(GL_SMOOTH);
+
+	// Define a refletância do material 
+	glMaterialfv(GL_FRONT, GL_SPECULAR, especularidade);
+	// Define a concentração do brilho
+	glMateriali(GL_FRONT, GL_SHININESS, especMaterial);
+
+	// Ativa o uso da luz ambiente 
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
 }
 
 void TeclaPressionada(unsigned char tecla, int x, int y)
@@ -163,16 +184,6 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 	// Especifica as dimensões da Viewport
 	glViewport(0, 0, w, h);
 }
-
-/*acendendo a luz
-https://www.cse.msu.edu/~cse872/tutorial3.html
-GL_AMBIENT
-GLfloat white[] = {0.8f, 0.8f, 0.8f, 1.0f};
-GLfloat cyan[] = {0.f, .8f, .8f, 1.f};
-glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);
-glMaterialfv(GL_FRONT, GL_SPECULAR, white);
-glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
-*/
 
 // Programa Principal 
 int main()
