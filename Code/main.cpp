@@ -92,10 +92,19 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		case '6': // translada no eixo z e sentido +
 			break;
 		case '7': // gira em relacao ao eixo x
+			c->nossoRotate(0.05, 1.f, 0.f, 0.f);
+			glLoadMatrixf(c ->extrinsic);
+			glutPostRedisplay();
 			break;
 		case '8': // gira em relacao ao eixo y
+			c->nossoRotate(0.05, 0.f, 1.f, 0.f);
+			glLoadMatrixf(c->extrinsic);
+			glutPostRedisplay();
 			break;
 		case '9': // gira em relacao ao eixo z
+			c->nossoRotate(0.05, 0.f, 0.f, 1.f);
+			glLoadMatrixf(c->extrinsic);
+			glutPostRedisplay();
 			break;
 		case '-':
 		case '_': // decrementa o tamanho do objeto em 1%
@@ -118,12 +127,24 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 			break;
 		case 's':
 		case 'S': // move camera para tras (eixo z em coord de camera)
+			c->nossoTranslate(0.f, 0.f, +.1f);
+			//c->nossoTranslate(-eyex,-eyey,-eyez);
+			glLoadMatrixf(c->extrinsic);
+			glutPostRedisplay();
 			break;
 		case 'd':
-		case 'D': // move camera para esquerda (eixo x em coord de camera)
+		case 'D': // move camera para direita (eixo x em coord de camera)
+			c->nossoTranslate(+.1f, 0.f, 0.f);
+			//c->nossoTranslate(-eyex,-eyey,-eyez);
+			glLoadMatrixf(c->extrinsic);
+			glutPostRedisplay();
 			break;
 		case 'a':
-		case 'A': // move camera para direita (eixo x em coord de camera)
+		case 'A': // move camera para esquerda (eixo x em coord de camera)
+			c->nossoTranslate(-.1f, 0.f, 0.f);
+			//c->nossoTranslate(-eyex,-eyey,-eyez);
+			glLoadMatrixf(c->extrinsic);
+			glutPostRedisplay();
 			break;
 	}
 }
