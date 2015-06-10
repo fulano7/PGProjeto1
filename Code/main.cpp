@@ -20,6 +20,7 @@ esse link!!!!
 */
 
 Camera *c = new Camera();
+bool tecla_pressionada = false;
 
 // Função callback chamada para fazer o desenho
 void Desenha()
@@ -78,8 +79,14 @@ void Inicializa()
 	//dentro dos parênteses
 }
 
+void TeclaSolta(unsigned char tecla, int x, int y)
+{
+	tecla_pressionada = false;
+}
+
 void TeclaPressionada(unsigned char tecla, int x, int y)
 {
+	//tecla_pressionada = true;
 	switch (tecla)
 	{
 		// interacao com objetos
@@ -118,6 +125,14 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		// interacao com camera
 		case 'w':
 		case 'W': // move camera para frente (eixo z em coord de camera)
+			//while (tecla_pressionada)
+			//{
+			c->nossoTranslate(1.f,1.f,-10.f);
+				c->nossoTranslate(0.f,0.f,.1f);
+				c->nossoTranslate(-1.f,-1.f,10.f);
+				glLoadMatrixf(c->extrinsic);
+				glutPostRedisplay();
+			//}
 			break;
 		case 's':
 		case 'S': // move camera para tras (eixo z em coord de camera)
@@ -193,6 +208,8 @@ int main()
 	// sem essa função e vc vai entender)
 	// callback da funcao que interpreta uma tecla pressionada
 	glutKeyboardFunc(TeclaPressionada);
+	// callback da funcao que interpreta uma tecla que acaba de ser solta
+	//glutKeyboardUpFunc(TeclaSolta);
 	Inicializa();
 	//inicializar alguns parametros do glut (nessa caso a cor do fundo da tela).
 	//cor que vai limpar o buffer
