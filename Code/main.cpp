@@ -82,47 +82,51 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 {
 	switch (tecla)
 	{
+		// interacao com objetos
+		// objeto1, objeto2, ... objeton, luz1, luz2, .... luzn (lista circular)
 		case ',':
-		case '<':
+		case '<': // objeto anterior ou ultima fonte de luz
 			break;
-		case '.':
-		case '>':
+		case '.': 
+		case '>': // proximo objeto ou primeira fonte de luz
 			break;
-		case '1':
+		case '1': // translada no eixo x e sentido -
 			break;
-		case '2':
+		case '2': // translada no eixo x e sentido +
 			break;
-		case '3':
+		case '3': // translada no eixo y e sentido -
+			break; 
+		case '4': // translada no eixo y e sentido +
 			break;
-		case '4':
+		case '5': // translada no eixo z e sentido -
 			break;
-		case '5':
+		case '6': // translada no eixo z e sentido +
 			break;
-		case '6':
+		case '7': // gira em relacao ao eixo x
 			break;
-		case '7':
+		case '8': // gira em relacao ao eixo y
 			break;
-		case '8':
-			break;
-		case '9':
+		case '9': // gira em relacao ao eixo z
 			break;
 		case '-':
-		case '_':
+		case '_': // decrementa o tamanho do objeto em 1%
 			break;
-		case '=':
-		case'+':
+		case '=': 
+		case '+': // incrementa o tamanho do objeto em 1%
 			break;
+
+		// interacao com camera
 		case 'w':
-		case 'W':
+		case 'W': // move camera para frente (eixo z em coord de camera)
 			break;
 		case 's':
-		case 'S':
+		case 'S': // move camera para tras (eixo z em coord de camera)
 			break;
 		case 'd':
-		case 'D':
+		case 'D': // move camera para esquerda (eixo x em coord de camera)
 			break;
 		case 'a':
-		case 'A':
+		case 'A': // move camera para direita (eixo x em coord de camera)
 			break;
 	}
 }
