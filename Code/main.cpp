@@ -19,10 +19,10 @@ http://www.inf.pucrs.br/~manssour/OpenGL/Tutorial.html
 esse link!!!!
 */
 
-using namespace camera;
+Camera *c = new Camera();
 
 // Função callback chamada para fazer o desenho
-void Desenha(void)
+void Desenha()
 {
 	//glMatrixMode(GL_MODELVIEW);
 	//definir que todas as tranformações vão ser em cena (no desenho)
@@ -31,14 +31,13 @@ void Desenha(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glLoadIdentity();
-	iniciar();
 
 	// Limpa a janela de visualização com a cor de fundo especificada
 	//glClear(GL_COLOR_BUFFER_BIT);
-	nossoLookat(1.0, 1.0, -100,
+	c->nossoLookat(1.0, 1.0, -10,
 		0.0, 0.0, 1.0,
 		0.0, 1.0, 0.0);
-	glLoadMatrixf(extrinsic);
+	glLoadMatrixf(c->extrinsic);
 	
 	/*gluLookAt(
 		1.0, 1.0, -10,
@@ -53,13 +52,13 @@ void Desenha(void)
 
 	// TESTES
 	Objeto* array_inicial;
-	int quant = Objeto::carregar_obj(array_inicial, "Obj Files/dog.obj");
+	int quant = Objeto::carregar_obj(array_inicial, "Obj Files/spheretri.obj");
 	glColor3f(1.0, 1.0, 1.0);
 	glPushMatrix();
 	glTranslatef(0.0, 0.0, 0.75);
 	for (int i = 0; i < quant; i++) array_inicial[i].renderizar();
 	glPopMatrix();
-	for (int i = 0; i < 16; i++) std::cout << extrinsic[i] << " " << std::endl;
+	for (int i = 0; i < 16; i++) std::cout << c->extrinsic[i] << " " << std::endl;
 	// FIM DOS TESTES
 
 	// TERMINA DESENHOS
@@ -70,13 +69,62 @@ void Desenha(void)
 }
 
 // Inicializa parâmetros de rendering
-void Inicializa(void)
+void Inicializa()
 {
 	// Define a cor de fundo da janela de visualização como preta
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	//para ver os parametros da função (e de qualquer outra) usar ctrl+shift+spacebar
 	//dentro dos parênteses
+}
+
+void TeclaPressionada(unsigned char tecla, int x, int y)
+{
+	switch (tecla)
+	{
+		case ',':
+		case '<':
+			break;
+		case '.':
+		case '>':
+			break;
+		case '1':
+			break;
+		case '2':
+			break;
+		case '3':
+			break;
+		case '4':
+			break;
+		case '5':
+			break;
+		case '6':
+			break;
+		case '7':
+			break;
+		case '8':
+			break;
+		case '9':
+			break;
+		case '-':
+		case '_':
+			break;
+		case '=':
+		case'+':
+			break;
+		case 'w':
+		case 'W':
+			break;
+		case 's':
+		case 'S':
+			break;
+		case 'd':
+		case 'D':
+			break;
+		case 'a':
+		case 'A':
+			break;
+	}
 }
 
 void AlteraTamanhoJanela(GLsizei w, GLsizei h)
@@ -118,7 +166,7 @@ glMaterialfv(GL_FRONT, GL_SHININESS, shininess);
 */
 
 // Programa Principal 
-int main(void)
+int main()
 {
 	// TESTES
 	//Objeto* array_inicial;
@@ -139,11 +187,13 @@ int main(void)
 	glutReshapeFunc(AlteraTamanhoJanela);
 	//callback que controla o tamanho da janela (maximizada e minimizada com e 
 	// sem essa função e vc vai entender)
+	// callback da funcao que interpreta uma tecla pressionada
+	glutKeyboardFunc(TeclaPressionada);
 	Inicializa();
 	//inicializar alguns parametros do glut (nessa caso a cor do fundo da tela).
 	//cor que vai limpar o buffer
 	glutMainLoop();
 	//começa a execução da maquina de estados do glut/opengl que controla as funções
 	//de callback (controlador de mouse, teclado, callback de controle de tela, etc).
-	liberar();
+	delete c;
 }

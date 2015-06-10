@@ -1,10 +1,22 @@
 #include "camera.h"
 
-// atencao! todas as matrizes sao column-major!
+// inicializando extrinsic com a identidade
+Camera::Camera()
+{
+	extrinsic = new float[16];
+	for (int i = 1; i <= 4; i++)
+	{
+		for (int j = 1; j <= 4; j++) extrinsic[INDICE(i, j, 4)] = i == j ? 1.f : 0.f;
+	}
+}
 
-float* camera::extrinsic;
+// libera a memoria alocada para extrinsic.
+Camera::~Camera()
+{
+	delete[] extrinsic;
+}
 
-void camera::nossoLookat(
+void Camera::nossoLookat(
 	float eyeX, float eyeY, float eyeZ,
 	float centerX, float centerY, float centerZ,
 	float upX, float upY, float upZ)
@@ -32,7 +44,7 @@ void camera::nossoLookat(
 	nossoTranslate(-eyeX, -eyeY, -eyeZ);
 }
 
-void camera::nossoRotate(float angle, float x, float y, float z)
+void Camera::nossoRotate(float angle, float x, float y, float z)
 {
 	float s = (float)sin(angle);
 	float c = (float)cos(angle);
@@ -51,7 +63,7 @@ void camera::nossoRotate(float angle, float x, float y, float z)
 	multiplicaExtrinsicPorMatriz(M);
 }
 
-void camera::nossoTranslate(float x, float y, float z)
+void Camera::nossoTranslate(float x, float y, float z)
 {
 	float M[16] =
 	{
@@ -63,14 +75,14 @@ void camera::nossoTranslate(float x, float y, float z)
 	multiplicaExtrinsicPorMatriz(M);
 }
 
-void camera::produto_vetorial(float* prod, float* v1, float* v2)
+void Camera::produto_vetorial(float* prod, float* v1, float* v2)
 {
 	prod[0] = v1[1]*v2[2] - v1[2]*v2[1];
 	prod[1] = v1[2] * v2[0] - v1[0] * v2[2];
 	prod[2] = v1[0] * v2[1] - v1[1] * v2[0];
 }
 
-void camera::normalizar(float* v)
+void Camera::normalizar(float* v)
 {
 	float norma = (float)sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
 	v[0] /= norma;
@@ -79,7 +91,7 @@ void camera::normalizar(float* v)
 }
 
 // m eh uma matriz 4x4 column-major
-void camera::multiplicaExtrinsicPorMatriz(float *m)
+void Camera::multiplicaExtrinsicPorMatriz(float *m)
 {
 	float soma;
 	float* resultado = new float[16];
@@ -94,20 +106,4 @@ void camera::multiplicaExtrinsicPorMatriz(float *m)
 	}
 	delete[] extrinsic;
 	extrinsic = resultado;
-}
-
-// inicializando extrinsic com a identidade
-void camera::iniciar()
-{
-	extrinsic = new float[16];
-	for (int i = 1; i <= 4; i++)
-	{
-		for (int j = 1; j <= 4; j++) extrinsic[INDICE(i,j,4)] = i == j ? 1.f : 0.f;
-	}
-}
-
-// libera a memoria alocada para extrinsic.
-void camera::liberar()
-{
-	delete[] extrinsic;
 }
