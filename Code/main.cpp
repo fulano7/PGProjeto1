@@ -27,7 +27,7 @@ float eyex = 1.0f, eyey = 1.0f, eyez = -10.0f;
 // Função callback chamada para fazer o desenho
 void Desenha()
 {
-	//glMatrixMode(GL_MODELVIEW);
+	glMatrixMode(GL_MODELVIEW);
 	//definir que todas as tranformações vão ser em cena (no desenho)
 	
 	glClearColor(0.0, 0.7, 1.0, 1.0);
@@ -51,9 +51,6 @@ void Desenha()
 
 	// TERMINA DESENHOS
 	glutSwapBuffers();
-	// Executa os comandos OpenGL
-	//glFlush();
-	//não sei exatamente o que faz, umas das coisas que não funciona sem.
 }
 
 // Inicializa parâmetros de rendering
@@ -165,16 +162,6 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 	glMatrixMode(GL_MODELVIEW);
 	// Especifica as dimensões da Viewport
 	glViewport(0, 0, w, h);
-	//define a área dentro janela, em coordenadas de tela,
-	//que OpenGL pode usar para fazer o desenho. O volume de
-	//visualização é, então, mapeado para a nova viewport
-	// Estabelece a janela de seleção (left, right, bottom, top)
-	//if (w <= h)
-		//gluOrtho2D(0.0f, 250.0f, 0.0f, 250.0f*h / w);
-	//else
-		//gluOrtho2D(0.0f, 250.0f*w / h, 0.0f, 250.0f);
-	//é usada para determinar que a projeção ortográfica (2D) 
-	//será utilizada para exibir na tela a imagem
 }
 
 /*acendendo a luz

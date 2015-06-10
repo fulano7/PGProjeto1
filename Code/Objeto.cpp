@@ -178,7 +178,7 @@ float* Objeto::calcular_normais(int *atual)
 	ny /= len;
 	nz /= len;
 
-	float normal[3];
+	float* normal = new float[3];
 	normal[0] = nx;
 	normal[1] = ny;
 	normal[2] = nz;
@@ -196,7 +196,7 @@ void Objeto::renderizar()
 		precisaNormais = true;
 			
 	}
-	for (int i = 0; i < faces.size(); i++)
+	for (int i = 0; i < (int)faces.size(); i++)
 	{
 
 		atual = faces.at(i);
