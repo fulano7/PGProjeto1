@@ -112,8 +112,22 @@ void Inicializa()
 	//Habilita a luz 1
 	glEnable(GL_LIGHT1);
 	//Habilita o depth-buffering
-	glEnable(GL_DEPTH_TEST);
 	//-----fimIluminação
+
+	//----------Modo específico: iluminação com sombras e névoa
+	//Adicionando as 6 fontes de luz que faltam
+	//Características da luz 2
+	GLfloat luzDifusa2[4] = { 0.0, 1.0, 0.0, 1.0 };
+	GLfloat luzEspecular2[4] = { 0.0, 1.0, 0.0, 1.0 };
+	GLfloat posicaoLuz2[4] = { 0.0, 25.0, 25.0, 1.0 };
+
+	//Ativando parâmetros da luz 2
+	glLightfv(GL_LIGHT2, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT2, GL_DIFFUSE, luzDifusa2);
+	glLightfv(GL_LIGHT2, GL_SPECULAR, luzEspecular2);
+	glLightfv(GL_LIGHT2, GL_POSITION, posicaoLuz2);
+	glEnable(GL_LIGHT2);
+	//----------fim modo específico: iluminação com sombras e névoa
 }
 
 void TeclaPressionada(unsigned char tecla, int x, int y)
