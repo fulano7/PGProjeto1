@@ -62,9 +62,7 @@ void Inicializa()
 		0.0, 1.0, 0.0);
 	//para ver os parametros da função (e de qualquer outra) usar ctrl+shift+spacebar
 	//dentro dos parênteses
-
 	//-----inicioIluminação
-
 	//Características do objeto
 	GLfloat especularidade[4] = { 1.0, 1.0, 1.0, 1.0 };
 	GLint especMaterial = 1;
@@ -95,7 +93,7 @@ void Inicializa()
 	//Características da luz 1
 	GLfloat luzDifusa1[4] = { 0.0, 0.0, 1.0, 1.0 };
 	GLfloat luzEspecular1[4] = { 0.0, 0.0, 1.0, 1.0 };
-	GLfloat posicaoLuz1[4] = { 0.0, -50.0, -50.0, 1.0 };
+	GLfloat posicaoLuz1[4] = { 0.0, 25.0, 25.0, 1.0 };
 
 	//Ativando parâmetros da luz 1
 	glLightfv(GL_LIGHT1, GL_AMBIENT, luzAmbiente);
@@ -116,10 +114,11 @@ void Inicializa()
 
 	//----------Modo específico: iluminação com sombras e névoa
 	//Adicionando as 6 fontes de luz que faltam
+	//para desativar alguma fonte de luz comente os: glEnable(GL_LIGHT*);
 	//Características da luz 2
 	GLfloat luzDifusa2[4] = { 0.0, 1.0, 0.0, 1.0 };
 	GLfloat luzEspecular2[4] = { 0.0, 1.0, 0.0, 1.0 };
-	GLfloat posicaoLuz2[4] = { 0.0, 25.0, 25.0, 1.0 };
+	GLfloat posicaoLuz2[4] = { 0.0, 10.0, 10.0, 1.0 };
 
 	//Ativando parâmetros da luz 2
 	glLightfv(GL_LIGHT2, GL_AMBIENT, luzAmbiente);
@@ -127,6 +126,66 @@ void Inicializa()
 	glLightfv(GL_LIGHT2, GL_SPECULAR, luzEspecular2);
 	glLightfv(GL_LIGHT2, GL_POSITION, posicaoLuz2);
 	glEnable(GL_LIGHT2);
+
+	//Características da luz 3
+	GLfloat luzDifusa3[4] = { 1.0, 0.0, 0.0, 1.0 };
+	GLfloat luzEspecular3[4] = { 1.0, 0.0, 0.0, 1.0 };
+	GLfloat posicaoLuz3[4] = { 0.0, 20.0, 20.0, 1.0 };
+
+	//Ativando parâmetros da luz 3
+	glLightfv(GL_LIGHT3, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT3, GL_DIFFUSE, luzDifusa3);
+	glLightfv(GL_LIGHT3, GL_SPECULAR, luzEspecular3);
+	glLightfv(GL_LIGHT3, GL_POSITION, posicaoLuz3);
+	glEnable(GL_LIGHT3);
+
+	//Características da luz 4
+	GLfloat luzDifusa4[4] = { 0.0, 0.0, 0.75, 1.0 };
+	GLfloat luzEspecular4[4] = { 0.0, 0.0, 0.75, 1.0 };
+	GLfloat posicaoLuz4[4] = { 0.0, 30.0, 30.0, 1.0 };
+
+	//Ativando parâmetros da luz 4
+	glLightfv(GL_LIGHT4, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT4, GL_DIFFUSE, luzDifusa4);
+	glLightfv(GL_LIGHT4, GL_SPECULAR, luzEspecular4);
+	glLightfv(GL_LIGHT4, GL_POSITION, posicaoLuz4);
+	glEnable(GL_LIGHT4);
+
+	//Características da luz 5
+	GLfloat luzDifusa5[4] = { 0.0, 0.75, 0.0, 1.0 };
+	GLfloat luzEspecular5[4] = { 0.0, 0.75, 0.0, 1.0 };
+	GLfloat posicaoLuz5[4] = { 0.0, 40.0, 40.0, 1.0 };
+
+	//Ativando parâmetros da luz 5
+	glLightfv(GL_LIGHT5, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT5, GL_DIFFUSE, luzDifusa5);
+	glLightfv(GL_LIGHT5, GL_SPECULAR, luzEspecular5);
+	glLightfv(GL_LIGHT5, GL_POSITION, posicaoLuz5);
+	glEnable(GL_LIGHT5);
+
+	//Características da luz 6
+	GLfloat luzDifusa6[4] = { 0.75, 0.0, 0.0, 1.0 };
+	GLfloat luzEspecular6[4] = { 0.75, 0.0, 0.0, 1.0 };
+	GLfloat posicaoLuz6[4] = { 0.0, 60.0, 60.0, 1.0 };
+
+	//Ativando parâmetros da luz 6
+	glLightfv(GL_LIGHT6, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT6, GL_DIFFUSE, luzDifusa6);
+	glLightfv(GL_LIGHT6, GL_SPECULAR, luzEspecular6);
+	glLightfv(GL_LIGHT6, GL_POSITION, posicaoLuz6);
+	glEnable(GL_LIGHT6);
+
+	//Características da luz 7
+	GLfloat luzDifusa7[4] = { 0.0, 0.0, 0.25, 1.0 };
+	GLfloat luzEspecular7[4] = { 0.0, 0.0, 0.25, 1.0 };
+	GLfloat posicaoLuz7[4] = { 0.0, 70.0, 70.0, 1.0 };
+
+	//Ativando parâmetros da luz 7
+	glLightfv(GL_LIGHT7, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT7, GL_DIFFUSE, luzDifusa7);
+	glLightfv(GL_LIGHT7, GL_SPECULAR, luzEspecular7);
+	glLightfv(GL_LIGHT7, GL_POSITION, posicaoLuz7);
+	glEnable(GL_LIGHT7);
 	//----------fim modo específico: iluminação com sombras e névoa
 }
 
