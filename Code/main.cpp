@@ -111,7 +111,7 @@ void Inicializa()
 	glEnable(GL_LIGHT1);
 	//Habilita o depth-buffering
 	//-----fimIluminação
-
+	
 	//----------Modo específico: iluminação com sombras e névoa
 	//Adicionando as 6 fontes de luz que faltam
 	//para desativar alguma fonte de luz comente os: glEnable(GL_LIGHT*);
