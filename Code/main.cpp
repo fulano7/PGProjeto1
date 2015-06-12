@@ -64,39 +64,54 @@ void Inicializa()
 	//dentro dos parênteses
 
 	//-----inicioIluminação
-	GLfloat luzAmbiente[4] = { 0.2, 0.2, 0.2, 1.0 };
-	GLfloat luzDifusa[4] = { 0.7, 0.7, 0.7, 1.0 };	   // "cor" 
-	GLfloat luzEspecular[4] = { 1.0, 1.0, 1.0, 1.0 };// "brilho" 
-	GLfloat posicaoLuz[4] = { 0.0, 50.0, 50.0, 1.0 };
 
-	// Capacidade de brilho do material
+	//Características do objeto
 	GLfloat especularidade[4] = { 1.0, 1.0, 1.0, 1.0 };
-	GLint especMaterial = 60;
+	GLint especMaterial = 1;
 
-	// Habilita o modelo de colorização de Gouraud
+	//Característica padrão
+	GLfloat luzAmbiente[4] = { 0.5, 0.5, 0.5, 1.0 };
+
+	//Habilitando Gouraud
 	glShadeModel(GL_SMOOTH);
 
-	// Define a refletância do material 
+	//Habilitando características padrões 
 	glMaterialfv(GL_FRONT, GL_SPECULAR, especularidade);
-	// Define a concentração do brilho
 	glMateriali(GL_FRONT, GL_SHININESS, especMaterial);
-
-	// Ativa o uso da luz ambiente 
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
 
-	// Define os parâmetros da luz de número 0
+	//Características da luz 0
+	GLfloat luzDifusa[4] = { 1.0, 1.0, 1.0, 1.0 };	   
+	GLfloat luzEspecular[4] = { 1.0, 1.0, 1.0, 1.0 }; 
+	GLfloat posicaoLuz[4] = { 0.0, 50.0, 50.0, 1.0 };
+
+	//Ativando parâmetros da luz 0
 	glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular);
 	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
 
-	// Habilita a definição da cor do material a partir da cor corrente
+
+	//Características da luz 1
+	GLfloat luzDifusa1[4] = { 0.0, 0.0, 1.0, 1.0 };
+	GLfloat luzEspecular1[4] = { 0.0, 0.0, 1.0, 1.0 };
+	GLfloat posicaoLuz1[4] = { 0.0, -50.0, -50.0, 1.0 };
+
+	//Ativando parâmetros da luz 1
+	glLightfv(GL_LIGHT1, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, luzDifusa1);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, luzEspecular1);
+	glLightfv(GL_LIGHT1, GL_POSITION, posicaoLuz1);
+
+	//Habilita tipo de coloração
 	glEnable(GL_COLOR_MATERIAL);
 	//Habilita o uso de iluminação
 	glEnable(GL_LIGHTING);
-	// Habilita a luz de número 0
+	//Habilita a luz 0
 	glEnable(GL_LIGHT0);
-	// Habilita o depth-buffering
+	//Habilita a luz 1
+	glEnable(GL_LIGHT1);
+	//Habilita o depth-buffering
 	glEnable(GL_DEPTH_TEST);
 	//-----fimIluminação
 }
