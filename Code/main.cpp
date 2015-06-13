@@ -30,7 +30,7 @@ void Desenha()
 	glMatrixMode(GL_MODELVIEW);
 	//definir que todas as tranformações vão ser em cena (no desenho)
 	
-	glClearColor(0.0, 0.7, 1.0, 1.0);
+	glClearColor(0.0, 0.0, 0.0, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glLoadIdentity();
@@ -46,7 +46,7 @@ void Desenha()
 	glTranslatef(0.0, 0.0, 0.75);
 	for (int i = 0; i < quant; i++) array_inicial[i].renderizar();
 	glPopMatrix();
-	for (int i = 0; i < 16; i++) std::cout << c->extrinsic[i] << " " << std::endl;
+	//for (int i = 0; i < 16; i++) std::cout << c->extrinsic[i] << " " << std::endl;
 	// FIM DOS TESTES
 
 	// TERMINA DESENHOS
@@ -297,8 +297,9 @@ int main()
 	//int quant = Objeto::carregar_obj(array_inicial, "Obj Files/CAT.OBJ");
 	// FIM DOS TESTES
 
-	quant = Objeto::carregar_obj(array_inicial, "Obj Files/shark.obj");
+	quant = Objeto::carregar_obj(array_inicial, "Obj Files/OBJS.obj");
 
+	std::cout << quant << std::endl;
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	//setar modo de exibição, nesse caso um unico buffer e modelo de cor RGB
 	////recomendo usar buffer duplo (GLUT_DOUBLE).

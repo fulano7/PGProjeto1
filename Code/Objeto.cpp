@@ -41,118 +41,139 @@ outros .obj podem nao ser suportados, e este algoritmo nao detecta erros no arqu
 int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 {
 	array_de_objetos = new Objeto[MAX_OBJS_ARQUIVO]();
-	std::ifstream arquivo(caminho_arquivo, std::ifstream::in);
+	
 	char linha[MAX_CHARS_LINHA];
 
 	int indice = -1; // armazena a proxima posicao livre do array recebido como parametro.
 	// um mesmo arquivo pode ter varios objetos.
 	// se o arquivo tiver mais de um objeto, vamos adicionando os seguintes ao array.
 
-	// primeira chamada de leitura do arquivo.
-	arquivo.getline(linha, MAX_CHARS_LINHA);
+	char * prefix = "Obj Files/";
+	char * sufix = ".obj";
+	char aux [30];
 
-	// enquanto o arquivo nao terminar
-	while (!arquivo.eof())
-	{
+	char nextObj[MAX_CHARS_LINHA];
+	std::ifstream arquivosObj(caminho_arquivo, std::ifstream::in);
+	
+	while (!arquivosObj.eof()){
+		arquivosObj.getline(nextObj, MAX_CHARS_LINHA);
 
-		if (linha[0] == 'v' && linha[1] == 'n') // normal
-		{
-			char* proximo; // gamb
-			do // este laco le todas as normais
-			{
-				// colocando coordenadas x, y e z das normais
-				proximo = strtok(linha, " ");
-				array_de_objetos[indice].normais.push_back(new float[3]);
-				array_de_objetos[indice].normais.back()[0] = strtof((strtok(NULL, " ")), &proximo);
-				array_de_objetos[indice].normais.back()[1] = strtof((strtok(NULL, " ")), &proximo);
-				array_de_objetos[indice].normais.back()[2] = strtof((strtok(NULL, " ")), &proximo);
-				arquivo.getline(linha, MAX_CHARS_LINHA);
-			} while (linha[0] == 'v' && linha[1] == 'n');
-		}
-		else if (linha[0] == 'v') // vertice
-		{
-			indice++; // avancando no array
-			char* proximo; // gamb
-			do // este laco le todos os vertices
-			{
-				// colocando coordenadas x, y e z
-				proximo = strtok(linha, " ");
-				array_de_objetos[indice].vertices.push_back(new float[3]);
-				array_de_objetos[indice].vertices.back()[0] = strtof((strtok(NULL, " ")), &proximo);
-				array_de_objetos[indice].vertices.back()[1] = strtof((strtok(NULL, " ")), &proximo);
-				array_de_objetos[indice].vertices.back()[2] = strtof((strtok(NULL, " ")), &proximo);
-				arquivo.getline(linha, MAX_CHARS_LINHA);
-			} while (linha[0] == 'v' && linha[1] != 'n');
+		strcpy(aux, prefix);
+		strcat(aux, nextObj);
+		strcat(aux, sufix);
 
-		}
-		else if (linha[0] == 'f') // face
+		std::cout << nextObj << std::endl;
+
+		std::ifstream arquivo(aux, std::ifstream::in);
+		// primeira chamada de leitura do arquivo do obj.
+		arquivo.getline(linha, MAX_CHARS_LINHA);
+
+		// enquanto o arquivo obj nao terminar
+		while (!arquivo.eof())
 		{
 
-			//array_de_objetos[indice].calcular_normais(); // neste ponto ja terminamos de armazenar (ou nao) as normais.
-			// este metodo calcula as normais se e somente se for necessario :D
-
-			if (strstr(linha, "/") != NULL) // com normal.
+			if (linha[0] == 'v' && linha[1] == 'n') // normal
 			{
-				//array_de_objetos[indice].normais_vinc_faces = true;
-				if (strstr(linha, "//") != NULL) // com normal e sem textura
-				{
-					std::cout << "NORMAL SEM TEXTURA" << std::endl;
-					char* proximo; // gamb
-					do // este laco le todas as faces
-					{
-						// colocando faces
-						int num_faces = ocorrencias(linha, ' ');
-						proximo = strtok(linha, " ");
-						array_de_objetos[indice].faces.push_back(new int[num_faces + 1]);
-						array_de_objetos[indice].indNormais.push_back(new int[num_faces + 1]);
-						array_de_objetos[indice].faces.back()[0] = num_faces;
-						for (int i = 1, j = 1; i < (2 * num_faces) + 1; i += 2, j++)
-							sscanf(strtok(NULL, " "), "%d//%d", &(array_de_objetos[indice].faces.back()[j]), &(array_de_objetos[indice].indNormais.back()[j]));
-						arquivo.getline(linha, MAX_CHARS_LINHA);
-					} while (linha[0] == 'f');
-					std::cout << "EH TETRAAA" << std::endl;
-				}
-				else // com normal e com indice da textura que deve ser ignorado.
-				{
-					char* proximo; // gamb
-					do // este laco le todas as faces
-					{
-						// colocando faces
-						int num_faces = ocorrencias(linha, ' ');
-						proximo = strtok(linha, " ");
-						array_de_objetos[indice].faces.push_back(new int[num_faces + 1]);
-						array_de_objetos[indice].indNormais.push_back(new int[num_faces + 1]);
-						array_de_objetos[indice].faces.back()[0] = num_faces;
-						for (int i = 1,j = 1; i < (2 * num_faces) + 1; i += 2,j++)
-							sscanf(strtok(NULL, " "), "%d/%*d/%d", &(array_de_objetos[indice].faces.back()[j]), &(array_de_objetos[indice].indNormais.back()[j]));
-						arquivo.getline(linha, MAX_CHARS_LINHA);
-					} while (linha[0] == 'f');
-				}
-			}
-			else // sem normal.
-			{
-				array_de_objetos[indice].normais_vinc_faces = false;
 				char* proximo; // gamb
-				do // este laco le todas as faces
+				do // este laco le todas as normais
 				{
-					// colocando faces
-					int num_faces = ocorrencias(linha, ' ');
-					//std::cout << num_faces << std::endl;
+					// colocando coordenadas x, y e z das normais
 					proximo = strtok(linha, " ");
-					array_de_objetos[indice].faces.push_back(new int[num_faces + 1]);
-					array_de_objetos[indice].faces.back()[0] = num_faces;
-
-					for (int i = 1; i <= num_faces; i++)
-						array_de_objetos[indice].faces.back()[i] = atoi((strtok(NULL, " "))); // cuidado com atoi
+					array_de_objetos[indice].normais.push_back(new float[3]);
+					array_de_objetos[indice].normais.back()[0] = strtof((strtok(NULL, " ")), &proximo);
+					array_de_objetos[indice].normais.back()[1] = strtof((strtok(NULL, " ")), &proximo);
+					array_de_objetos[indice].normais.back()[2] = strtof((strtok(NULL, " ")), &proximo);
 					arquivo.getline(linha, MAX_CHARS_LINHA);
-				} while (linha[0] == 'f');
+				} while (linha[0] == 'v' && linha[1] == 'n');
 			}
+			else if (linha[0] == 'v') // vertice
+			{
+				indice++; // avancando no array
+				char* proximo; // gamb
+				do // este laco le todos os vertices
+				{
+					// colocando coordenadas x, y e z
+					proximo = strtok(linha, " ");
+					array_de_objetos[indice].vertices.push_back(new float[3]);
+					array_de_objetos[indice].vertices.back()[0] = strtof((strtok(NULL, " ")), &proximo);
+					array_de_objetos[indice].vertices.back()[1] = strtof((strtok(NULL, " ")), &proximo);
+					array_de_objetos[indice].vertices.back()[2] = strtof((strtok(NULL, " ")), &proximo);
+					arquivo.getline(linha, MAX_CHARS_LINHA);
+				} while (linha[0] == 'v' && linha[1] != 'n');
+
+			}
+			else if (linha[0] == 'f') // face
+			{
+
+				//array_de_objetos[indice].calcular_normais(); // neste ponto ja terminamos de armazenar (ou nao) as normais.
+				// este metodo calcula as normais se e somente se for necessario :D
+
+				if (strstr(linha, "/") != NULL) // com normal.
+				{
+					//array_de_objetos[indice].normais_vinc_faces = true;
+					if (strstr(linha, "//") != NULL) // com normal e sem textura
+					{
+						std::cout << "NORMAL SEM TEXTURA" << std::endl;
+						char* proximo; // gamb
+						do // este laco le todas as faces
+						{
+							// colocando faces
+							int num_faces = ocorrencias(linha, ' ');
+							proximo = strtok(linha, " ");
+							array_de_objetos[indice].faces.push_back(new int[num_faces + 1]);
+							array_de_objetos[indice].indNormais.push_back(new int[num_faces + 1]);
+							array_de_objetos[indice].faces.back()[0] = num_faces;
+							for (int i = 1, j = 1; i < (2 * num_faces) + 1; i += 2, j++)
+								sscanf(strtok(NULL, " "), "%d//%d", &(array_de_objetos[indice].faces.back()[j]), &(array_de_objetos[indice].indNormais.back()[j]));
+							arquivo.getline(linha, MAX_CHARS_LINHA);
+						} while (linha[0] == 'f');
+						std::cout << "EH TETRAAA" << std::endl;
+					}
+					else // com normal e com indice da textura que deve ser ignorado.
+					{
+						char* proximo; // gamb
+						do // este laco le todas as faces
+						{
+							// colocando faces
+							int num_faces = ocorrencias(linha, ' ');
+							proximo = strtok(linha, " ");
+							array_de_objetos[indice].faces.push_back(new int[num_faces + 1]);
+							array_de_objetos[indice].indNormais.push_back(new int[num_faces + 1]);
+							array_de_objetos[indice].faces.back()[0] = num_faces;
+							for (int i = 1, j = 1; i < (2 * num_faces) + 1; i += 2, j++)
+								sscanf(strtok(NULL, " "), "%d/%*d/%d", &(array_de_objetos[indice].faces.back()[j]), &(array_de_objetos[indice].indNormais.back()[j]));
+							arquivo.getline(linha, MAX_CHARS_LINHA);
+						} while (linha[0] == 'f');
+					}
+				}
+				else // sem normal.
+				{
+					array_de_objetos[indice].normais_vinc_faces = false;
+					char* proximo; // gamb
+					do // este laco le todas as faces
+					{
+						// colocando faces
+						int num_faces = ocorrencias(linha, ' ');
+						//std::cout << num_faces << std::endl;
+						proximo = strtok(linha, " ");
+						array_de_objetos[indice].faces.push_back(new int[num_faces + 1]);
+						array_de_objetos[indice].faces.back()[0] = num_faces;
+
+						for (int i = 1; i <= num_faces; i++)
+							array_de_objetos[indice].faces.back()[i] = atoi((strtok(NULL, " "))); // cuidado com atoi
+						arquivo.getline(linha, MAX_CHARS_LINHA);
+					} while (linha[0] == 'f');
+				}
+			}
+			else if (linha[0] == '#')
+				arquivo.getline(linha, MAX_CHARS_LINHA); // comentario
+			else
+				arquivo.getline(linha, MAX_CHARS_LINHA); // nao suportado; nao tratado
 		}
-		else if (linha[0] == '#')
-			arquivo.getline(linha, MAX_CHARS_LINHA); // comentario
-		else
-			arquivo.getline(linha, MAX_CHARS_LINHA); // nao suportado; nao tratado
+
 	}
+
+	
 	return (indice + 1);
 }
 
