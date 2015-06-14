@@ -44,10 +44,12 @@ void Camera::nossoLookat(
 	nossoTranslate(-eyeX, -eyeY, -eyeZ);
 }
 
+// angle esta em graus.
 void Camera::nossoRotate(float angle, float x, float y, float z)
 {
-	float s = (float)sin(angle);
-	float c = (float)cos(angle);
+	float angle_rad = grau_para_rad(angle);
+	float s = (float)sin(angle_rad);
+	float c = (float)cos(angle_rad);
 	float v[3] = {x, y, z};
 	normalizar(v);
 	x = v[0];
@@ -55,7 +57,7 @@ void Camera::nossoRotate(float angle, float x, float y, float z)
 	z = v[2];
 	float M[16] =
 	{  
-		x*x*(1.f-c)+c,       y*x*(1.f-c)+z*s,       x*z*(1.f-c)-y*s,        0.f,
+		x*x*(1.f - c)+c,     y*x*(1.f - c)+z*s,     x*z*(1.f - c)-y*s,      0.f,
 		x*y*(1.f - c)-z*s,   y*y*(1.f - c)+c,       y*z*(1.f - c)+x*s,      0.f,
 		x*z*(1.f - c)+y*s,   y*z*(1.f - c)-x*s,     z*z*(1.f - c)+c,        0.f,
 		0.f,                  0.f,                  0.f,                    1.f
@@ -77,7 +79,7 @@ void Camera::nossoTranslate(float x, float y, float z)
 
 void Camera::produto_vetorial(float* prod, float* v1, float* v2)
 {
-	prod[0] = v1[1]*v2[2] - v1[2]*v2[1];
+	prod[0] = v1[1] * v2[2] - v1[2] * v2[1];
 	prod[1] = v1[2] * v2[0] - v1[0] * v2[2];
 	prod[2] = v1[0] * v2[1] - v1[1] * v2[0];
 }
@@ -107,3 +109,10 @@ void Camera::multiplicaExtrinsicPorMatriz(float *m)
 	delete[] extrinsic;
 	extrinsic = resultado;
 }
+
+float Camera::grau_para_rad(float grau)
+{
+	return (grau*PI_SOBRE_180);
+}
+
+const float Camera::PI_SOBRE_180 = 3.141459f / 180.f;

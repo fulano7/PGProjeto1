@@ -16,13 +16,15 @@ public:
 		float eyeX, float eyeY, float eyeZ,
 		float centerX, float centerY, float centerZ,
 		float upX, float upY, float upZ);
-	void nossoRotate(float angle, float x, float y, float z);
+	void nossoRotate(float angle, float x, float y, float z); // angle esta em graus.
 	void nossoTranslate(float x, float y, float z);
 	float* extrinsic;
 private:
-	void produto_vetorial(float* prod, float* v1, float* v2);
-	void normalizar(float* v);
+	static void produto_vetorial(float* prod, float* v1, float* v2);
+	static void normalizar(float* v);
 	void multiplicaExtrinsicPorMatriz(float *m);
+	static float grau_para_rad(float grau);
+	static const float PI_SOBRE_180;
 };
 
 #endif// _CAMERA_H_
