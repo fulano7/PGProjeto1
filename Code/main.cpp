@@ -21,8 +21,9 @@ esse link!!!!
 Objeto* array_inicial;
 int quant;
 Camera *c = new Camera();
-bool tecla_pressionada = false;
-float eyex = 1.0f, eyey = 1.0f, eyez = -10.0f;
+float posicaoX = 0.f, posicaoY = 0.f, posicaoZ = 0.f, rotacaoX = 0.f, rotacaoY = 0.f, angulo = 0.f;
+float x_atual, y_atual;
+const float fator = 0.1f;
 
 // Função callback chamada para fazer o desenho
 void Desenha()
@@ -35,6 +36,10 @@ void Desenha()
 	
 	glLoadIdentity();
 	
+	c->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
+	c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
+	c->nossoTranslate(-posicaoX, -posicaoY, -posicaoZ);
+	std::cout << "z: " << posicaoZ << std::endl;
 	glLoadMatrixf(c->extrinsic);
 
 	// AQUI VAO OS DESENHOS
@@ -53,13 +58,71 @@ void Desenha()
 	glutSwapBuffers();
 }
 
+void TeclaSolta(unsigned char tecla, int x, int y)
+{
+	float xrotrad, yrotrad;
+	switch (tecla)
+	{
+		// interacao com objetos
+		// objeto1, objeto2, ... objeton, luz1, luz2, .... luzn (lista circular)
+	case ',':
+	case '<': // objeto anterior ou ultima fonte de luz
+		break;
+	case '.':
+	case '>': // proximo objeto ou primeira fonte de luz
+		break;
+	case '1': // translada no eixo x e sentido -
+		break;
+	case '2': // translada no eixo x e sentido +
+		break;
+	case '3': // translada no eixo y e sentido -
+		break;
+	case '4': // translada no eixo y e sentido +
+		break;
+	case '5': // translada no eixo z e sentido -
+		break;
+	case '6': // translada no eixo z e sentido +
+		break;
+	case '7': // gira em relacao ao eixo x
+		//c->nossoRotate(0.05, 1.f, 0.f, 0.f);
+		//glLoadMatrixf(c ->extrinsic);
+		//glutPostRedisplay();
+		break;
+	case '8': // gira em relacao ao eixo y
+		//c->nossoRotate(0.05, 0.f, 1.f, 0.f);
+		//glLoadMatrixf(c->extrinsic);
+		//glutPostRedisplay();
+		break;
+	case '9': // gira em relacao ao eixo z
+		//c->nossoRotate(0.05, 0.f, 0.f, 1.f);
+		//glLoadMatrixf(c->extrinsic);
+		//glutPostRedisplay();
+		break;
+	case '-':
+	case '_': // decrementa o tamanho do objeto em 1%
+		break;
+	case '=':
+	case '+': // incrementa o tamanho do objeto em 1%
+		break;
+
+		// interacao com camera
+	case 'w':
+	case 'W':
+	case 's':
+	case 'S':
+	case 'd':
+	case 'D':
+	case 'a':
+	case 'A':
+		posicaoX = posicaoY = posicaoZ = 0.f;
+		break;
+	}
+}
+
 // Inicializa parâmetros de rendering
 void Inicializa()
 {
 	glEnable(GL_DEPTH_TEST);
-	c->nossoLookat(eyex,eyey,eyez,
-		0.0, 0.0, 1.0,
-		0.0, 1.0, 0.0);
 	//para ver os parametros da função (e de qualquer outra) usar ctrl+shift+spacebar
 	//dentro dos parênteses
 	//-----inicioIluminação
@@ -191,6 +254,7 @@ void Inicializa()
 
 void TeclaPressionada(unsigned char tecla, int x, int y)
 {
+	float xrotrad, yrotrad;
 	switch (tecla)
 	{
 		// interacao com objetos
@@ -214,19 +278,19 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		case '6': // translada no eixo z e sentido +
 			break;
 		case '7': // gira em relacao ao eixo x
-			c->nossoRotate(0.05, 1.f, 0.f, 0.f);
-			glLoadMatrixf(c ->extrinsic);
-			glutPostRedisplay();
+			//c->nossoRotate(0.05, 1.f, 0.f, 0.f);
+			//glLoadMatrixf(c ->extrinsic);
+			//glutPostRedisplay();
 			break;
 		case '8': // gira em relacao ao eixo y
-			c->nossoRotate(0.05, 0.f, 1.f, 0.f);
-			glLoadMatrixf(c->extrinsic);
-			glutPostRedisplay();
+			//c->nossoRotate(0.05, 0.f, 1.f, 0.f);
+			//glLoadMatrixf(c->extrinsic);
+			//glutPostRedisplay();
 			break;
 		case '9': // gira em relacao ao eixo z
-			c->nossoRotate(0.05, 0.f, 0.f, 1.f);
-			glLoadMatrixf(c->extrinsic);
-			glutPostRedisplay();
+			//c->nossoRotate(0.05, 0.f, 0.f, 1.f);
+			//glLoadMatrixf(c->extrinsic);
+			//glutPostRedisplay();
 			break;
 		case '-':
 		case '_': // decrementa o tamanho do objeto em 1%
@@ -238,35 +302,35 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		// interacao com camera
 		case 'w':
 		case 'W': // move camera para frente (eixo z em coord de camera)
-			// da no mesmo sem transladar para origem?
-			// ordem importa?
-			//c->nossoTranslate(eyex,eyey,eyez);
-			// indo pra frente
-			c->nossoTranslate(0.f,0.f,-.1f);
-			//c->nossoTranslate(-eyex,-eyey,-eyez);
-			glLoadMatrixf(c->extrinsic);
-			glutPostRedisplay();
+			yrotrad = (rotacaoY / 180 * 3.141592654f);
+			xrotrad = (rotacaoX / 180 * 3.141592654f);
+			posicaoX += float(sin(yrotrad))*fator;
+			posicaoZ -= float(cos(yrotrad))*fator;
+			posicaoY -= float(sin(xrotrad))*fator;
+			//glutPostRedisplay();
 			break;
 		case 's':
 		case 'S': // move camera para tras (eixo z em coord de camera)
-			c->nossoTranslate(0.f, 0.f, +.1f);
-			//c->nossoTranslate(-eyex,-eyey,-eyez);
-			glLoadMatrixf(c->extrinsic);
-			glutPostRedisplay();
+			yrotrad = (rotacaoY / 180 * 3.141592654f);
+			xrotrad = (rotacaoX / 180 * 3.141592654f);
+			posicaoX -= float(sin(yrotrad))*fator;
+			posicaoZ += float(cos(yrotrad))*fator;
+			posicaoY += float(sin(xrotrad))*fator;
+			//glutPostRedisplay();
 			break;
 		case 'd':
 		case 'D': // move camera para direita (eixo x em coord de camera)
-			c->nossoTranslate(+.1f, 0.f, 0.f);
-			//c->nossoTranslate(-eyex,-eyey,-eyez);
-			glLoadMatrixf(c->extrinsic);
-			glutPostRedisplay();
+			yrotrad = (rotacaoY / 180 * 3.141592654f);
+			posicaoX += float(cos(yrotrad))*fator;
+			posicaoZ += float(sin(yrotrad))*fator;
+			//glutPostRedisplay();
 			break;
 		case 'a':
 		case 'A': // move camera para esquerda (eixo x em coord de camera)
-			c->nossoTranslate(-.1f, 0.f, 0.f);
-			//c->nossoTranslate(-eyex,-eyey,-eyez);
-			glLoadMatrixf(c->extrinsic);
-			glutPostRedisplay();
+			yrotrad = (rotacaoY / 180 * 3.141592654f);
+			posicaoX -= float(cos(yrotrad))*fator;
+			posicaoZ -= float(sin(yrotrad))*fator;
+			//glutPostRedisplay();
 			break;
 	}
 }
@@ -292,10 +356,6 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 // Programa Principal 
 int main()
 {
-	// TESTES
-	//Objeto* array_inicial;
-	//int quant = Objeto::carregar_obj(array_inicial, "Obj Files/CAT.OBJ");
-	// FIM DOS TESTES
 
 	quant = Objeto::carregar_obj(array_inicial, "Obj Files/OBJS.obj");
 
@@ -316,6 +376,8 @@ int main()
 	// sem essa função e vc vai entender)
 	// callback da funcao que interpreta uma tecla pressionada
 	glutKeyboardFunc(TeclaPressionada);
+	glutKeyboardUpFunc(TeclaSolta);
+	glutIdleFunc(Desenha);
 	Inicializa();
 	//inicializar alguns parametros do glut (nessa caso a cor do fundo da tela).
 	//cor que vai limpar o buffer
