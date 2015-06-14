@@ -19,11 +19,12 @@ public:
 	void nossoRotate(float angle, float x, float y, float z); // angle esta em graus.
 	void nossoTranslate(float x, float y, float z);
 	float* extrinsic;
+	static float grau_para_rad(float grau);
+	void nossoLoadIdentity();
 private:
 	static void produto_vetorial(float* prod, float* v1, float* v2);
 	static void normalizar(float* v);
 	void multiplicaExtrinsicPorMatriz(float *m);
-	static float grau_para_rad(float grau);
 	static const float PI_SOBRE_180;
 };
 

@@ -1,13 +1,9 @@
 #include "camera.h"
 
-// inicializando extrinsic com a identidade
+// inicializando extrinsic
 Camera::Camera()
 {
 	extrinsic = new float[16];
-	for (int i = 1; i <= 4; i++)
-	{
-		for (int j = 1; j <= 4; j++) extrinsic[INDICE(i, j, 4)] = i == j ? 1.f : 0.f;
-	}
 }
 
 // libera a memoria alocada para extrinsic.
@@ -116,3 +112,11 @@ float Camera::grau_para_rad(float grau)
 }
 
 const float Camera::PI_SOBRE_180 = 3.141459f / 180.f;
+
+void Camera::nossoLoadIdentity()
+{
+	for (int i = 1; i <= 4; i++)
+	{
+		for (int j = 1; j <= 4; j++) extrinsic[INDICE(i, j, 4)] = i == j ? 1.f : 0.f;
+	}
+}

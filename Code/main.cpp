@@ -22,7 +22,9 @@ Objeto* array_inicial;
 int quant;
 Camera *c = new Camera();
 bool botao_esquerdo_pressionado = false;
-
+float eyeX = 0.f, eyeY = 0.f, eyeZ = 0.f;
+float centerX = 0.f, centerY = 0.f, centerZ = -1.f;
+float upX = 0.f, upY = 1.f, upZ = 0.f;
 // Função callback chamada para fazer o desenho
 void Desenha()
 {
@@ -33,8 +35,8 @@ void Desenha()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glLoadIdentity();
-	
-	
+	c->nossoLoadIdentity();
+	c->nossoLookat(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 	glLoadMatrixf(c->extrinsic);
 
 	// AQUI VAO OS DESENHOS
@@ -211,19 +213,15 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		case '6': // translada no eixo z e sentido +
 			break;
 		case '7': // gira em relacao ao eixo x
-			//c->nossoRotate(0.05, 1.f, 0.f, 0.f);
-			//glLoadMatrixf(c ->extrinsic);
-			//glutPostRedisplay();
+			glutPostRedisplay();
 			break;
 		case '8': // gira em relacao ao eixo y
-			//c->nossoRotate(0.05, 0.f, 1.f, 0.f);
-			//glLoadMatrixf(c->extrinsic);
-			//glutPostRedisplay();
+			//c->nossoRotate(0.5, Tx, Ty+1.f, Tz);
+
+			glutPostRedisplay();
 			break;
 		case '9': // gira em relacao ao eixo z
-			//c->nossoRotate(0.05, 0.f, 0.f, 1.f);
-			//glLoadMatrixf(c->extrinsic);
-			//glutPostRedisplay();
+			glutPostRedisplay();
 			break;
 		case '-':
 		case '_': // decrementa o tamanho do objeto em 1%
@@ -235,23 +233,21 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		// interacao com camera
 		case 'w':
 		case 'W': // move camera para frente (eixo z em coord de camera)
-			
-			//glutPostRedisplay();
+
+			glutPostRedisplay();
 			break;
 		case 's':
 		case 'S': // move camera para tras (eixo z em coord de camera)
-			
-			//glutPostRedisplay();
+
+			glutPostRedisplay();
 			break;
 		case 'd':
 		case 'D': // move camera para direita (eixo x em coord de camera)
-			
-			//glutPostRedisplay();
+			glutPostRedisplay();
 			break;
 		case 'a':
 		case 'A': // move camera para esquerda (eixo x em coord de camera)
-			
-			//glutPostRedisplay();
+			glutPostRedisplay();
 			break;
 	}
 }
