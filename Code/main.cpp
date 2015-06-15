@@ -12,7 +12,7 @@ http://www.cin.ufpe.br/~voxarlabs
 #include <cstdlib>
 #include "common.h"
 #include "Objeto.h"
-#include "camera.h"
+#include "Camera.h"
 
 /*
 http://www.inf.pucrs.br/~manssour/OpenGL/Tutorial.html
@@ -31,9 +31,17 @@ void MouseArrastado(int x, int y)
 {
 	if (botao_esquerdo_pressionado)
 	{
-		int deltaX = botao_recem_pressionado ? 0 : x - x_atual;
-		int deltaY = botao_recem_pressionado ? 0 : y - y_atual;
-		botao_recem_pressionado = false;
+		int deltaX, deltaY;
+		if (botao_recem_pressionado)
+		{
+			deltaX = deltaY = 0;
+			botao_recem_pressionado = false;
+		}
+		else
+		{
+			deltaX = x - x_atual;
+			deltaY = y - y_atual;
+		}
 		x_atual = x;
 		y_atual = y;
 		// o sentido da rotacao eh a gosto do fregues.
@@ -346,4 +354,5 @@ int main()
 	//começa a execução da maquina de estados do glut/opengl que controla as funções
 	//de callback (controlador de mouse, teclado, callback de controle de tela, etc).
 	delete c;
+	if (quant > 0) delete[] array_inicial;
 }
