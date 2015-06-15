@@ -218,14 +218,15 @@ void Objeto::renderizar()
 		else if (atual[0] == 4) glBegin(GL_QUADS);
 		else glBegin(GL_POLYGON);
 
+		glColor3f(0.1 , 0.1, 0.3);
+
 		if (precisaNormais){
 			
 			float *normal = calcular_normais(atual);
 			glNormal3fv(normal);
 			for (int j = 1; j <= atual[0]; j++)
 			{
-				glColor3f(1 / j, 1 / j, 1 / j);
-
+				
 				glVertex3fv(vertices.at(atual[j] - 1));
 			}
 		}
@@ -233,7 +234,7 @@ void Objeto::renderizar()
 			
 			for (int j = 1; j <= atual[0]; j++)
 			{
-				glColor3f(1 / j, 1 / j, 1 / j);
+				
 				glNormal3fv(normais.at(atual[j] - 1));
 				glVertex3fv(vertices.at(atual[j] - 1));
 			}
@@ -242,7 +243,7 @@ void Objeto::renderizar()
 			nAtual = indNormais.at(i);
 			for (int j = 1; j <= atual[0]; j++)
 			{
-				glColor3f(1 / j, 1 / j, 1 / j);
+				
 				glNormal3fv(normais.at(nAtual[j] - 1));
 				glVertex3fv(vertices.at(atual[j] - 1));
 			}
