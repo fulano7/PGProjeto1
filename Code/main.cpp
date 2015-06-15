@@ -77,8 +77,8 @@ void Desenha()
 
 	// nossa camera
 	c->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
-	c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
 	c->nossoTranslate(-posicaoX, -posicaoY, -posicaoZ);
+	c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
 	
 	glLoadMatrixf(c->extrinsic);
 
@@ -233,6 +233,8 @@ void Inicializa()
 
 void TeclaPressionada(unsigned char tecla, int x, int y)
 {
+	float rotacaoY = 0.f; // como a rotacao eh no eixo y do mundo e nao da camera,
+	                      // nao consideramos sua influencia nas translacoes nos eixos x e z da camera.
 	switch (tecla)
 	{
 		// interacao com objetos
