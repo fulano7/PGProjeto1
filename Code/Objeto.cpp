@@ -251,3 +251,50 @@ void Objeto::renderizar()
 	}
 	
 }
+
+
+void Objeto::translateObj(int t, float s){
+	float tx = 0.0;
+	float ty = 0.0;
+	float tz = 0.0;
+
+	if (t == 0){
+		tx = 0.2*s;
+	}
+	else if (t == 1){
+		ty = 0.2*s;
+	}
+	else{
+		tz = 0.2*s;
+	}
+
+	for (int i = 0; i < vertices.size(); i++)
+	{		
+		vertices.at(i)[0] += tx;
+		vertices.at(i)[1] += ty;
+		vertices.at(i)[2] += tz;		
+	}
+
+}
+
+void Objeto::escale(float i){
+	float sx, sy, sz;
+
+	if (i > 0){
+		sx = 1.01;
+		sy = 1.01;
+		sz = 1.01;
+	}
+	else{
+		sx = 0.99;
+		sy = 0.99;
+		sz = 0.99;
+	}
+
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		vertices.at(i)[0] *= sx;
+		vertices.at(i)[1] *= sy;
+		vertices.at(i)[2] *= sz;
+	}
+}

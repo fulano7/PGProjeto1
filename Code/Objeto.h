@@ -56,6 +56,11 @@ public:
 	*/
 	static int carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo);
 
+	//translada o obj selecionado
+	void translateObj(int t, float s);
+
+	//aplia a operação de escala
+	void escale(float i);
 private:
 	
 	vector <float*> vertices;
@@ -72,6 +77,8 @@ private:
 
 	//retorna quantas vezes o caractere 'caractere' aparece na palavra 'palavra'
 	static int ocorrencias(const char* palavra, const char caractere);
+
+	
 };
 
 #endif // _OBJETO_H_

@@ -26,6 +26,7 @@ bool botao_recem_pressionado = false;
 float posicaoX = 0.f, posicaoY = 0.f, posicaoZ = 0.f;
 float rotacaoX = 0.f, rotacaoY = 0.f;
 float x_atual = 0.f, y_atual = 0.f;
+int selecionado = 0;
 
 void MouseArrastado(int x, int y)
 {
@@ -241,21 +242,45 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		// objeto1, objeto2, ... objeton, luz1, luz2, .... luzn (lista circular)
 		case ',':
 		case '<': // objeto anterior ou ultima fonte de luz
+			if (selecionado == 0){
+				selecionado = quant - 1;
+			}
+			else{
+				selecionado -= 1;
+			}
 			break;
 		case '.': 
 		case '>': // proximo objeto ou primeira fonte de luz
+			if (selecionado == quant - 1){
+				selecionado = 0;
+			}
+			else{
+				selecionado += 1;
+			}
 			break;
-		case '1': // translada objeto no seu proprio eixo x e sentido -
+		case '1': // translada objeto no seu proprio eixo x e sentido -			
+			array_inicial[selecionado].translateObj(0, -1.0);
+			glutPostRedisplay();
 			break;
 		case '2': // translada objeto no seu proprio eixo x e sentido +
+			array_inicial[selecionado].translateObj(0, 1.0);
+			glutPostRedisplay();
 			break;
 		case '3': // translada objeto no seu proprio eixo y e sentido -
+			array_inicial[selecionado].translateObj(1, -1.0);
+			glutPostRedisplay();
 			break; 
 		case '4': // translada objeto no seu proprio eixo y e sentido +
+			array_inicial[selecionado].translateObj(1, 1.0);
+			glutPostRedisplay();
 			break;
 		case '5': // translada objeto no seu proprio eixo z e sentido -
+			array_inicial[selecionado].translateObj(2, -1.0);
+			glutPostRedisplay();
 			break;
 		case '6': // translada objeto no seu proprio eixo z e sentido +
+			array_inicial[selecionado].translateObj(2, 1.0);
+			glutPostRedisplay();
 			break;
 		case '7': // gira o objeto em relacao ao seu eixo x
 			glutPostRedisplay();
@@ -268,9 +293,13 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 			break;
 		case '-':
 		case '_': // decrementa o tamanho do objeto em 1%
+			array_inicial[selecionado].escale(-1.0);
+			glutPostRedisplay();
 			break;
 		case '=': 
 		case '+': // incrementa o tamanho do objeto em 1%
+			array_inicial[selecionado].escale(1.0);
+			glutPostRedisplay();
 			break;
 
 		// interacao com camera
