@@ -26,19 +26,21 @@ bool botao_recem_pressionado = false;
 float posicaoX = 0.f, posicaoY = 0.f, posicaoZ = 0.f;
 float rotacaoX = 0.f, rotacaoY = 0.f;
 float x_atual = 0.f, y_atual = 0.f;
-int deltaX = 0, deltaY = 0;
 
 void MouseArrastado(int x, int y)
 {
 	if (botao_esquerdo_pressionado)
 	{
-		deltaX = botao_recem_pressionado ? 0 : x - x_atual;
-		deltaY = botao_recem_pressionado ? 0 : y - y_atual;
+		int deltaX = botao_recem_pressionado ? 0 : x - x_atual;
+		int deltaY = botao_recem_pressionado ? 0 : y - y_atual;
 		botao_recem_pressionado = false;
 		x_atual = x;
 		y_atual = y;
-		rotacaoX += (float)deltaY;
-		rotacaoY += (float)deltaX;
+		// o sentido da rotacao eh a gosto do fregues.
+		// no momento esta se movendo estilo "maozinha de mover" de um arquivo pdf ou imagem jpg.
+		// para inverter, inverta a operacao.
+		rotacaoX -= (float)deltaY;
+		rotacaoY -= (float)deltaX;
 		glutPostRedisplay();
 	}
 }
@@ -66,9 +68,9 @@ void Desenha()
 	c->nossoLoadIdentity();
 
 	// nossa camera
-	c->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);  //rotate our camera on teh x - axis(left and right)
-	c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);  //rotate our camera on the y - axis(up and down)
-	c->nossoTranslate(-posicaoX, -posicaoY, -posicaoZ); //translate the screen to the position of our camera
+	c->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
+	c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
+	c->nossoTranslate(-posicaoX, -posicaoY, -posicaoZ);
 	
 	glLoadMatrixf(c->extrinsic);
 
@@ -223,7 +225,6 @@ void Inicializa()
 
 void TeclaPressionada(unsigned char tecla, int x, int y)
 {
-	float xrotrad, yrotrad;
 	switch (tecla)
 	{
 		// interacao com objetos
@@ -265,29 +266,28 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		// interacao com camera
 		case 'w':
 		case 'W': // move camera para frente (eixo z em coord de camera)
-			
-			yrotrad = (rotacaoY / 180 * 3.141592654f);
-			xrotrad = (rotacaoX / 180 * 3.141592654f);
-			posicaoX += float(sin(yrotrad));
-			posicaoZ -= float(cos(yrotrad));
-			posicaoY -= float(sin(xrotrad));
+			posicaoX += float(sin(Camera::grau_para_rad(rotacaoY)));
+			posicaoZ -= float(cos(Camera::grau_para_rad(rotacaoY)));
+			posicaoY -= float(sin(Camera::grau_para_rad(rotacaoX)));
 			glutPostRedisplay();
 			break;
 		case 's':
 		case 'S': // move camera para tras (eixo z em coord de camera)
-			yrotrad = (rotacaoY / 180 * 3.141592654f);
-			xrotrad = (rotacaoX / 180 * 3.141592654f);
-			posicaoX -= float(sin(yrotrad));
-			posicaoZ += float(cos(yrotrad));
-			posicaoY += float(sin(xrotrad));
+			posicaoX -= float(sin(Camera::grau_para_rad(rotacaoY)));
+			posicaoZ += float(cos(Camera::grau_para_rad(rotacaoY)));
+			posicaoY += float(sin(Camera::grau_para_rad(rotacaoX)));
 			glutPostRedisplay();
 			break;
 		case 'd':
 		case 'D': // move camera para direita (eixo x em coord de camera)
+			posicaoX += float(cos(Camera::grau_para_rad(rotacaoY)));
+			posicaoZ += float(sin(Camera::grau_para_rad(rotacaoY)));
 			glutPostRedisplay();
 			break;
 		case 'a':
 		case 'A': // move camera para esquerda (eixo x em coord de camera)
+			posicaoX -= float(cos(Camera::grau_para_rad(rotacaoY)));
+			posicaoZ -= float(sin(Camera::grau_para_rad(rotacaoY)));
 			glutPostRedisplay();
 			break;
 	}
