@@ -2,22 +2,13 @@
 
 Objeto::Objeto(){}; // construtor padrao
 
-/*
-os 2 construtores abaixo devem ser reavaliados (devido a operacao custosa de inicializacao dos atributos, com copia)
-e podem ficar fora da versao final
-*/
-Objeto::Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<int*>* fs) : vertices(*vs), normais(*ns), faces(*fs)
-{}
-
-Objeto::Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<int*>* fs, const string* nm) : vertices(*vs), normais(*ns), faces(*fs), nome(*nm)
-{}
-
 Objeto::~Objeto()
 {
 	// podemos fazer cast de unsigned para int jah que o tamanho do vetor nao sera absurdamente grande
 	for (int i = 0; i < (int)vertices.size(); i++) delete[] vertices.at(i);
 	for (int i = 0; i < (int)normais.size(); i++) delete[] normais.at(i);
 	for (int i = 0; i < (int)faces.size(); i++) delete[] faces.at(i);
+	for (int i = 0; i < (int)indNormais.size(); i++) delete[] indNormais.at(i);
 }
 
 int Objeto::ocorrencias(const char* palavra, const char caractere)

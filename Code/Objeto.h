@@ -39,8 +39,6 @@ public:
 	string nome;
 
 	Objeto(); // construtor padrao
-	Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<int*>* fs);
-	Objeto(const vector<float*>* vs, const vector<float*>* ns, const vector<int*>* fs, const string* nm);
 	~Objeto();
 
 	// desenha o objeto com a biblioteca opengl.
