@@ -48,7 +48,7 @@ void MouseArrastado(int x, int y)
 		// no momento esta se movendo estilo "maozinha de mover" de um arquivo pdf ou imagem jpg.
 		// para inverter, inverta a operacao.
 		rotacaoX -= (float)deltaY;
-		rotacaoY -= (float)deltaX;
+		rotacaoY += (float)deltaX;
 		glutPostRedisplay();
 	}
 }
