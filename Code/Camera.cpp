@@ -51,6 +51,7 @@ void Camera::nossoRotate(float angle, float x, float y, float z)
 	x = v[0];
 	y = v[1];
 	z = v[2];
+	// M eh a matriz de rotacao construida conforme a formula de rodrigues
 	float M[16] =
 	{  
 		x*x*(1.f - c)+c,     y*x*(1.f - c)+z*s,     x*z*(1.f - c)-y*s,      0.f,
@@ -63,6 +64,7 @@ void Camera::nossoRotate(float angle, float x, float y, float z)
 
 void Camera::nossoTranslate(float x, float y, float z)
 {
+	// construindo matriz de translacao
 	float M[16] =
 	{
 		1.f, 0.f, 0.f, 0.f,

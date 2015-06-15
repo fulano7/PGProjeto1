@@ -22,9 +22,31 @@ Objeto* array_inicial;
 int quant;
 Camera *c = new Camera();
 bool botao_esquerdo_pressionado = false;
-float eyeX = 0.f, eyeY = 0.f, eyeZ = 0.f;
-float centerX = 0.f, centerY = 0.f, centerZ = -1.f;
-float upX = 0.f, upY = 1.f, upZ = 0.f;
+float posicaoX = 0.f, posicaoY = 0.f, posicaoZ = 0.f;
+float rotacaoX = 0.f, rotacaoY = 0.f;
+float x_atual = 0.f, y_atual = 0.f;
+
+void MouseArrastado(int x, int y)
+{
+	if (botao_esquerdo_pressionado)
+	{
+		int deltaX = x - x_atual;
+		int deltaY = y - y_atual;
+		x_atual = x;
+		y_atual = y;
+		rotacaoX += (float)deltaY;
+		rotacaoY += (float)deltaX;
+		std::cout << "rotacaoX: " << rotacaoX << " rotacao Y: " << rotacaoY << std::endl;
+		glutPostRedisplay();
+	}
+}
+
+void BotaoDoMouseClicado(int botao, int estado, int x, int y)
+{
+	if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) botao_esquerdo_pressionado = true;
+	else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_UP) botao_esquerdo_pressionado = false;
+}
+
 // Função callback chamada para fazer o desenho
 void Desenha()
 {
@@ -36,7 +58,12 @@ void Desenha()
 	
 	glLoadIdentity();
 	c->nossoLoadIdentity();
-	c->nossoLookat(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
+
+	// nossa camera
+	c->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);  //rotate our camera on teh x - axis(left and right)
+	c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);  //rotate our camera on the y - axis(up and down)
+	c->nossoTranslate(-posicaoX, -posicaoY, -posicaoZ); //translate the screen to the position of our camera
+	
 	glLoadMatrixf(c->extrinsic);
 
 	// AQUI VAO OS DESENHOS
@@ -190,6 +217,7 @@ void Inicializa()
 
 void TeclaPressionada(unsigned char tecla, int x, int y)
 {
+	float xrotrad, yrotrad;
 	switch (tecla)
 	{
 		// interacao com objetos
@@ -200,27 +228,25 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		case '.': 
 		case '>': // proximo objeto ou primeira fonte de luz
 			break;
-		case '1': // translada no eixo x e sentido -
+		case '1': // translada objeto no seu proprio eixo x e sentido -
 			break;
-		case '2': // translada no eixo x e sentido +
+		case '2': // translada objeto no seu proprio eixo x e sentido +
 			break;
-		case '3': // translada no eixo y e sentido -
+		case '3': // translada objeto no seu proprio eixo y e sentido -
 			break; 
-		case '4': // translada no eixo y e sentido +
+		case '4': // translada objeto no seu proprio eixo y e sentido +
 			break;
-		case '5': // translada no eixo z e sentido -
+		case '5': // translada objeto no seu proprio eixo z e sentido -
 			break;
-		case '6': // translada no eixo z e sentido +
+		case '6': // translada objeto no seu proprio eixo z e sentido +
 			break;
-		case '7': // gira em relacao ao eixo x
+		case '7': // gira o objeto em relacao ao seu eixo x
 			glutPostRedisplay();
 			break;
-		case '8': // gira em relacao ao eixo y
-			//c->nossoRotate(0.5, Tx, Ty+1.f, Tz);
-
+		case '8': // gira o objeto em relacao ao seu eixo y
 			glutPostRedisplay();
 			break;
-		case '9': // gira em relacao ao eixo z
+		case '9': // gira o objeto em relacao ao seu eixo z
 			glutPostRedisplay();
 			break;
 		case '-':
@@ -233,12 +259,21 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		// interacao com camera
 		case 'w':
 		case 'W': // move camera para frente (eixo z em coord de camera)
-
+			
+			yrotrad = (rotacaoY / 180 * 3.141592654f);
+			xrotrad = (rotacaoX / 180 * 3.141592654f);
+			posicaoX += float(sin(yrotrad));
+			posicaoZ -= float(cos(yrotrad));
+			posicaoY -= float(sin(xrotrad));
 			glutPostRedisplay();
 			break;
 		case 's':
 		case 'S': // move camera para tras (eixo z em coord de camera)
-
+			yrotrad = (rotacaoY / 180 * 3.141592654f);
+			xrotrad = (rotacaoX / 180 * 3.141592654f);
+			posicaoX -= float(sin(yrotrad));
+			posicaoZ += float(cos(yrotrad));
+			posicaoY += float(sin(xrotrad));
 			glutPostRedisplay();
 			break;
 		case 'd':
@@ -291,6 +326,11 @@ int main()
 	glutReshapeFunc(AlteraTamanhoJanela);
 	//callback que controla o tamanho da janela (maximizada e minimizada com e 
 	// sem essa função e vc vai entender)
+
+	// callback da funcao que interpreta o mouse sendo arrastado enquanto algum botao dele eh pressionado
+	glutMotionFunc(MouseArrastado);
+	// callback da funcao que interpreta o evento de um botao do mouse sendo pressionado ou solto
+	glutMouseFunc(BotaoDoMouseClicado);
 	// callback da funcao que interpreta uma tecla pressionada
 	glutKeyboardFunc(TeclaPressionada);
 	Inicializa();
