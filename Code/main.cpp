@@ -22,28 +22,34 @@ Objeto* array_inicial;
 int quant;
 Camera *c = new Camera();
 bool botao_esquerdo_pressionado = false;
+bool botao_recem_pressionado = false;
 float posicaoX = 0.f, posicaoY = 0.f, posicaoZ = 0.f;
 float rotacaoX = 0.f, rotacaoY = 0.f;
 float x_atual = 0.f, y_atual = 0.f;
+int deltaX = 0, deltaY = 0;
 
 void MouseArrastado(int x, int y)
 {
 	if (botao_esquerdo_pressionado)
 	{
-		int deltaX = x - x_atual;
-		int deltaY = y - y_atual;
+		deltaX = botao_recem_pressionado ? 0 : x - x_atual;
+		deltaY = botao_recem_pressionado ? 0 : y - y_atual;
+		botao_recem_pressionado = false;
 		x_atual = x;
 		y_atual = y;
 		rotacaoX += (float)deltaY;
 		rotacaoY += (float)deltaX;
-		std::cout << "rotacaoX: " << rotacaoX << " rotacao Y: " << rotacaoY << std::endl;
 		glutPostRedisplay();
 	}
 }
 
 void BotaoDoMouseClicado(int botao, int estado, int x, int y)
 {
-	if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN) botao_esquerdo_pressionado = true;
+	if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN)
+	{
+		botao_esquerdo_pressionado = true;
+		botao_recem_pressionado = true;
+	}
 	else if (botao == GLUT_LEFT_BUTTON && estado == GLUT_UP) botao_esquerdo_pressionado = false;
 }
 
