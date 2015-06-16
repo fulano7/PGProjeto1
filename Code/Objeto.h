@@ -64,6 +64,7 @@ public:
 private:
 	
 	vector <float*> vertices;
+	vector <int> vNormais;//contador de normais associadas aos vertices
 	vector <float*> normais;
 	vector <int*> faces;
 	vector <int*> indNormais; //para o caso de "//"
@@ -72,8 +73,11 @@ private:
 	// este atributo eh true se cada elemento do vector de faces estiver no formato (quant_vertices, v1, n1, v2, n2, ..., vn, nn)
 	bool normais_vinc_faces;
 
-	// calcula as normais se for necessario.
-	float* calcular_normais(int *atual);
+	// calcula as normais da face se for necessario.
+	float* calcular_normais_face(int *atual);
+
+	// calcula as normais dos vertices
+	void calcular_normais_vert();
 
 	//retorna quantas vezes o caractere 'caractere' aparece na palavra 'palavra'
 	static int ocorrencias(const char* palavra, const char caractere);

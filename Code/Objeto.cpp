@@ -168,7 +168,7 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 	return (indice + 1);
 }
 
-float* Objeto::calcular_normais(int *atual)
+float* Objeto::calcular_normais_face(int *atual)
 {
 	float v1[3], v2[3];
 
@@ -198,15 +198,85 @@ float* Objeto::calcular_normais(int *atual)
 	return normal;
 }
 
+void Objeto::calcular_normais_vert(){
+	
+	int* atual;
+	float* normal;
+	float x, y, z, len;
+
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		normais.push_back(new float[3]);
+		vNormais.push_back(0);
+	}
+
+	for (int i = 0; i < (int)faces.size(); i++){
+		atual = faces.at(i);
+		//encontrando uma normal associada aos vertices da face atual
+		normal = calcular_normais_face(atual);
+
+		for (int j = 1; j < 4; j++){
+			//somando essa normal com as outras que eu ja encontrei para aquele vértice
+			normais.at(atual[j] - 1)[0] += normal[0];
+			normais.at(atual[j] - 1)[1] += normal[1];
+			normais.at(atual[j] - 1)[2] += normal[2];
+			
+			//as duas normais somadas eram normalizadas
+			//mas o resultado nao
+			//entao eu normalizo
+			x = normais.at(atual[j] - 1)[0];
+			y = normais.at(atual[j] - 1)[1];
+			z = normais.at(atual[j] - 1)[2];
+
+			len = sqrt((x*x) + (y*y) + (z*z));
+
+			normais.at(atual[j] - 1)[0] /= len;
+			normais.at(atual[j] - 1)[1] /= len;
+			normais.at(atual[j] - 1)[2] /= len;
+			
+			//incrementando a quantidade de normais associadas ao vertice
+			vNormais.at(atual[j] - 1)++;
+		}
+
+	}
+
+	//tirando a media das normais das faces
+	for (int i = 0; i < normais.size(); i++)
+	{
+		/*pra tirar a media das normais eu dividia elas pela quantidade de normais associadas ao vertice
+		  mas, como eu sempre normalizava a soma, eu pegava um vetor de norma 1 e dividia por sei lá
+		  quantas normais q cada vertice tem e isso fazia o vetor ficar beeem pequeno por isso o obj
+		  ficava escuro.
+		  evitando essa divisao o vetor se mantém normalizado e o resultado é muito melhor, mas ainda é
+		  diferente do tubarão e tecnicamente errado, pois eu estou somando normais, e nao tirando a media delas :/
+		*/
+		/*
+		normais.at(i)[0] /= vNormais.at(i);
+		normais.at(i)[1] /= vNormais.at(i);
+		normais.at(i)[2] /= vNormais.at(i);
+		*/
+		normais.at(i)[0] *= -1;
+		normais.at(i)[1] *= -1;
+		normais.at(i)[2] *= -1;
+	}
+}
+
 void Objeto::renderizar()
 {
-	
 	bool precisaNormais = false;
 	int* atual;
 	int* nAtual;
-	if (normais.size() == 0){
-		precisaNormais = true;
-			
+
+	//se o arquivo não vier com as normais
+	if (normais.size() == 0){	
+		//usar NORMAIS DOS VÉRTICES
+		//comenta essa linha \/
+		//precisaNormais = true;
+
+		//se quiser usar NORMAIS DAS FACES
+		//descomenta a anterior e 
+		//comenta essa \/
+		calcular_normais_vert();
 	}
 	for (int i = 0; i < (int)faces.size(); i++)
 	{
@@ -218,26 +288,33 @@ void Objeto::renderizar()
 		else if (atual[0] == 4) glBegin(GL_QUADS);
 		else glBegin(GL_POLYGON);
 
-		glColor3f(0.1 , 0.1, 0.3);
+		glColor3f(0.05 , 0.3, 0.05);
 
-		if (precisaNormais){
+		//agora o caso dos arquivos que nós mesmos calculamos as normais entra nesse if
+		if (indNormais.size() == 0){//nao precisa calcular normais, não vem com indice
 			
-			float *normal = calcular_normais(atual);
-			glNormal3fv(normal);
-			for (int j = 1; j <= atual[0]; j++)
-			{
+			if (precisaNormais){
 				
-				glVertex3fv(vertices.at(atual[j] - 1));
+				//usando apenas as normais das faces
+				float *normal = calcular_normais_face(atual);
+				glNormal3fv(normal);
+				for (int j = 1; j <= atual[0]; j++)
+				{
+
+					glVertex3fv(vertices.at(atual[j] - 1));
+				}
 			}
-		}
-		else if (indNormais.size() == 0){//nao precisa calcular normais, não vem com indice
+			else{
+				//usando as normais dos vertices
+				
+				for (int j = 1; j <= atual[0]; j++)
+				{
+
+					glNormal3fv(normais.at(atual[j] - 1));
+					glVertex3fv(vertices.at(atual[j] - 1));
+				}
+			}
 			
-			for (int j = 1; j <= atual[0]; j++)
-			{
-				
-				glNormal3fv(normais.at(atual[j] - 1));
-				glVertex3fv(vertices.at(atual[j] - 1));
-			}
 		}else{//nao precisa calcular normais, ja vem com indice
 			
 			nAtual = indNormais.at(i);
