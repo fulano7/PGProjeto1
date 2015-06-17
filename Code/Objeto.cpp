@@ -107,7 +107,6 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 				
 				if (strstr(linha, "/") != NULL) // com normal.
 				{
-					//array_de_objetos[indice].normais_vinc_faces = true;
 					if (strstr(linha, "//") != NULL) // com normal e sem textura
 					{
 						std::cout << "NORMAL SEM TEXTURA" << std::endl;
@@ -145,7 +144,6 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 				}
 				else // sem normal.
 				{
-					array_de_objetos[indice].normais_vinc_faces = false;
 					char* proximo; // gamb
 					do // este laco le todas as faces
 					{

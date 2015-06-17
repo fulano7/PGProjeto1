@@ -23,15 +23,13 @@ o atributo 'vertices' eh um vector de coordenadas (x,y,z) que representam cada p
 o atributo 'normais' eh um vector de coordenadas (x, y, z) que representam os vetores normais descritos no arquivo
   ou calculados internamente conforme necessario.
 o atributo 'faces' eh um vector de array de inteiros em que cada elemento do vector
-  eh um array que eh num dos formatos:
+  eh um array no formato:
   (quant_vertices, v1, v2, ..., vn) -> array de tamanho (quant_vertices+1).
                                        na primeira posicao a quantidade de vertices da face
 									   e nas seguintes o conjunto de vetices que formam a face.
-                                       se o array eh neste formato o atributo normais_vinc_faces eh false.
-  (quant_vertices, v1, n1, v2, n2, ..., vn, nn) -> array de tamanho ((2*quant_vertices)+1).
-                                                   na primeira posicao a quantidade de vertices da face
-                                                   e nas seguintes o conjunto de pares (vertice, normal do vertice) que formam a face
-                                                   se o array eh neste formato o atributo normais_vinc_faces eh true.
+o atributo 'indNormais' eh um vector de array de inteiros em que cada elemento do vector
+  eh um array no formato:
+  (quant_normais, vn1, vn2, ..., vnn) -> (analogo a 'faces')
 */
 class Objeto
 {
@@ -69,10 +67,6 @@ private:
 	vector <float*> normais;
 	vector <int*> faces;
 	vector <int*> indNormais; //para o caso de "//"
-
-
-	// este atributo eh true se cada elemento do vector de faces estiver no formato (quant_vertices, v1, n1, v2, n2, ..., vn, nn)
-	bool normais_vinc_faces;
 
 	// calcula as normais da face se for necessario.
 	float* calcular_normais_face(int *atual);
