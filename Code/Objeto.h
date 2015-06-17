@@ -61,6 +61,7 @@ public:
 
 	//aplia a operação de escala
 	void escale(float i);
+	float cores[3];
 private:
 	
 	vector <float*> vertices;

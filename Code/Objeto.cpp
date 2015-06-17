@@ -47,13 +47,17 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 	std::ifstream arquivosObj(caminho_arquivo, std::ifstream::in);
 	
 	while (!arquivosObj.eof()){
+		char *obj;
 		arquivosObj.getline(nextObj, MAX_CHARS_LINHA);
 
+		obj = strtok(nextObj, " ");
 		strcpy(aux, prefix);
-		strcat(aux, nextObj);
+		strcat(aux, obj);
 		strcat(aux, sufix);
-
-		std::cout << nextObj << std::endl;
+		std::cout << indice << std::endl;
+		array_de_objetos[indice+1].cores[0] = strtof((strtok(NULL, " ")), &obj);
+		array_de_objetos[indice+1].cores[1] = strtof((strtok(NULL, " ")), &obj);
+		array_de_objetos[indice+1].cores[2] = strtof((strtok(NULL, " ")), &obj);
 
 		std::ifstream arquivo(aux, std::ifstream::in);
 		// primeira chamada de leitura do arquivo do obj.
@@ -62,9 +66,10 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 		// enquanto o arquivo obj nao terminar
 		while (!arquivo.eof())
 		{
-
+			
 			if (linha[0] == 'v' && linha[1] == 'n') // normal
 			{
+				
 				char* proximo; // gamb
 				do // este laco le todas as normais
 				{
@@ -79,6 +84,7 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 			}
 			else if (linha[0] == 'v') // vertice
 			{
+				
 				indice++; // avancando no array
 				char* proximo; // gamb
 				do // este laco le todos os vertices
@@ -98,7 +104,7 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 
 				//array_de_objetos[indice].calcular_normais(); // neste ponto ja terminamos de armazenar (ou nao) as normais.
 				// este metodo calcula as normais se e somente se for necessario :D
-
+				
 				if (strstr(linha, "/") != NULL) // com normal.
 				{
 					//array_de_objetos[indice].normais_vinc_faces = true;
@@ -152,6 +158,7 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 
 						for (int i = 1; i <= num_faces; i++)
 							array_de_objetos[indice].faces.back()[i] = atoi((strtok(NULL, " "))); // cuidado com atoi
+
 						arquivo.getline(linha, MAX_CHARS_LINHA);
 					} while (linha[0] == 'f');
 				}
@@ -163,7 +170,7 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 		}
 
 	}
-
+	
 	
 	return (indice + 1);
 }
@@ -278,6 +285,8 @@ void Objeto::renderizar()
 		//comenta essa \/
 		calcular_normais_vert();
 	}
+	std::cout << cores[0] << cores[1] << cores[2] << std::endl;
+
 	for (int i = 0; i < (int)faces.size(); i++)
 	{
 
@@ -288,7 +297,7 @@ void Objeto::renderizar()
 		else if (atual[0] == 4) glBegin(GL_QUADS);
 		else glBegin(GL_POLYGON);
 
-		glColor3f(0.05 , 0.3, 0.05);
+		glColor3f(cores[0], cores[1],cores[2]);
 
 		//agora o caso dos arquivos que nós mesmos calculamos as normais entra nesse if
 		if (indNormais.size() == 0){//nao precisa calcular normais, não vem com indice
@@ -300,7 +309,6 @@ void Objeto::renderizar()
 				glNormal3fv(normal);
 				for (int j = 1; j <= atual[0]; j++)
 				{
-
 					glVertex3fv(vertices.at(atual[j] - 1));
 				}
 			}
