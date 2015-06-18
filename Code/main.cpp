@@ -19,7 +19,7 @@ http://www.inf.pucrs.br/~manssour/OpenGL/Tutorial.html
 esse link!!!!
 */
 Objeto* array_inicial;
-int quant;
+int quantObj;
 Camera *c = new Camera();
 bool botao_esquerdo_pressionado = false;
 bool botao_recem_pressionado = false;
@@ -27,6 +27,8 @@ float posicaoX = 0.f, posicaoY = 0.f, posicaoZ = 10.f;
 float rotacaoX = 0.f, rotacaoY = 0.f;
 float x_atual = 0.f, y_atual = 0.f;
 int selecionado = 0;
+int quantLuzes = 1;
+vector <float*> lights;
 
 void MouseArrastado(int x, int y)
 {
@@ -91,7 +93,7 @@ void Desenha()
 	glPushMatrix();
 	glTranslatef(0.0, 0.0, 0.75);
 	
-	for (int i = 0; i < quant; i++) array_inicial[i].renderizar();
+	for (int i = 0; i < quantObj; i++) array_inicial[i].renderizar();
 	glPopMatrix();
 	//for (int i = 0; i < 16; i++) std::cout << c->extrinsic[i] << " " << std::endl;
 	// FIM DOS TESTES
@@ -125,7 +127,7 @@ void Inicializa()
 	//Características da luz 0
 	GLfloat luzDifusa[4] = { 1.0, 1.0, 1.0, 1.0 };	   
 	GLfloat luzEspecular[4] = { 1.0, 1.0, 1.0, 1.0 }; 
-	GLfloat posicaoLuz[4] = { 0.0, 50.0, 50.0, 1.0 };
+	GLfloat posicaoLuz[4] = { -20.0, 50.0, 50.0, 1.0 };
 
 	//Ativando parâmetros da luz 0
 	glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
@@ -149,10 +151,8 @@ void Inicializa()
 	glEnable(GL_COLOR_MATERIAL);
 	//Habilita o uso de iluminação
 	glEnable(GL_LIGHTING);
-	//Habilita a luz 0
-	glEnable(GL_LIGHT0);
-	//Habilita a luz 1
-	glEnable(GL_LIGHT1);
+	
+
 	//Habilita o depth-buffering
 	//-----fimIluminação
 	
@@ -169,7 +169,7 @@ void Inicializa()
 	glLightfv(GL_LIGHT2, GL_DIFFUSE, luzDifusa2);
 	glLightfv(GL_LIGHT2, GL_SPECULAR, luzEspecular2);
 	glLightfv(GL_LIGHT2, GL_POSITION, posicaoLuz2);
-	glEnable(GL_LIGHT2);
+	
 
 	//Características da luz 3
 	GLfloat luzDifusa3[4] = { 1.0, 0.0, 0.0, 1.0 };
@@ -181,7 +181,6 @@ void Inicializa()
 	glLightfv(GL_LIGHT3, GL_DIFFUSE, luzDifusa3);
 	glLightfv(GL_LIGHT3, GL_SPECULAR, luzEspecular3);
 	glLightfv(GL_LIGHT3, GL_POSITION, posicaoLuz3);
-	glEnable(GL_LIGHT3);
 
 	//Características da luz 4
 	GLfloat luzDifusa4[4] = { 0.0, 0.0, 0.75, 1.0 };
@@ -193,7 +192,7 @@ void Inicializa()
 	glLightfv(GL_LIGHT4, GL_DIFFUSE, luzDifusa4);
 	glLightfv(GL_LIGHT4, GL_SPECULAR, luzEspecular4);
 	glLightfv(GL_LIGHT4, GL_POSITION, posicaoLuz4);
-	glEnable(GL_LIGHT4);
+	
 
 	//Características da luz 5
 	GLfloat luzDifusa5[4] = { 0.0, 0.75, 0.0, 1.0 };
@@ -205,7 +204,6 @@ void Inicializa()
 	glLightfv(GL_LIGHT5, GL_DIFFUSE, luzDifusa5);
 	glLightfv(GL_LIGHT5, GL_SPECULAR, luzEspecular5);
 	glLightfv(GL_LIGHT5, GL_POSITION, posicaoLuz5);
-	glEnable(GL_LIGHT5);
 
 	//Características da luz 6
 	GLfloat luzDifusa6[4] = { 0.75, 0.0, 0.0, 1.0 };
@@ -217,7 +215,7 @@ void Inicializa()
 	glLightfv(GL_LIGHT6, GL_DIFFUSE, luzDifusa6);
 	glLightfv(GL_LIGHT6, GL_SPECULAR, luzEspecular6);
 	glLightfv(GL_LIGHT6, GL_POSITION, posicaoLuz6);
-	glEnable(GL_LIGHT6);
+	
 
 	//Características da luz 7
 	GLfloat luzDifusa7[4] = { 0.0, 0.0, 0.25, 1.0 };
@@ -229,7 +227,53 @@ void Inicializa()
 	glLightfv(GL_LIGHT7, GL_DIFFUSE, luzDifusa7);
 	glLightfv(GL_LIGHT7, GL_SPECULAR, luzEspecular7);
 	glLightfv(GL_LIGHT7, GL_POSITION, posicaoLuz7);
-	glEnable(GL_LIGHT7);
+	
+
+	for (int i = 1; i <= quantLuzes; i++)
+	{
+		switch (i)
+		{
+		case 1:
+			glEnable(GL_LIGHT0);
+			lights.push_back(posicaoLuz);
+			
+			break;
+		case 2:
+			glEnable(GL_LIGHT1);
+			lights.push_back(posicaoLuz1);
+			break;
+		case 3:
+			glEnable(GL_LIGHT2);
+			lights.push_back(posicaoLuz2);
+			break;
+		case 4:
+			glEnable(GL_LIGHT3);
+			lights.push_back(posicaoLuz3);
+			break;
+		case 5:
+			glEnable(GL_LIGHT4);
+			lights.push_back(posicaoLuz4);
+			break;
+		case 6:
+			glEnable(GL_LIGHT5);
+			lights.push_back(posicaoLuz5);
+			break;
+		case 7:
+			glEnable(GL_LIGHT6);
+			lights.push_back(posicaoLuz6);
+			break;
+		case 8:
+			glEnable(GL_LIGHT7);
+			lights.push_back(posicaoLuz7);
+			break;
+		default:
+			break;
+		}
+	}
+
+
+
+
 	//----------fim modo específico: iluminação com sombras e névoa
 }
 
@@ -244,7 +288,8 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		case ',':
 		case '<': // objeto anterior ou ultima fonte de luz
 			if (selecionado == 0){
-				selecionado = quant - 1;
+				selecionado = quantObj + quantLuzes - 1;
+
 			}
 			else{
 				selecionado -= 1;
@@ -252,44 +297,91 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 			break;
 		case '.': 
 		case '>': // proximo objeto ou primeira fonte de luz
-			if (selecionado == quant - 1){
+			if (selecionado == quantObj + quantLuzes - 1){
 				selecionado = 0;
 			}
 			else{
 				selecionado += 1;
 			}
 			break;
-		case '1': // translada objeto no seu proprio eixo x e sentido -			
-			array_inicial[selecionado].translateObj(0, -1.0);
+		case '1': // translada objeto no seu proprio eixo x e sentido -
+			if (selecionado < quantObj){
+				array_inicial[selecionado].translateObj(0, -1.0);
+			}
+			else{
+				std::cout << lights.at(selecionado - quantObj)[0] << std::endl;
+				lights.at(selecionado - quantObj)[0] -= 0.2;
+				std::cout << lights.at(selecionado - quantObj)[0] << std::endl;
+			}
+			
 			glutPostRedisplay();
 			break;
 		case '2': // translada objeto no seu proprio eixo x e sentido +
-			array_inicial[selecionado].translateObj(0, 1.0);
+			if (selecionado < quantObj){
+				array_inicial[selecionado].translateObj(0, 1.0);
+			}
+			else{
+				lights.at(selecionado - quantObj)[0] += 0.2;
+			}
+			
 			glutPostRedisplay();
 			break;
 		case '3': // translada objeto no seu proprio eixo y e sentido -
-			array_inicial[selecionado].translateObj(1, -1.0);
+			if (selecionado < quantObj){
+				array_inicial[selecionado].translateObj(1, -1.0);
+			}
+			else{
+				lights.at(selecionado - quantObj)[1] -= 0.2;
+			}
+			
 			glutPostRedisplay();
 			break; 
 		case '4': // translada objeto no seu proprio eixo y e sentido +
-			array_inicial[selecionado].translateObj(1, 1.0);
+			if (selecionado < quantObj){
+				array_inicial[selecionado].translateObj(1, 1.0);
+			}
+			else{
+				lights.at(selecionado - quantObj)[1] += 0.2;
+			}
+			
 			glutPostRedisplay();
 			break;
 		case '5': // translada objeto no seu proprio eixo z e sentido -
-			array_inicial[selecionado].translateObj(2, -1.0);
+			if (selecionado < quantObj){
+				array_inicial[selecionado].translateObj(2, -1.0);
+			}
+			else{
+				lights.at(selecionado - quantObj)[2] -= 0.2;
+			}
+			
 			glutPostRedisplay();
 			break;
 		case '6': // translada objeto no seu proprio eixo z e sentido +
-			array_inicial[selecionado].translateObj(2, 1.0);
+			if (selecionado < quantObj){
+				array_inicial[selecionado].translateObj(2, 1.0);
+			}
+			else{
+				lights.at(selecionado - quantObj)[2] += 0.2;
+			}
+			
 			glutPostRedisplay();
 			break;
 		case '7': // gira o objeto em relacao ao seu eixo x
+			if (selecionado < quantObj){
+				array_inicial[selecionado].rotateObj(0);
+			}
 			glutPostRedisplay();
 			break;
 		case '8': // gira o objeto em relacao ao seu eixo y
+			if (selecionado < quantObj){
+				array_inicial[selecionado].rotateObj(1);
+			}
 			glutPostRedisplay();
 			break;
 		case '9': // gira o objeto em relacao ao seu eixo z
+			if (selecionado < quantObj){
+				array_inicial[selecionado].rotateObj(2);
+			}
 			glutPostRedisplay();
 			break;
 		case '-':
@@ -355,9 +447,9 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 int main()
 {
 
-	quant = Objeto::carregar_obj(array_inicial, "Obj Files/OBJS.obj");
+	quantObj = Objeto::carregar_obj(array_inicial, "Obj Files/OBJS.obj");
 
-	std::cout << quant << std::endl;
+	std::cout << quantObj << std::endl;
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	//setar modo de exibição, nesse caso um unico buffer e modelo de cor RGB
 	////recomendo usar buffer duplo (GLUT_DOUBLE).
@@ -380,11 +472,12 @@ int main()
 	// callback da funcao que interpreta uma tecla pressionada
 	glutKeyboardFunc(TeclaPressionada);
 	Inicializa();
+	
 	//inicializar alguns parametros do glut (nessa caso a cor do fundo da tela).
 	//cor que vai limpar o buffer
 	glutMainLoop();
 	//começa a execução da maquina de estados do glut/opengl que controla as funções
 	//de callback (controlador de mouse, teclado, callback de controle de tela, etc).
 	delete c;
-	if (quant > 0) delete[] array_inicial;
+	if (quantObj > 0) delete[] array_inicial;
 }

@@ -1,6 +1,6 @@
 #include "Objeto.h"
 
-Objeto::Objeto(){}; // construtor padrao
+Objeto::Objeto(){ translacoes[0] = 0.0f; translacoes[1] = 0.0f; translacoes[2] = 0.0f; }; // construtor padrao
 
 Objeto::~Objeto()
 {
@@ -285,7 +285,7 @@ void Objeto::renderizar()
 		//comenta essa \/
 		calcular_normais_vert();
 	}
-	std::cout << cores[0] << cores[1] << cores[2] << std::endl;
+	
 
 	for (int i = 0; i < (int)faces.size(); i++)
 	{
@@ -345,13 +345,16 @@ void Objeto::translateObj(int t, float s){
 	float tz = 0.0;
 
 	if (t == 0){
-		tx = 0.2*s;
+		tx = 0.2f*s;
+		translacoes[0] += tx;
 	}
 	else if (t == 1){
-		ty = 0.2*s;
+		ty = 0.2f*s;
+		translacoes[1] += ty;
 	}
 	else{
-		tz = 0.2*s;
+		tz = 0.2f*s;
+		translacoes[2] += tz;
 	}
 
 	for (int i = 0; i < vertices.size(); i++)
@@ -363,8 +366,26 @@ void Objeto::translateObj(int t, float s){
 
 }
 
+void Objeto::tOriPos(double x, double y, double z){
+	float tx = (float)-x;
+	float ty = (float)-y;
+	float tz = (float)-z;
+
+	for (int i = 0; i < vertices.size(); i++)
+	{
+		vertices.at(i)[0] += tx;
+		vertices.at(i)[1] += ty;
+		vertices.at(i)[2] += tz;
+	}
+
+}
+
 void Objeto::escale(float i){
 	float sx, sy, sz;
+
+	//transladando pra origem	
+	tOriPos(translacoes[0], translacoes[1], translacoes[2]);
+	
 
 	if (i > 0){
 		sx = 1.01;
@@ -383,4 +404,52 @@ void Objeto::escale(float i){
 		vertices.at(i)[1] *= sy;
 		vertices.at(i)[2] *= sz;
 	}
+
+	//voltando pra posiçao original
+	tOriPos(-translacoes[0], -translacoes[1], -translacoes[2]);
 }
+
+
+
+void Objeto::rotateObj(int eixo){
+
+	//transladando pra origem
+	tOriPos(translacoes[0], translacoes[1], translacoes[2]);
+
+	float rad = grau_para_rad(1);
+	float s = (float)sin(rad);
+	float c = (float)cos(rad);
+
+	if (eixo == 0){
+		for (int i = 0; i < vertices.size(); i++)
+		{
+			vertices.at(i)[1] = (vertices.at(i)[1] * c) - (vertices.at(i)[2] * s);
+			vertices.at(i)[2] = (vertices.at(i)[1] * s) + (vertices.at(i)[2] * c);
+		}
+	}
+	else if (eixo == 1){
+		for (int i = 0; i < vertices.size(); i++)
+		{
+			vertices.at(i)[0] = (vertices.at(i)[0] * c) + (vertices.at(i)[2] * s);
+			vertices.at(i)[2] = -(vertices.at(i)[0] * s) + (vertices.at(i)[2] * c);
+		}
+	}
+	else{
+		for (int i = 0; i < vertices.size(); i++)
+		{
+			vertices.at(i)[0] = (vertices.at(i)[0] * c) - (vertices.at(i)[1] * s);
+			vertices.at(i)[1] = (vertices.at(i)[0] * s) + (vertices.at(i)[1] * c);
+		}
+	}
+
+
+	//voltando pra posiçao original
+	tOriPos(-translacoes[0], -translacoes[1], -translacoes[2]);
+}
+
+float Objeto::grau_para_rad(float grau)
+{
+	return (grau*PI_SOBRE_180);
+}
+
+const float Objeto::PI_SOBRE_180 = 3.141459f / 180.f;

@@ -56,14 +56,23 @@ public:
 	*/
 	static int carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo);
 
-	//translada o obj selecionado
+	//translada o obj no eixo selecionado em 0.2
 	void translateObj(int t, float s);
+	//translada entre a origem e a pos inicial
+	void tOriPos(double x, double y, double z);
 
 	//aplia a operação de escala
 	void escale(float i);
-	float cores[3];
-private:
+
+	//roda o obj em um dos eixos
+	void Objeto::rotateObj(int eixo);
+
+	static float grau_para_rad(float grau);
 	
+private:
+	static const float PI_SOBRE_180;
+	float cores[3];
+	double translacoes[3]; //guarda a translacao do eixo do mundo para a atual posicao do obj
 	vector <float*> vertices;
 	vector <int> vNormais;//contador de normais associadas aos vertices
 	vector <float*> normais;
