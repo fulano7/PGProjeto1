@@ -21,7 +21,7 @@ esse link!!!!
 */
 Objeto* array_inicial;
 int quantObj;
-Camera *c = new Camera();
+Camera c = Camera();
 bool botao_esquerdo_pressionado = false;
 bool botao_recem_pressionado = false;
 float posicaoX = 0.f, posicaoY = 0.f, posicaoZ = 10.f;
@@ -76,14 +76,14 @@ void Desenha()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glLoadIdentity();
-	c->nossoLoadIdentity();
+	c.nossoLoadIdentity();
 
 	// nossa camera
-	c->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
-	c->nossoTranslate(-posicaoX, -posicaoY, -posicaoZ);
-	c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
+	c.nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
+	c.nossoTranslate(-posicaoX, -posicaoY, -posicaoZ);
+	c.nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
 	
-	glLoadMatrixf(c->extrinsic);
+	glLoadMatrixf(c.extrinsic);
 
 	// AQUI VAO OS DESENHOS
 	
@@ -467,6 +467,5 @@ int main()
 	glutMainLoop();
 	//começa a execução da maquina de estados do glut/opengl que controla as funções
 	//de callback (controlador de mouse, teclado, callback de controle de tela, etc).
-	delete c;
 	if (quantObj > 0) delete[] array_inicial;
 }
