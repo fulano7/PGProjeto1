@@ -169,7 +169,7 @@ void Desenha()
 	}
 	
 	glPopMatrix();
-	for (int i = 0; i < (int)lights.size(); i++)
+	for (int i = 0; i < quantLuzes; i++)
 	{
 		glPushMatrix();
 		glTranslated(lights.at(i).Tx, lights.at(i).Ty, lights.at(i).Tz);
@@ -337,75 +337,109 @@ void Inicializa()
 	//Adicionando as 6 fontes de luz que faltam
 	//para desativar alguma fonte de luz comente os: glEnable(GL_LIGHT*);
 	//Características da luz 2
-	//GLfloat luzDifusa2[4] = { 0.0, 1.0, 0.0, 1.0 };
-	//GLfloat luzEspecular2[4] = { 0.0, 1.0, 0.0, 1.0 };
-	//GLfloat posicaoLuz2[4] = { 0.0, 10.0, 10.0, 1.0 };
-
+	GLfloat luzDifusa2[4] = { 0.0, 1.0, 0.0, 1.0 };
+	GLfloat luzEspecular2[4] = { 0.0, 1.0, 0.0, 1.0 };
+	GLfloat* posicaoLuz2 = new GLfloat[4];
+	posicaoLuz2[0] = 0.0;
+	posicaoLuz2[1] = 10.0;
+	posicaoLuz2[2] = 10.0;
+	posicaoLuz2[3] = 1.0;
+	Luz l2 = Luz(posicaoLuz2);
+	lights.push_back(l2);
 	//Ativando parâmetros da luz 2
-	//glLightfv(GL_LIGHT2, GL_AMBIENT, luzAmbiente);
-	//glLightfv(GL_LIGHT2, GL_DIFFUSE, luzDifusa2);
-	//glLightfv(GL_LIGHT2, GL_SPECULAR, luzEspecular2);
-	//glLightfv(GL_LIGHT2, GL_POSITION, posicaoLuz2);
+	glLightfv(GL_LIGHT2, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT2, GL_DIFFUSE, luzDifusa2);
+	glLightfv(GL_LIGHT2, GL_SPECULAR, luzEspecular2);
+	glLightfv(GL_LIGHT2, GL_POSITION, posicaoLuz2);
 	
 
 	//Características da luz 3
-	//GLfloat luzDifusa3[4] = { 1.0, 0.0, 0.0, 1.0 };
-	//GLfloat luzEspecular3[4] = { 1.0, 0.0, 0.0, 1.0 };
-	//GLfloat posicaoLuz3[4] = { 0.0, 20.0, 20.0, 1.0 };
-
+	GLfloat luzDifusa3[4] = { 1.0, 0.0, 0.0, 1.0 };
+	GLfloat luzEspecular3[4] = { 1.0, 0.0, 0.0, 1.0 };
+	GLfloat* posicaoLuz3 = new GLfloat[4];
+	posicaoLuz3[0] = 0.0;
+	posicaoLuz3[1] = 20.0;
+	posicaoLuz3[2] = 20.0;
+	posicaoLuz3[3] = 1.0;
+	Luz l3 = Luz(posicaoLuz3);
+	lights.push_back(l3);
 	//Ativando parâmetros da luz 3
-	/*glLightfv(GL_LIGHT3, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT3, GL_AMBIENT, luzAmbiente);
 	glLightfv(GL_LIGHT3, GL_DIFFUSE, luzDifusa3);
 	glLightfv(GL_LIGHT3, GL_SPECULAR, luzEspecular3);
-	glLightfv(GL_LIGHT3, GL_POSITION, posicaoLuz3);*/
+	glLightfv(GL_LIGHT3, GL_POSITION, posicaoLuz3);
 
 	//Características da luz 4
-	/*GLfloat luzDifusa4[4] = { 0.0, 0.0, 0.75, 1.0 };
+	GLfloat luzDifusa4[4] = { 0.0, 0.0, 0.75, 1.0 };
 	GLfloat luzEspecular4[4] = { 0.0, 0.0, 0.75, 1.0 };
-	GLfloat posicaoLuz4[4] = { 0.0, 30.0, 30.0, 1.0 };*/
+	GLfloat* posicaoLuz4 = new GLfloat[4];
+	posicaoLuz4[0] = 0.0;
+	posicaoLuz4[1] = 30.0;
+	posicaoLuz4[2] = 30.0;
+	posicaoLuz4[3] = 1.0;
+	Luz l4 = Luz(posicaoLuz4);
+	lights.push_back(l4);
 
 	//Ativando parâmetros da luz 4
-	/*glLightfv(GL_LIGHT4, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT4, GL_AMBIENT, luzAmbiente);
 	glLightfv(GL_LIGHT4, GL_DIFFUSE, luzDifusa4);
 	glLightfv(GL_LIGHT4, GL_SPECULAR, luzEspecular4);
-	glLightfv(GL_LIGHT4, GL_POSITION, posicaoLuz4);*/
+	glLightfv(GL_LIGHT4, GL_POSITION, posicaoLuz4);
 	
 
 	//Características da luz 5
-	/*GLfloat luzDifusa5[4] = { 0.0, 0.75, 0.0, 1.0 };
+	GLfloat luzDifusa5[4] = { 0.0, 0.75, 0.0, 1.0 };
 	GLfloat luzEspecular5[4] = { 0.0, 0.75, 0.0, 1.0 };
-	GLfloat posicaoLuz5[4] = { 0.0, 40.0, 40.0, 1.0 };*/
+	GLfloat* posicaoLuz5 = new GLfloat[4];
+	posicaoLuz5[0] = 0.0;
+	posicaoLuz5[1] = 40.0;
+	posicaoLuz5[2] = 40.0;
+	posicaoLuz5[3] = 1.0;
+	Luz l5 = Luz(posicaoLuz5);
+	lights.push_back(l5);
 
 	//Ativando parâmetros da luz 5
-	/*glLightfv(GL_LIGHT5, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT5, GL_AMBIENT, luzAmbiente);
 	glLightfv(GL_LIGHT5, GL_DIFFUSE, luzDifusa5);
 	glLightfv(GL_LIGHT5, GL_SPECULAR, luzEspecular5);
-	glLightfv(GL_LIGHT5, GL_POSITION, posicaoLuz5);*/
+	glLightfv(GL_LIGHT5, GL_POSITION, posicaoLuz5);
 
 	//Características da luz 6
-	/*GLfloat luzDifusa6[4] = { 0.75, 0.0, 0.0, 1.0 };
+	GLfloat luzDifusa6[4] = { 0.75, 0.0, 0.0, 1.0 };
 	GLfloat luzEspecular6[4] = { 0.75, 0.0, 0.0, 1.0 };
-	GLfloat posicaoLuz6[4] = { 0.0, 60.0, 60.0, 1.0 };*/
+	GLfloat* posicaoLuz6 = new GLfloat[4];
+	posicaoLuz6[0] = 0.0;
+	posicaoLuz6[1] = 60.0;
+	posicaoLuz6[2] = 60.0;
+	posicaoLuz6[3] = 1.0;
+	Luz l6 = Luz(posicaoLuz6);
+	lights.push_back(l6);
 
 	//Ativando parâmetros da luz 6
-	/*glLightfv(GL_LIGHT6, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT6, GL_AMBIENT, luzAmbiente);
 	glLightfv(GL_LIGHT6, GL_DIFFUSE, luzDifusa6);
 	glLightfv(GL_LIGHT6, GL_SPECULAR, luzEspecular6);
-	glLightfv(GL_LIGHT6, GL_POSITION, posicaoLuz6);*/
+	glLightfv(GL_LIGHT6, GL_POSITION, posicaoLuz6);
 	
 
 	//Características da luz 7
-	/*GLfloat luzDifusa7[4] = { 0.0, 0.0, 0.25, 1.0 };
+	GLfloat luzDifusa7[4] = { 0.0, 0.0, 0.25, 1.0 };
 	GLfloat luzEspecular7[4] = { 0.0, 0.0, 0.25, 1.0 };
-	GLfloat posicaoLuz7[4] = { 0.0, 70.0, 70.0, 1.0 };*/
+	GLfloat* posicaoLuz7 = new GLfloat[4];
+	posicaoLuz7[0] = 0.0;
+	posicaoLuz7[1] = 70.0;
+	posicaoLuz7[2] = 70.0;
+	posicaoLuz7[3] = 1.0;
+	Luz l7 = Luz(posicaoLuz7);
+	lights.push_back(l7);
 
 	//Ativando parâmetros da luz 7
-	/*glLightfv(GL_LIGHT7, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT7, GL_AMBIENT, luzAmbiente);
 	glLightfv(GL_LIGHT7, GL_DIFFUSE, luzDifusa7);
 	glLightfv(GL_LIGHT7, GL_SPECULAR, luzEspecular7);
-	glLightfv(GL_LIGHT7, GL_POSITION, posicaoLuz7);*/
+	glLightfv(GL_LIGHT7, GL_POSITION, posicaoLuz7);
 
-	for (int i = 0; i < (int)lights.size(); i++) glEnable(GL_LIGHT0+i);
+	for (int i = 0; i < (int)quantLuzes; i++) glEnable(GL_LIGHT0+i);
 
 	Nevoa();
 
