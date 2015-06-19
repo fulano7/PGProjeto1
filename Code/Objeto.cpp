@@ -254,7 +254,7 @@ void Objeto::calcular_normais_vert(){
 		len = sqrt(normais.at(i)[0] * normais.at(i)[0] + normais.at(i)[1] * normais.at(i)[1] + normais.at(i)[2] * normais.at(i)[2]);
 		normais.at(i)[0] /= len;
 		normais.at(i)[1] /= len;
-		normais.at(i)[2] /= vNormais.at(i);
+		normais.at(i)[2] /= len;
 	}
 }
 
