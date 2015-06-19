@@ -24,11 +24,14 @@ Camera *c = new Camera();
 bool botao_esquerdo_pressionado = false;
 bool botao_recem_pressionado = false;
 float posicaoX = 0.f, posicaoY = 0.f, posicaoZ = 10.f;
+float posicaoX_2 = 10.f, posicaoY_2 = 15.f, posicaoZ_2 = 70.f; // posição da camera do observador
 float rotacaoX = 0.f, rotacaoY = 0.f;
 float x_atual = 0.f, y_atual = 0.f;
 int selecionado = 0;
 int quantLuzes = 1;
 vector <float*> lights;
+GLsizei aux_w, aux_h = 0;  // usado para o caso de visão diretor, usado para separar os viewports
+bool directorView = true;
 
 void MouseArrastado(int x, int y)
 {
@@ -69,36 +72,106 @@ void BotaoDoMouseClicado(int botao, int estado, int x, int y)
 // Função callback chamada para fazer o desenho
 void Desenha()
 {
-	glMatrixMode(GL_MODELVIEW);
-	//definir que todas as tranformações vão ser em cena (no desenho)
-	
-	glClearColor(0.0, 0.0, 0.0, 1.0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	glLoadIdentity();
-	c->nossoLoadIdentity();
+	if (!directorView)
+	{
+		glMatrixMode(GL_MODELVIEW);
+		//definir que todas as tranformações vão ser em cena (no desenho)
 
-	// nossa camera
-	c->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
-	c->nossoTranslate(-posicaoX, -posicaoY, -posicaoZ);
-	c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
-	
-	glLoadMatrixf(c->extrinsic);
+		glClearColor(0.0, 0.0, 0.0, 1.0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// AQUI VAO OS DESENHOS
-	
-	// TESTES
-	
-	glColor3f(1.0, 1.0, 1.0);
-	glPushMatrix();
-	glTranslatef(0.0, 0.0, 0.75);
-	
-	for (int i = 0; i < quantObj; i++) array_inicial[i].renderizar();
-	glPopMatrix();
-	//for (int i = 0; i < 16; i++) std::cout << c->extrinsic[i] << " " << std::endl;
-	// FIM DOS TESTES
+		glLoadIdentity();
+		c->nossoLoadIdentity();
 
-	// TERMINA DESENHOS
+		// nossa camera
+		c->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
+		c->nossoTranslate(-posicaoX, -posicaoY, -posicaoZ);
+		c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
+
+		glLoadMatrixf(c->extrinsic);
+		
+		// AQUI VAO OS DESENHOS
+
+		// TESTES
+
+		glColor3f(1.0, 1.0, 1.0);
+		glPushMatrix();
+		glTranslatef(0.0, 0.0, 0.75);
+		
+
+		for (int i = 0; i < quantObj; i++) array_inicial[i].renderizar();
+		glPopMatrix();
+		//for (int i = 0; i < 16; i++) std::cout << c->extrinsic[i] << " " << std::endl;
+		// FIM DOS TESTES
+
+		// TERMINA DESENHOS
+		
+	}
+	else  // dividir viewport em duas partes
+	{
+		glViewport(0, 0, aux_w, aux_h); // primeiro viewport
+		glMatrixMode(GL_MODELVIEW);
+		//definir que todas as tranformações vão ser em cena (no desenho)
+
+		glClearColor(0.0, 0.0, 0.0, 1.0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glLoadIdentity();
+		c->nossoLoadIdentity();
+
+		// nossa camera
+		c->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
+		c->nossoTranslate(-posicaoX, -posicaoY, -posicaoZ);
+		c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
+
+		glLoadMatrixf(c->extrinsic);
+
+		// AQUI VAO OS DESENHOS
+
+		// TESTES
+
+		glColor3f(1.0, 1.0, 1.0);
+		glPushMatrix();
+		glTranslatef(0.0, 0.0, 0.75);
+
+
+		for (int i = 0; i < quantObj; i++) array_inicial[i].renderizar();
+		glPopMatrix();
+		//for (int i = 0; i < 16; i++) std::cout << c->extrinsic[i] << " " << std::endl;
+		// FIM DOS TESTES
+
+		// TERMINA DESENHOS
+		
+		// parte do observador da camera
+
+		Camera *c_2 = new Camera();   // camera que deve ficar fixa, mostrando apenas os objetos sendo modificados
+		glViewport(aux_w, 0, aux_w, aux_h); // segundo viewport
+		glMatrixMode(GL_MODELVIEW);
+
+		glLoadIdentity();
+		c_2->nossoLoadIdentity();
+
+		// nossa camera
+		c_2->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
+		c_2->nossoTranslate(-posicaoX_2, -posicaoY_2, -posicaoZ_2);
+		c_2->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
+
+		glLoadMatrixf(c_2->extrinsic);
+
+
+
+		glColor3f(1.0, 1.0, 1.0);
+		glPushMatrix();
+		glTranslatef(0.0, 0.0, 0.75);
+
+
+		for (int i = 0; i < quantObj; i++) array_inicial[i].renderizar();
+		glPopMatrix();
+		//for (int i = 0; i < 16; i++) std::cout << c_2->extrinsic[i] << " " << std::endl;
+	
+
+	}
+
 	glutSwapBuffers();
 }
 
@@ -422,16 +495,30 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 			posicaoZ -= float(sin(Camera::grau_para_rad(rotacaoY)));
 			glutPostRedisplay();
 			break;
+		case 'o':
+		case 'O': // funçao de diretor observador
+			if (!directorView)
+			{
+				directorView = true;
+			}
+			else
+			{
+				directorView = false;
+			}
+			break;
 	}
 }
 
 void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 {
+
+	
 	// Evita a divisao por zero
 	if (h == 0) h = 1;
 
 	float ratio = ((float)w)/ ((float)h);
-
+	
+	glViewport(0, 0, w, h);
 	// Inicializa o sistema de coordenadas
 	glMatrixMode(GL_PROJECTION);
 	//definir que todas as tranformações vão ser em camera (usuario)
@@ -440,7 +527,15 @@ void AlteraTamanhoJanela(GLsizei w, GLsizei h)
 	gluPerspective(45.0, ratio, 0.1, 100.0); // perspective transformation
 	glMatrixMode(GL_MODELVIEW);
 	// Especifica as dimensões da Viewport
-	glViewport(0, 0, w, h);
+	
+	if (directorView)
+	{
+		aux_w = w / 2;
+		aux_h = h;
+	}
+	
+	
+
 }
 
 // Programa Principal 
