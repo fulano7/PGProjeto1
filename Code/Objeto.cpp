@@ -209,7 +209,7 @@ void Objeto::calcular_normais_vert(){
 	float* normal;
 	float x, y, z, len;
 
-	for (int i = 0; i < vertices.size(); i++)
+	for (int i = 0; i < (int)vertices.size(); i++)
 	{
 		normais.push_back(new float[3]);
 		vNormais.push_back(0);
@@ -246,7 +246,7 @@ void Objeto::calcular_normais_vert(){
 	}
 
 	//tirando a media das normais das faces
-	for (int i = 0; i < normais.size(); i++)
+	for (int i = 0; i < (int)normais.size(); i++)
 	{
 		/*pra tirar a media das normais eu dividia elas pela quantidade de normais associadas ao vertice
 		  mas, como eu sempre normalizava a soma, eu pegava um vetor de norma 1 e dividia por sei lá
@@ -355,7 +355,7 @@ void Objeto::translateObj(int t, float s){
 		translacoes[2] += tz;
 	}
 
-	for (int i = 0; i < vertices.size(); i++)
+	for (int i = 0; i < (int)vertices.size(); i++)
 	{		
 		vertices.at(i)[0] += tx;
 		vertices.at(i)[1] += ty;
@@ -369,7 +369,7 @@ void Objeto::tOriPos(double x, double y, double z){
 	float ty = (float)-y;
 	float tz = (float)-z;
 
-	for (int i = 0; i < vertices.size(); i++)
+	for (int i = 0; i < (int)vertices.size(); i++)
 	{
 		vertices.at(i)[0] += tx;
 		vertices.at(i)[1] += ty;
@@ -396,7 +396,7 @@ void Objeto::escale(float i){
 		sz = 0.99;
 	}
 
-	for (int i = 0; i < vertices.size(); i++)
+	for (int i = 0; i < (int)vertices.size(); i++)
 	{
 		vertices.at(i)[0] *= sx;
 		vertices.at(i)[1] *= sy;
@@ -419,21 +419,21 @@ void Objeto::rotateObj(int eixo){
 	float c = (float)cos(rad);
 
 	if (eixo == 0){
-		for (int i = 0; i < vertices.size(); i++)
+		for (int i = 0; i < (int)vertices.size(); i++)
 		{
 			vertices.at(i)[1] = (vertices.at(i)[1] * c) - (vertices.at(i)[2] * s);
 			vertices.at(i)[2] = (vertices.at(i)[1] * s) + (vertices.at(i)[2] * c);
 		}
 	}
 	else if (eixo == 1){
-		for (int i = 0; i < vertices.size(); i++)
+		for (int i = 0; i < (int)vertices.size(); i++)
 		{
 			vertices.at(i)[0] = (vertices.at(i)[0] * c) + (vertices.at(i)[2] * s);
 			vertices.at(i)[2] = -(vertices.at(i)[0] * s) + (vertices.at(i)[2] * c);
 		}
 	}
 	else{
-		for (int i = 0; i < vertices.size(); i++)
+		for (int i = 0; i < (int)vertices.size(); i++)
 		{
 			vertices.at(i)[0] = (vertices.at(i)[0] * c) - (vertices.at(i)[1] * s);
 			vertices.at(i)[1] = (vertices.at(i)[0] * s) + (vertices.at(i)[1] * c);

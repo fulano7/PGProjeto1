@@ -13,6 +13,7 @@ http://www.cin.ufpe.br/~voxarlabs
 #include "common.h"
 #include "Objeto.h"
 #include "Camera.h"
+#include "Luz.h"
 
 /*
 http://www.inf.pucrs.br/~manssour/OpenGL/Tutorial.html
@@ -27,11 +28,7 @@ float posicaoX = 0.f, posicaoY = 0.f, posicaoZ = 10.f;
 float rotacaoX = 0.f, rotacaoY = 0.f;
 float x_atual = 0.f, y_atual = 0.f;
 int selecionado = 0;
-int quantLuzes = 1;
-vector <float*> lights;
-double TxLuz = 0.;
-double SLuz = 1.;
-float posicaoLuz[4] = { -20.0, 50.0, 50.0, 1.0 };
+vector <Luz> lights;
 
 void MouseArrastado(int x, int y)
 {
@@ -98,11 +95,16 @@ void Desenha()
 	
 	for (int i = 0; i < quantObj; i++) array_inicial[i].renderizar();
 	glPopMatrix();
-	glPushMatrix();
-	glTranslated(TxLuz, 0., 0.);
-	glScaled(SLuz, SLuz, SLuz);
-	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz);
-	glPopMatrix();
+	for (int i = 0; i < (int)lights.size(); i++)
+	{
+		glPushMatrix();
+		glTranslated(lights.at(i).Tx, lights.at(i).Ty, lights.at(i).Tz);
+		double scale = lights.at(i).Scale;
+		std::cout << "scale: " << scale << std::endl;
+		glScaled(scale, scale, scale);
+		glLightfv(GL_LIGHT0+i, GL_POSITION, lights.at(i).posicao);
+		glPopMatrix();
+	}
 	//for (int i = 0; i < 16; i++) std::cout << c->extrinsic[i] << " " << std::endl;
 	// FIM DOS TESTES
 
@@ -135,7 +137,13 @@ void Inicializa()
 	//Características da luz 0
 	float luzDifusa[4] = { 1.0, 1.0, 1.0, 1.0 };	   
 	float luzEspecular[4] = { 1.0, 1.0, 1.0, 1.0 }; 
-
+	float* posicaoLuz = new float[4];
+	posicaoLuz[0] = -20.0f;
+	posicaoLuz[1] = 50.0f;
+	posicaoLuz[2] = 50.0f;
+	posicaoLuz[3] = 1.0f;
+	Luz l = Luz(posicaoLuz);
+	lights.push_back(l);
 	//Ativando parâmetros da luz 0
 	glLightfv(GL_LIGHT0, GL_AMBIENT, luzAmbiente);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, luzDifusa);
@@ -144,15 +152,20 @@ void Inicializa()
 
 
 	//Características da luz 1
-	//GLfloat luzDifusa1[4] = { 0.0, 0.0, 1.0, 1.0 };
-	//GLfloat luzEspecular1[4] = { 0.0, 0.0, 1.0, 1.0 };
-	//GLfloat posicaoLuz1[4] = { 0.0, 25.0, 25.0, 1.0 };
-
+	GLfloat luzDifusa1[4] = { 0.0, 0.0, 1.0, 1.0 };
+	GLfloat luzEspecular1[4] = { 0.0, 0.0, 1.0, 1.0 };
+	GLfloat* posicaoLuz1 = new GLfloat[4];
+	posicaoLuz1[0] = 0.0f;
+	posicaoLuz1[1] = 25.0f;
+	posicaoLuz1[2] = 25.0f;
+	posicaoLuz1[3] = 1.0f;
+	Luz l1 = Luz(posicaoLuz1);
+	lights.push_back(l1);
 	//Ativando parâmetros da luz 1
-	//glLightfv(GL_LIGHT1, GL_AMBIENT, luzAmbiente);
-	//glLightfv(GL_LIGHT1, GL_DIFFUSE, luzDifusa1);
-	//glLightfv(GL_LIGHT1, GL_SPECULAR, luzEspecular1);
-	//glLightfv(GL_LIGHT1, GL_POSITION, posicaoLuz1);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, luzAmbiente);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, luzDifusa1);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, luzEspecular1);
+	glLightfv(GL_LIGHT1, GL_POSITION, posicaoLuz1);
 
 	//Habilita tipo de coloração
 	glEnable(GL_COLOR_MATERIAL);
@@ -235,51 +248,7 @@ void Inicializa()
 	glLightfv(GL_LIGHT7, GL_SPECULAR, luzEspecular7);
 	glLightfv(GL_LIGHT7, GL_POSITION, posicaoLuz7);*/
 	
-
-	for (int i = 1; i <= quantLuzes; i++)
-	{
-		switch (i)
-		{
-		case 1:
-			glEnable(GL_LIGHT0);
-			lights.push_back(posicaoLuz);
-			
-			break;
-		case 2:
-			glEnable(GL_LIGHT1);
-			//lights.push_back(posicaoLuz1);
-			break;
-		case 3:
-			glEnable(GL_LIGHT2);
-			//lights.push_back(posicaoLuz2);
-			break;
-		case 4:
-			glEnable(GL_LIGHT3);
-			//lights.push_back(posicaoLuz3);
-			break;
-		case 5:
-			glEnable(GL_LIGHT4);
-			//lights.push_back(posicaoLuz4);
-			break;
-		case 6:
-			glEnable(GL_LIGHT5);
-			//lights.push_back(posicaoLuz5);
-			break;
-		case 7:
-			glEnable(GL_LIGHT6);
-			//lights.push_back(posicaoLuz6);
-			break;
-		case 8:
-			glEnable(GL_LIGHT7);
-			//lights.push_back(posicaoLuz7);
-			break;
-		default:
-			break;
-		}
-	}
-
-
-
+	for (int i = 0; i < (int)lights.size(); i++) glEnable(GL_LIGHT0+i);
 
 	//----------fim modo específico: iluminação com sombras e névoa
 }
@@ -295,7 +264,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		case ',':
 		case '<': // objeto anterior ou ultima fonte de luz
 			if (selecionado == 0){
-				selecionado = quantObj + quantLuzes - 1;
+				selecionado = quantObj + lights.size() - 1;
 
 			}
 			else{
@@ -304,7 +273,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 			break;
 		case '.': 
 		case '>': // proximo objeto ou primeira fonte de luz
-			if (selecionado == quantObj + quantLuzes - 1){
+			if (selecionado == quantObj + lights.size() - 1){
 				selecionado = 0;
 			}
 			else{
@@ -316,11 +285,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 				array_inicial[selecionado].translateObj(0, -1.0);
 			}
 			else{
-				//std::cout << lights.at(selecionado - quantObj)[0] << std::endl;
-				//lights.at(selecionado - quantObj)[0] -= 0.2;
-				TxLuz -= 0.2;
-				std::cout << "TxLuz: " << TxLuz << std::endl;
-				//std::cout << lights.at(selecionado - quantObj)[0] << std::endl;
+				lights.at(selecionado - quantObj).Tx -= 0.2;
 			}
 			
 			glutPostRedisplay();
@@ -330,9 +295,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 				array_inicial[selecionado].translateObj(0, 1.0);
 			}
 			else{
-				//lights.at(selecionado - quantObj)[0] += 0.2;
-				TxLuz += 0.2;
-				std::cout << "TxLuz: " << TxLuz << std::endl;
+				lights.at(selecionado - quantObj).Tx += 0.2;
 			}
 			
 			glutPostRedisplay();
@@ -342,7 +305,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 				array_inicial[selecionado].translateObj(1, -1.0);
 			}
 			else{
-				lights.at(selecionado - quantObj)[1] -= 0.2;
+				lights.at(selecionado - quantObj).Ty -= 0.2;
 			}
 			
 			glutPostRedisplay();
@@ -352,7 +315,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 				array_inicial[selecionado].translateObj(1, 1.0);
 			}
 			else{
-				lights.at(selecionado - quantObj)[1] += 0.2;
+				lights.at(selecionado - quantObj).Ty += 0.2;
 			}
 			
 			glutPostRedisplay();
@@ -362,7 +325,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 				array_inicial[selecionado].translateObj(2, -1.0);
 			}
 			else{
-				lights.at(selecionado - quantObj)[2] -= 0.2;
+				lights.at(selecionado - quantObj).Tz -= 0.2;
 			}
 			
 			glutPostRedisplay();
@@ -371,8 +334,9 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 			if (selecionado < quantObj){
 				array_inicial[selecionado].translateObj(2, 1.0);
 			}
-			else{
-				lights.at(selecionado - quantObj)[2] += 0.2;
+			else
+			{
+				lights.at(selecionado - quantObj).Tz += 0.2;
 			}
 			
 			glutPostRedisplay();
@@ -403,8 +367,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 			}
 			else
 			{
-				SLuz -= 0.01;
-				std::cout << "SLuz: " << SLuz << std::endl;
+				lights.at(selecionado - quantObj).Scale -= 0.01;
 			}
 			glutPostRedisplay();
 			break;
@@ -416,8 +379,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 			}
 			else
 			{
-				SLuz += 0.01;
-				std::cout << "SLuz: " << SLuz << std::endl;
+				lights.at(selecionado - quantObj).Scale += 0.01;
 			}
 			glutPostRedisplay();
 			break;
