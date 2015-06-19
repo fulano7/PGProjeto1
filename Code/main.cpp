@@ -244,9 +244,11 @@ void Desenha()
 		for (int i = 0; i < quantObj; i++) array_inicial[i].renderizar();
 		glPopMatrix();
 		//for (int i = 0; i < 16; i++) std::cout << c_2->extrinsic[i] << " " << std::endl;
-		
+		glPushMatrix();
+		glRotatef(-rotacaoY, 0.0, 1.0, 0.0);
 		desenhaCubo();
-
+		glRotatef(-rotacaoX, 1.0, 0.0, 0.0);
+		glPopMatrix();
 	}
 
 	glutSwapBuffers();
