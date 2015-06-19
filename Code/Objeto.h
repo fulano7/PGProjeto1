@@ -74,8 +74,8 @@ private:
 	vector <float*> vertices;
 	vector <int> vNormais;//contador de normais associadas aos vertices
 	vector <float*> normais;
-	vector <int*> faces;
-	vector <int*> indNormais; //para o caso de "//"
+	vector <int*> faces; // lista de faces na forma (v1, v2, ..., vn)
+	vector <int*> indNormais; //para o caso de "//" : lista de faces na forma (vn1, vn2, ..., vnn)
 
 	// calcula as normais da face se for necessario.
 	float* calcular_normais_face(int *atual);

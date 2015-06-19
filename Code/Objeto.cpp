@@ -24,7 +24,7 @@ int Objeto::ocorrencias(const char* palavra, const char caractere)
 	return resposta;
 }
 
-/* (versao inicial)
+/*
 conforme especificado, se destinara a ler estes arquivos .obj:
 http://cin.ufpe.br/~marcelow/Marcelow/arquivos_obj.html
 outros .obj podem nao ser suportados, e este algoritmo nao detecta erros no arquivo.
@@ -49,7 +49,7 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 	while (!arquivosObj.eof()){
 		char *obj;
 		arquivosObj.getline(nextObj, MAX_CHARS_LINHA);
-
+		if (arquivosObj.eof()) break;
 		obj = strtok(nextObj, " ");
 		strcpy(aux, prefix);
 		strcat(aux, obj);
@@ -175,8 +175,9 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 
 float* Objeto::calcular_normais_face(int *atual)
 {
+	// definindo 2 vetores a partir dos vertices do triangulo
 	float v1[3], v2[3];
-
+	
 	v1[0] = vertices.at(atual[1] - 1)[0] - vertices.at(atual[2] - 1)[0]; //x
 	v1[1] = vertices.at(atual[1] - 1)[1] - vertices.at(atual[2] - 1)[1]; //y
 	v1[2] = vertices.at(atual[1] - 1)[3] - vertices.at(atual[2] - 1)[3]; //z
@@ -184,11 +185,11 @@ float* Objeto::calcular_normais_face(int *atual)
 	v2[0] = vertices.at(atual[3] - 1)[0] - vertices.at(atual[2] - 1)[0]; //x
 	v2[1] = vertices.at(atual[3] - 1)[1] - vertices.at(atual[2] - 1)[1]; //y
 	v2[2] = vertices.at(atual[3] - 1)[3] - vertices.at(atual[2] - 1)[3]; //z
-
+	// computando produto vetorial de v1 e v2
 	float nx = (v1[1] * v2[2]) - (v1[2] * v2[1]);
 	float ny = (v1[2] * v2[0]) - (v1[0] * v2[2]);
 	float nz = (v1[0] * v2[1]) - (v1[1] * v2[0]);
-
+	// normalizando
 	float len = sqrt((nx*nx) + (ny*ny) + (nz*nz));
 
 	nx /= len;
@@ -207,11 +208,14 @@ void Objeto::calcular_normais_vert(){
 	
 	int* atual;
 	float* normal;
-	float x, y, z, len;
+	float len;
 
-	for (int i = 0; i < vertices.size(); i++)
+	for (int i = 0; i < (int)vertices.size(); i++)
 	{
 		normais.push_back(new float[3]);
+		normais.back()[0] = 0.f;
+		normais.back()[1] = 0.f;
+		normais.back()[2] = 0.f;
 		vNormais.push_back(0);
 	}
 
@@ -226,19 +230,6 @@ void Objeto::calcular_normais_vert(){
 			normais.at(atual[j] - 1)[1] += normal[1];
 			normais.at(atual[j] - 1)[2] += normal[2];
 			
-			//as duas normais somadas eram normalizadas
-			//mas o resultado nao
-			//entao eu normalizo
-			x = normais.at(atual[j] - 1)[0];
-			y = normais.at(atual[j] - 1)[1];
-			z = normais.at(atual[j] - 1)[2];
-
-			len = sqrt((x*x) + (y*y) + (z*z));
-
-			normais.at(atual[j] - 1)[0] /= len;
-			normais.at(atual[j] - 1)[1] /= len;
-			normais.at(atual[j] - 1)[2] /= len;
-			
 			//incrementando a quantidade de normais associadas ao vertice
 			vNormais.at(atual[j] - 1)++;
 		}
@@ -246,7 +237,7 @@ void Objeto::calcular_normais_vert(){
 	}
 
 	//tirando a media das normais das faces
-	for (int i = 0; i < normais.size(); i++)
+	for (int i = 0; i < (int)normais.size(); i++)
 	{
 		/*pra tirar a media das normais eu dividia elas pela quantidade de normais associadas ao vertice
 		  mas, como eu sempre normalizava a soma, eu pegava um vetor de norma 1 e dividia por sei lá
@@ -255,14 +246,15 @@ void Objeto::calcular_normais_vert(){
 		  evitando essa divisao o vetor se mantém normalizado e o resultado é muito melhor, mas ainda é
 		  diferente do tubarão e tecnicamente errado, pois eu estou somando normais, e nao tirando a media delas :/
 		*/
-		/*
+		// tirando a media
 		normais.at(i)[0] /= vNormais.at(i);
 		normais.at(i)[1] /= vNormais.at(i);
 		normais.at(i)[2] /= vNormais.at(i);
-		*/
-		normais.at(i)[0] *= -1;
-		normais.at(i)[1] *= -1;
-		normais.at(i)[2] *= -1;
+		// normalizando o resultado
+		len = sqrt(normais.at(i)[0] * normais.at(i)[0] + normais.at(i)[1] * normais.at(i)[1] + normais.at(i)[2] * normais.at(i)[2]);
+		normais.at(i)[0] /= len;
+		normais.at(i)[1] /= len;
+		normais.at(i)[2] /= len;
 	}
 }
 
@@ -273,6 +265,7 @@ void Objeto::renderizar()
 	int* nAtual;
 
 	//se o arquivo não vier com as normais
+	//agora o caso dos arquivos que nós mesmos calculamos as normais entra nesse if
 	if (normais.size() == 0){	
 		//usar NORMAIS DOS VÉRTICES
 		//comenta essa linha \/
@@ -287,7 +280,6 @@ void Objeto::renderizar()
 
 	for (int i = 0; i < (int)faces.size(); i++)
 	{
-
 		atual = faces.at(i);
 		
 		//std::cout << atual[1] << " " << atual[2] << " " << atual[3] << " " << std::endl;
@@ -297,30 +289,13 @@ void Objeto::renderizar()
 
 		glColor3f(cores[0], cores[1],cores[2]);
 
-		//agora o caso dos arquivos que nós mesmos calculamos as normais entra nesse if
 		if (indNormais.size() == 0){//nao precisa calcular normais, não vem com indice
-			
-			if (precisaNormais){
-				
-				//usando apenas as normais das faces
-				float *normal = calcular_normais_face(atual);
-				glNormal3fv(normal);
-				for (int j = 1; j <= atual[0]; j++)
-				{
-					glVertex3fv(vertices.at(atual[j] - 1));
-				}
+			//usando as normais dos vertices
+			for (int j = 1; j <= atual[0]; j++)
+			{
+				glNormal3fv(normais.at(atual[j] - 1));
+				glVertex3fv(vertices.at(atual[j] - 1));
 			}
-			else{
-				//usando as normais dos vertices
-				
-				for (int j = 1; j <= atual[0]; j++)
-				{
-
-					glNormal3fv(normais.at(atual[j] - 1));
-					glVertex3fv(vertices.at(atual[j] - 1));
-				}
-			}
-			
 		}else{//nao precisa calcular normais, ja vem com indice
 			
 			nAtual = indNormais.at(i);
@@ -355,7 +330,7 @@ void Objeto::translateObj(int t, float s){
 		translacoes[2] += tz;
 	}
 
-	for (int i = 0; i < vertices.size(); i++)
+	for (int i = 0; i < (int)vertices.size(); i++)
 	{		
 		vertices.at(i)[0] += tx;
 		vertices.at(i)[1] += ty;
@@ -369,7 +344,7 @@ void Objeto::tOriPos(double x, double y, double z){
 	float ty = (float)-y;
 	float tz = (float)-z;
 
-	for (int i = 0; i < vertices.size(); i++)
+	for (int i = 0; i < (int)vertices.size(); i++)
 	{
 		vertices.at(i)[0] += tx;
 		vertices.at(i)[1] += ty;
@@ -396,7 +371,7 @@ void Objeto::escale(float i){
 		sz = 0.99;
 	}
 
-	for (int i = 0; i < vertices.size(); i++)
+	for (int i = 0; i < (int)vertices.size(); i++)
 	{
 		vertices.at(i)[0] *= sx;
 		vertices.at(i)[1] *= sy;
@@ -419,21 +394,21 @@ void Objeto::rotateObj(int eixo){
 	float c = (float)cos(rad);
 
 	if (eixo == 0){
-		for (int i = 0; i < vertices.size(); i++)
+		for (int i = 0; i < (int)vertices.size(); i++)
 		{
 			vertices.at(i)[1] = (vertices.at(i)[1] * c) - (vertices.at(i)[2] * s);
 			vertices.at(i)[2] = (vertices.at(i)[1] * s) + (vertices.at(i)[2] * c);
 		}
 	}
 	else if (eixo == 1){
-		for (int i = 0; i < vertices.size(); i++)
+		for (int i = 0; i < (int)vertices.size(); i++)
 		{
 			vertices.at(i)[0] = (vertices.at(i)[0] * c) + (vertices.at(i)[2] * s);
 			vertices.at(i)[2] = -(vertices.at(i)[0] * s) + (vertices.at(i)[2] * c);
 		}
 	}
 	else{
-		for (int i = 0; i < vertices.size(); i++)
+		for (int i = 0; i < (int)vertices.size(); i++)
 		{
 			vertices.at(i)[0] = (vertices.at(i)[0] * c) - (vertices.at(i)[1] * s);
 			vertices.at(i)[1] = (vertices.at(i)[0] * s) + (vertices.at(i)[1] * c);
