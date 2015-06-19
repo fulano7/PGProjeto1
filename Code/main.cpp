@@ -21,19 +21,19 @@ esse link!!!!
 */
 Objeto* array_inicial;
 int quantObj;
-Camera c = Camera();
+Camera *c = new Camera();
 bool botao_esquerdo_pressionado = false;
 bool botao_recem_pressionado = false;
 float posicaoX = 0.f, posicaoY = 0.f, posicaoZ = 10.f;
-float posicaoX_2 = 10.f, posicaoY_2 = 15.f, posicaoZ_2 = 70.f; // posição da camera do observador
+float posicaoX_2 = 10.f, posicaoY_2 = 15.f, posicaoZ_2 = 70.f; // posição da camera do observador diretor
 float rotacaoX = 0.f, rotacaoY = 0.f;
 float x_atual = 0.f, y_atual = 0.f;
 int selecionado = 0;
 int quantLuzes = 1;
-vector <float*> lights;
 GLsizei aux_w, aux_h = 0;  // usado para o caso de visão diretor, usado para separar os viewports
 bool directorView = true;
 vector <Luz> lights;
+
 
 void MouseArrastado(int x, int y)
 {
@@ -61,6 +61,7 @@ void MouseArrastado(int x, int y)
 	}
 }
 
+
 void BotaoDoMouseClicado(int botao, int estado, int x, int y)
 {
 	if (botao == GLUT_LEFT_BUTTON && estado == GLUT_DOWN)
@@ -83,14 +84,14 @@ void Desenha()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	glLoadIdentity();
-	c.nossoLoadIdentity();
+	c->nossoLoadIdentity();
 
 	// nossa camera
-	c.nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
-	c.nossoTranslate(-posicaoX, -posicaoY, -posicaoZ);
-	c.nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
+	c->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
+	c->nossoTranslate(-posicaoX, -posicaoY, -posicaoZ);
+	c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
 	
-	glLoadMatrixf(c.extrinsic);
+	glLoadMatrixf(c->extrinsic);
 
 	// AQUI VAO OS DESENHOS
 	
@@ -154,6 +155,8 @@ void Desenha()
 
 		// TERMINA DESENHOS
 		
+		
+
 		// parte do observador da camera
 
 		Camera *c_2 = new Camera();   // camera que deve ficar fixa, mostrando apenas os objetos sendo modificados
@@ -169,8 +172,6 @@ void Desenha()
 		c_2->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
 
 		glLoadMatrixf(c_2->extrinsic);
-
-
 
 		glColor3f(1.0, 1.0, 1.0);
 		glPushMatrix();
