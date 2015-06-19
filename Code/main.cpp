@@ -24,14 +24,14 @@ int quantObj;
 Camera *c = new Camera();
 bool botao_esquerdo_pressionado = false;
 bool botao_recem_pressionado = false;
-float posicaoX = 0.f, posicaoY = 0.f, posicaoZ = 10.f;
-float posicaoX_2 = 10.f, posicaoY_2 = 15.f, posicaoZ_2 = 70.f; // posição da camera do observador diretor
+float posicaoX = 0.f, posicaoY = 4.f, posicaoZ = 13.f;
+float posicaoX_2 = 10.f, posicaoY_2 = 15.f, posicaoZ_2 = 50.f; // posição da camera do observador diretor
 float rotacaoX = 0.f, rotacaoY = 0.f;
 float x_atual = 0.f, y_atual = 0.f;
-int selecionado = 0;
-int quantLuzes = 1;
+int selecionado = 1;
+int quantLuzes = 8;
 GLsizei aux_w, aux_h = 0;  // usado para o caso de visão diretor, usado para separar os viewports
-bool directorView = true;
+bool directorView = false;
 vector <Luz> lights;
 
 
@@ -77,7 +77,9 @@ void Desenha()
 {
 	if (!directorView)
 	{
+
 	glMatrixMode(GL_MODELVIEW);
+	
 	//definir que todas as tranformações vão ser em cena (no desenho)
 	
 	glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -102,14 +104,18 @@ void Desenha()
 	glTranslatef(0.0, 0.0, 0.75);
 	
 
-	for (int i = 0; i < quantObj; i++) array_inicial[i].renderizar();
+	for (int i = 0; i < quantObj; i++) { 
+		std::cout << i << std::endl;
+		array_inicial[i].renderizar(); 
+	}
+	
 	glPopMatrix();
 	for (int i = 0; i < (int)lights.size(); i++)
 	{
 		glPushMatrix();
 		glTranslated(lights.at(i).Tx, lights.at(i).Ty, lights.at(i).Tz);
 		double scale = lights.at(i).Scale;
-		std::cout << "scale: " << scale << std::endl;
+		//std::cout << "scale: " << scale << std::endl;
 		glScaled(scale, scale, scale);
 		glLightfv(GL_LIGHT0+i, GL_POSITION, lights.at(i).posicao);
 		glPopMatrix();
@@ -167,9 +173,9 @@ void Desenha()
 		c_2->nossoLoadIdentity();
 
 		// nossa camera
-		c_2->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
+		//c_2->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
 		c_2->nossoTranslate(-posicaoX_2, -posicaoY_2, -posicaoZ_2);
-		c_2->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
+		//c_2->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
 
 		glLoadMatrixf(c_2->extrinsic);
 
@@ -339,7 +345,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		// objeto1, objeto2, ... objeton, luz1, luz2, .... luzn (lista circular)
 		case ',':
 		case '<': // objeto anterior ou ultima fonte de luz
-			if (selecionado == 0){
+			if (selecionado == 1){
 				selecionado = quantObj + lights.size() - 1;
 
 			}
@@ -350,7 +356,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		case '.': 
 		case '>': // proximo objeto ou primeira fonte de luz
 			if (selecionado == quantObj + lights.size() - 1){
-				selecionado = 0;
+				selecionado = 1;
 			}
 			else{
 				selecionado += 1;

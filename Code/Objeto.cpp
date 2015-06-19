@@ -58,6 +58,10 @@ int Objeto::carregar_obj(Objeto*& array_de_objetos, const char *caminho_arquivo)
 		array_de_objetos[indice+1].cores[0] = strtof((strtok(NULL, " ")), &obj);
 		array_de_objetos[indice+1].cores[1] = strtof((strtok(NULL, " ")), &obj);
 		array_de_objetos[indice+1].cores[2] = strtof((strtok(NULL, " ")), &obj);
+		array_de_objetos[indice + 1].initMod[0] = strtof((strtok(NULL, " ")), &obj);
+		array_de_objetos[indice + 1].initMod[1] = strtof((strtok(NULL, " ")), &obj);
+		array_de_objetos[indice + 1].initMod[2] = strtof((strtok(NULL, " ")), &obj);
+		array_de_objetos[indice + 1].initMod[3] = strtof((strtok(NULL, " ")), &obj);
 
 		std::ifstream arquivo(aux, std::ifstream::in);
 		// primeira chamada de leitura do arquivo do obj.
@@ -264,6 +268,18 @@ void Objeto::renderizar()
 	int* atual;
 	int* nAtual;
 
+	//aplicando transformacoes iniciais
+	if (firstLoad){
+		firstLoad = false;
+
+		directEscale(initMod[0]);
+		translacoes[0] = initMod[1];
+		translacoes[1] = initMod[2];
+		translacoes[2] = initMod[3];
+		tOriPos(-translacoes[0], -translacoes[1], -translacoes[2]);
+	}
+
+
 	//se o arquivo não vier com as normais
 	//agora o caso dos arquivos que nós mesmos calculamos as normais entra nesse if
 	if (normais.size() == 0){	
@@ -382,14 +398,21 @@ void Objeto::escale(float i){
 	tOriPos(-translacoes[0], -translacoes[1], -translacoes[2]);
 }
 
-
+void Objeto::directEscale(float s){
+	for (int i = 0; i < (int)vertices.size(); i++)
+	{
+		vertices.at(i)[0] *= s;
+		vertices.at(i)[1] *= s;
+		vertices.at(i)[2] *= s;
+	}
+}
 
 void Objeto::rotateObj(int eixo){
 
 	//transladando pra origem
 	tOriPos(translacoes[0], translacoes[1], translacoes[2]);
 
-	float rad = grau_para_rad(1);
+	float rad = grau_para_rad(5);
 	float s = (float)sin(rad);
 	float c = (float)cos(rad);
 

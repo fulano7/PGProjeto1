@@ -11,7 +11,7 @@
 #include "common.h"
 
 #define MAX_CHARS_LINHA 201
-#define MAX_OBJS_ARQUIVO 10
+#define MAX_OBJS_ARQUIVO 12
 
 using std::vector;
 using std::string;
@@ -62,13 +62,17 @@ public:
 	//aplia a operação de escala
 	void escale(float i);
 
+	void directEscale(float s);
+
 	//roda o obj em um dos eixos
 	void Objeto::rotateObj(int eixo);
 
 	static float grau_para_rad(float grau);
 	
 private:
+	bool firstLoad = true;
 	static const float PI_SOBRE_180;
+	float initMod[4];//informações de escala [0] e translacao iniciais pra num criar um em cima do outro
 	float cores[3];
 	double translacoes[3]; //guarda a translacao do eixo do mundo para a atual posicao do obj
 	vector <float*> vertices;
