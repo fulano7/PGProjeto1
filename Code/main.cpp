@@ -33,7 +33,8 @@ int quantLuzes = 8;
 GLsizei aux_w, aux_h = 0;  // usado para o caso de visão diretor, usado para separar os viewports
 bool directorView = true;
 vector <Luz> lights;
-
+bool n_pressionado = false;
+float densidade = 0.025f;
 
 void MouseArrastado(int x, int y)
 {
@@ -254,6 +255,20 @@ void Desenha()
 	glutSwapBuffers();
 }
 
+
+void Nevoa(){
+
+	GLfloat fColor[4] = { 0.5f, 0.5f, 0.5f, 1.0f };
+	glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+	glFogi(GL_FOG_MODE, GL_EXP2);
+	glFogfv(GL_FOG_COLOR, fColor);
+	glFogf(GL_FOG_DENSITY, densidade);
+	glFogf(GL_FOG_START, 1.0f);
+	glFogf(GL_FOG_END, 5.0f);
+	glEnable(GL_FOG);
+}
+
+
 // Inicializa parâmetros de rendering
 void Inicializa()
 {
@@ -391,6 +406,8 @@ void Inicializa()
 	glLightfv(GL_LIGHT7, GL_POSITION, posicaoLuz7);*/
 
 	for (int i = 0; i < (int)lights.size(); i++) glEnable(GL_LIGHT0+i);
+
+	Nevoa();
 
 	//----------fim modo específico: iluminação com sombras e névoa
 }
@@ -553,6 +570,52 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 			posicaoZ -= float(sin(Camera::grau_para_rad(rotacaoY)));
 			glutPostRedisplay();
 			break;
+		case 'o':
+		case 'O': // funçao de diretor observador
+			if (!directorView)
+			{
+				directorView = true;
+			}
+			else
+			{
+				directorView = false;
+			}
+			break;
+		//aumenta nevoa
+		case 'j':
+		case 'J':
+			if (n_pressionado)
+			{
+				densidade += 0.005f;
+				Nevoa();
+				glutPostRedisplay();
+	}
+			break;
+		//diminui nevoa
+		case 'k':
+		case 'K':
+			if (n_pressionado)
+			{
+				densidade -= 0.005f;
+				Nevoa();
+				glutPostRedisplay();
+			}
+			break;
+		case 'n':
+		case 'N':
+			n_pressionado = true;
+			break;
+	}
+}
+
+void TeclaSolta(unsigned char tecla, int x, int y)
+{
+	switch (tecla)
+	{
+	case 'n':
+	case 'N':
+		n_pressionado = false;
+		break;
 	}
 }
 
@@ -613,6 +676,8 @@ int main()
 	glutMouseFunc(BotaoDoMouseClicado);
 	// callback da funcao que interpreta uma tecla pressionada
 	glutKeyboardFunc(TeclaPressionada);
+	// callback da funcao que interpreta uma tecla solta
+	glutKeyboardUpFunc(TeclaSolta);
 	Inicializa();
 	
 	//inicializar alguns parametros do glut (nessa caso a cor do fundo da tela).
