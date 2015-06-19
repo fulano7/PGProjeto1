@@ -25,13 +25,13 @@ Camera *c = new Camera();
 bool botao_esquerdo_pressionado = false;
 bool botao_recem_pressionado = false;
 float posicaoX = 0.f, posicaoY = 4.f, posicaoZ = 13.f;
-float posicaoX_2 = 10.f, posicaoY_2 = 15.f, posicaoZ_2 = 50.f; // posição da camera do observador diretor
+float posicaoX_2 = 10.f, posicaoY_2 = 15.f, posicaoZ_2 = 70.f; // posição da camera do observador diretor
 float rotacaoX = 0.f, rotacaoY = 0.f;
 float x_atual = 0.f, y_atual = 0.f;
 int selecionado = 1;
 int quantLuzes = 8;
 GLsizei aux_w, aux_h = 0;  // usado para o caso de visão diretor, usado para separar os viewports
-bool directorView = false;
+bool directorView = true;
 vector <Luz> lights;
 bool n_pressionado = false;
 float densidade = 0.025f;
@@ -62,6 +62,64 @@ void MouseArrastado(int x, int y)
 	}
 }
 
+void desenhaCubo(){
+	
+	//Lado vermelho - Frente
+	glBegin(GL_POLYGON);
+	glColor3f(0.2, 0.2, 0.2);
+	glVertex3f(posicaoX + 1, posicaoY + 1, posicaoZ - 1); 
+	glVertex3f(posicaoX - 1, posicaoY + 1, posicaoZ - 1);      
+	glVertex3f(posicaoX - 1, posicaoY - 1, posicaoZ - 1);
+	glVertex3f(posicaoX + 1, posicaoY - 1, posicaoZ - 1);
+	glEnd();
+
+	// Lado branco - TRASEIRA
+	glBegin(GL_POLYGON);
+	glColor3f(0.2, 0.2, 0.2);
+	glVertex3f(posicaoX + 1, posicaoY + 1, posicaoZ + 1);
+	glVertex3f(posicaoX - 1, posicaoY + 1, posicaoZ + 1);
+	glVertex3f(posicaoX - 1, posicaoY - 1, posicaoZ + 1);
+	glVertex3f(posicaoX + 1, posicaoY - 1, posicaoZ + 1);
+	glEnd();
+
+	// Lado roxo - DIREITA
+	glBegin(GL_POLYGON);
+	glColor3f(0.2, 0.2, 0.2);
+	glVertex3f(posicaoX + 1, posicaoY + 1, posicaoZ - 1);
+	glVertex3f(posicaoX + 1, posicaoY + 1, posicaoZ + 1);
+	glVertex3f(posicaoX + 1, posicaoY - 1, posicaoZ + 1);
+	glVertex3f(posicaoX + 1, posicaoY - 1, posicaoZ - 1);
+	glEnd();
+
+	// Lado verde - ESQUERDA
+	glBegin(GL_POLYGON);
+	glColor3f(0.2, 0.2, 0.2);
+	glVertex3f(posicaoX - 1, posicaoY + 1, posicaoZ - 1);
+	glVertex3f(posicaoX - 1, posicaoY + 1, posicaoZ + 1);
+	glVertex3f(posicaoX - 1, posicaoY - 1, posicaoZ + 1);
+	glVertex3f(posicaoX - 1, posicaoY - 1, posicaoZ - 1);
+	glEnd();
+
+
+	// Lado azul - TOPO
+	glBegin(GL_POLYGON);
+	glColor3f(0.2, 0.2, 0.2);
+	glVertex3f(posicaoX + 1, posicaoY + 1, posicaoZ - 1);
+	glVertex3f(posicaoX + 1, posicaoY + 1, posicaoZ + 1);
+	glVertex3f(posicaoX - 1, posicaoY + 1, posicaoZ - 1);
+	glVertex3f(posicaoX - 1, posicaoY + 1, posicaoZ - 1);
+	glEnd();
+
+	// Lado vermelho - BASE
+	glBegin(GL_POLYGON);
+	glColor3f(0.2, 0.2, 0.2);
+	glVertex3f(posicaoX + 1, posicaoY - 1, posicaoZ - 1);
+	glVertex3f(posicaoX + 1, posicaoY - 1, posicaoZ + 1);
+	glVertex3f(posicaoX - 1, posicaoY - 1, posicaoZ - 1);
+	glVertex3f(posicaoX - 1, posicaoY - 1, posicaoZ - 1);
+	glEnd();
+
+}
 
 void BotaoDoMouseClicado(int botao, int estado, int x, int y)
 {
@@ -154,7 +212,6 @@ void Desenha()
 		glPushMatrix();
 		glTranslatef(0.0, 0.0, 0.75);
 
-
 		for (int i = 0; i < quantObj; i++) array_inicial[i].renderizar();
 		glPopMatrix();
 		//for (int i = 0; i < 16; i++) std::cout << c->extrinsic[i] << " " << std::endl;
@@ -174,9 +231,9 @@ void Desenha()
 		c_2->nossoLoadIdentity();
 
 		// nossa camera
-		//c_2->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
+		c->nossoRotate(rotacaoX, 1.0, 0.0, 0.0);
 		c_2->nossoTranslate(-posicaoX_2, -posicaoY_2, -posicaoZ_2);
-		//c_2->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
+		c->nossoRotate(rotacaoY, 0.0, 1.0, 0.0);
 
 		glLoadMatrixf(c_2->extrinsic);
 
@@ -189,6 +246,7 @@ void Desenha()
 		glPopMatrix();
 		//for (int i = 0; i < 16; i++) std::cout << c_2->extrinsic[i] << " " << std::endl;
 	
+		desenhaCubo();
 
 
 	}
@@ -530,7 +588,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 				densidade += 0.005f;
 				Nevoa();
 				glutPostRedisplay();
-			}
+	}
 			break;
 		//diminui nevoa
 		case 'k':
@@ -546,7 +604,7 @@ void TeclaPressionada(unsigned char tecla, int x, int y)
 		case 'N':
 			n_pressionado = true;
 			break;
-	}
+}
 }
 
 void TeclaSolta(unsigned char tecla, int x, int y)
