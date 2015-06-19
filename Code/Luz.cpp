@@ -12,7 +12,4 @@ Luz::Luz(float *p) : posicao(p)
 	Scale = 1.;
 }
 
-Luz::~Luz()
-{
-	delete[] posicao;
-}
+Luz::~Luz(){} // destrutor padrao

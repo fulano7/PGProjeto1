@@ -7,7 +7,7 @@ class Luz{
 public:
 	Luz();
 	Luz(float* p);
-	~Luz();
+	~Luz(); // destrutor padrao
 
 	double Tx, Ty, Tz;
 	double Scale;
